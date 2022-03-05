@@ -1,18 +1,14 @@
 import React from "react";
 import s from "./Home.module.scss";
 
-import pages from "~/Routers/pages";
 import { useNavigate } from "react-router-dom";
 import WingBlank from "~/components/WingBlank";
-import Button from "~/components/Button";
 import Swiper from "~/components/Swiper";
 import img from "./show.jpg";
 import img2 from "./show2.jpeg";
 import Clock from "~/components/Icons/Clock";
 import Icons from "~/components/Icons";
-import ClockFill from "~/components/Icons/ClockFill";
 import LiseCard from "~/components/Icons/LiseCard";
-import Space from "~/components/Space";
 import ArrowRight from "~/components/Icons/ArrowRight";
 
 interface Props {}
@@ -31,18 +27,16 @@ const Home: React.FC<Props> = () => {
         />
       </WingBlank>
       <WingBlank className={s.feature}>
-        <div>
-          <div className={s.menu}>
-            <Icons>
-              <Clock />
-            </Icons>
-            <Icons>
-              <LiseCard />
-            </Icons>
-            <Icons className={s.opacity}>
-              <ArrowRight />
-            </Icons>
-          </div>
+        <div className={s.menu}>
+          <Icons>
+            <Clock />
+          </Icons>
+          <Icons>
+            <LiseCard />
+          </Icons>
+          <Icons className={s.opacity}>
+            <ArrowRight />
+          </Icons>
         </div>
       </WingBlank>
       <WingBlank className={s.space} />

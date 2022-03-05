@@ -7,6 +7,11 @@ export const px2vw = (px: number): string => {
   return `${result}vw`;
 };
 
+export const px2rem = (px: number): string => {
+  const result = px / 31.25;
+  return `${result}rem`;
+};
+
 export const getEnv: () => Promise<"wx" | "miniProgram" | "web"> = async () => {
   const ua = window.navigator.userAgent.toLowerCase();
   const env: "wx" | "miniProgram" | "web" = await new Promise((resolve) => {

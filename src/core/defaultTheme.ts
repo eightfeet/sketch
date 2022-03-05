@@ -1,5 +1,5 @@
 import React from "react";
-import { px2vw } from "./utils";
+import { px2rem } from "./utils";
 
 export interface ThemeItem {
   [keys: string]: React.CSSProperties | (React.CSSProperties | string)[];
@@ -17,10 +17,10 @@ export const overlay: React.CSSProperties = {
 };
 /**弹窗内容 */
 export const content: React.CSSProperties = {
-  borderRadius: px2vw(20),
-  width: px2vw(613),
-  marginBottom: "20vh",
-  fontSize: px2vw(30),
+  borderRadius: px2rem(20),
+  width: px2rem(613),
+  marginBottom: px2rem(150),
+  fontSize: px2rem(30),
 };
 /**关闭按钮 */
 export const close: React.CSSProperties = {
@@ -28,16 +28,16 @@ export const close: React.CSSProperties = {
   backgroundImage:
     "url(https://upload-yyj.by-health.com/upload/images/1102102650905.png)",
   backgroundSize: "100% 100%",
-  height: px2vw(55),
-  width: px2vw(55),
+  height: px2rem(55),
+  width: px2rem(55),
   zIndex: 101,
   position: "absolute",
   left: "50% !important",
-  marginLeft: `${px2vw(-28)} !important`,
+  marginLeft: `${px2rem(-28)} !important`,
   top: "unset !important",
-  bottom: `${px2vw(-99)} !important`,
+  bottom: `${px2rem(-99)} !important`,
   // hack ios
-  marginBottom: "20vh",
+  marginBottom: px2rem(150),
 };
 
 /**loading */
