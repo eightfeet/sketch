@@ -1,26 +1,18 @@
 import React, { useState } from "react";
 import Button from "~/components/Button";
-import IconAdd from "~/components/Icons/IconAdd";
-import IconBook from "~/components/Icons/IconBook";
-import IconClock from "~/components/Icons/IconClock";
-import IconGoldMedal from "~/components/Icons/IconGoldMedal";
-import IconSearch from "~/components/Icons/IconSearch";
-import IconCurriculum from "~/components/Icons/IconCurriculum";
 import Modal, { message } from "~/components/Modal";
 import Space from "~/components/Space";
 import WingBlank from "~/components/WingBlank";
 import s from "./Demo.module.scss";
-import IconTest from "~/components/Icons/IconTest";
-import IconTraining from "~/components/Icons/IconTraining";
-import IconChecked from "~/components/Icons/IconChecked";
-import IconLock from "~/components/Icons/IconLock";
-import IconCoin from "~/components/Icons/IconCoin";
-import IconClear from "~/components/Icons/IconClear";
-import IconArrowRight from "~/components/Icons/IconArrowRight";
-import IconArrowLeft from "~/components/Icons/IconArrowLeft";
-import IconWrong from "~/components/Icons/IconWrong";
-import IconRight from "~/components/Icons/IconRight";
 import Search from "~/components/Search";
+import Icons from "~/components/Icons";
+import Clock from "~/components/Icons/Clock";
+import ClockFill from "~/components/Icons/ClockFill";
+import ArrowRight from "~/components/Icons/ArrowRight";
+import LiseCard from "~/components/Icons/LiseCard";
+import Filter from "~/components/Icons/Filter";
+import Selected from "~/components/Icons/Selected";
+import GoToTop from "~/components/Icons/GoToTop";
 
 interface Props {}
 
@@ -31,36 +23,35 @@ const Demo: React.FC<Props> = () => {
       <WingBlank>
         <h3>弹窗/提示</h3>
         <div className={s.icon}>
-          <IconAdd />
-          <IconArrowLeft />
-          <IconArrowRight />
-          <IconBook />
-          <IconChecked />
-          <IconClear />
-          <IconClock />
-          <IconCoin />
-          <IconCurriculum />
-          <IconGoldMedal rank="gold" />
-          <IconGoldMedal rank="silver" />
-          <IconGoldMedal rank="bronze" />
-          <IconLock />
-          <IconSearch />
-          <IconTest />
-          <IconTraining />
-          <IconRight />
-          <IconWrong />
+          <Icons type="light">
+            <Clock />
+          </Icons>
+          <Icons>
+            <ClockFill />
+          </Icons>
+          <Icons>
+            <ArrowRight />
+          </Icons>
+          <Icons>
+            <LiseCard />
+          </Icons>
+          <Icons>
+            <Filter />
+          </Icons>
+          <Icons>
+            <Selected />
+          </Icons>
+          <Icons>
+            <GoToTop />
+          </Icons>
         </div>
       </WingBlank>
       <WingBlank>
-        <Button
-          type="gradientorange"
-          size="normal"
-          onClick={() => setVisible(true)}
-        >
+        <Button type="dark" size="normal" onClick={() => setVisible(true)}>
           打开弹窗
         </Button>
         <Button
-          type="gradientred"
+          type="light"
           block
           size="normal"
           onClick={() => {

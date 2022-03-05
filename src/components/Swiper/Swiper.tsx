@@ -7,8 +7,9 @@ import {
 import "swiper/swiper.scss";
 import Pic from "../Pic";
 import s from "./Swiper.module.scss";
-import SwiperCore, { Autoplay } from "swiper";
-SwiperCore.use([Autoplay]);
+import SwiperCore, { Autoplay, EffectFade } from "swiper";
+
+SwiperCore.use([Autoplay, EffectFade]);
 
 interface DataItem {
   /**图片地址 */

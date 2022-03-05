@@ -9,7 +9,7 @@ interface routeItem {
 
 const routers: routeItem[] = [
   {
-    name: "首页",
+    name: "SKETCH",
     page: "home",
     component: React.lazy(() => import("~/pages/home")),
   },

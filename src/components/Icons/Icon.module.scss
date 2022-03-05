@@ -1,5 +1,33 @@
 .icon {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+  border-radius: 100%;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.iconwrap {
   display: inline-block;
-  min-height: $fontsmall;
-  min-width: $fontsmall;
+  width: 90px;
+  height: 90px;
+}
+
+.dark {
+  background-color: $darkcolor;
+  color: $lightcolor;
+}
+
+.light {
+  background-color: $lightcolor;
+  color: $darkcolor;
 }

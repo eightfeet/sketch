@@ -5,12 +5,7 @@ import s from "./Button.module.scss";
 
 interface ButtonProps {
   /**按钮类型 */
-  type?:
-    | "default"
-    | "gradientred"
-    | "gradientorange"
-    | "outlinered"
-    | "outlineorange";
+  type?: "dark" | "light";
   /**尺寸 */
   size?: "normal" | "mini" | "large";
   htmlType?: "submit" | "reset" | "button" | undefined;
@@ -24,7 +19,7 @@ const Button: React.FC<
 > = ({
   className,
   children,
-  type = "default",
+  type = "dark",
   size = "normal",
   htmlType,
   block,

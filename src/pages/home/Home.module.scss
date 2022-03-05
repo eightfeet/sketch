@@ -1,5 +1,21 @@
 .root {
   font-style: normal;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.swiperwrap {
+  height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.swiper {
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 250px;
 }
 
 .button {
