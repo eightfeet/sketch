@@ -18,8 +18,10 @@
 
 .iconwrap {
   display: inline-block;
+  position: relative;
   width: 90px;
   height: 90px;
+  text-align: center;
 }
 
 .dark {
@@ -30,4 +32,22 @@
 .light {
   background-color: $lightcolor;
   color: $darkcolor;
+}
+
+.tip {
+  background-color: red;
+  border-radius: 100px;
+  height: 30px;
+  font-weight: bold;
+  min-width: 30px;
+  color: #fff;
+  position: absolute;
+  font-size: smaller;
+  bottom: -30px;
+  right: 0;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
 }

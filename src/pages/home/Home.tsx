@@ -6,15 +6,16 @@ import WingBlank from "~/components/WingBlank";
 import Swiper from "~/components/Swiper";
 import img from "./show.jpg";
 import img2 from "./show2.jpeg";
-import Clock from "~/components/Icons/Clock";
 import Icons from "~/components/Icons";
 import LiseCard from "~/components/Icons/LiseCard";
 import ArrowRight from "~/components/Icons/ArrowRight";
+import SketchTimer from "./components/SketchTimer";
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
+
   return (
     <div className={s.root}>
       <WingBlank className={s.swiperwrap}>
@@ -28,10 +29,8 @@ const Home: React.FC<Props> = () => {
       </WingBlank>
       <WingBlank className={s.feature}>
         <div className={s.menu}>
-          <Icons>
-            <Clock />
-          </Icons>
-          <Icons>
+          <SketchTimer />
+          <Icons tip={0} onClick={() => navigate("models")}>
             <LiseCard />
           </Icons>
           <Icons className={s.opacity}>
@@ -39,7 +38,10 @@ const Home: React.FC<Props> = () => {
           </Icons>
         </div>
       </WingBlank>
-      <WingBlank className={s.space} />
+
+      <WingBlank className={s.space}>
+        <div className={s.info}>速写预计持续30分钟</div>
+      </WingBlank>
     </div>
   );
 };

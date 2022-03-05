@@ -12,7 +12,7 @@ export const overlay: React.CSSProperties = {
   top: 0,
   bottom: "unset",
   // hack ios
-  height: "120vh",
+  height: "100vh",
   position: "fixed",
 };
 /**弹窗内容 */
@@ -25,8 +25,7 @@ export const content: React.CSSProperties = {
 /**关闭按钮 */
 export const close: React.CSSProperties = {
   backgroundRepeat: "no-repeat",
-  backgroundImage:
-    "url(https://upload-yyj.by-health.com/upload/images/1102102650905.png)",
+  backgroundImage: "url(./close.svg)",
   backgroundSize: "100% 100%",
   height: px2rem(55),
   width: px2rem(55),
