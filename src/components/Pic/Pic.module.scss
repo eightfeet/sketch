@@ -1,0 +1,32 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius;
+  overflow: hidden;
+  background-color: #ededed;
+  position: relative;
+  .pic {
+    width: 100%;
+    min-width: 100px;
+    min-height: 100px;
+    height: auto;
+    border: none;
+  }
+
+  .default {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  .loading {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+  }
+}

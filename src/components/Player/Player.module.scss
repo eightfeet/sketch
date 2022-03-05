@@ -1,0 +1,23 @@
+.root {
+  height: 423px;
+  width: 750px;
+  position: relative;
+}
+
+.video {
+  height: 100%;
+  width: 100%;
+  #player-container-id {
+    height: 100%;
+    width: 100%;
+  }
+  > div {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.isread {
+  position: absolute;
+  top: 0;
+}

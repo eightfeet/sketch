@@ -1,0 +1,90 @@
+{
+  "name": "byhealth-training",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@eightfeet/loading": "^2.0.5",
+    "@eightfeet/message": "^2.0.22",
+    "@eightfeet/modal": "^2.2.23",
+    "@rematch/core": "^2.2.0",
+    "@rematch/persist": "^2.1.2",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "classnames": "^2.3.1",
+    "dayjs": "^1.10.7",
+    "extend": "^3.0.2",
+    "immer": "^9.0.7",
+    "jwt-decode": "^3.1.2",
+    "query-string": "^7.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-query": "^3.34.2",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.1.1",
+    "react-scripts": "4.0.3",
+    "redux-logger": "^3.0.6",
+    "rmc-pull-updown-to-refresh": "^2.0.4",
+    "swiper": "^7.4.1",
+    "typescript": "^4.1.2",
+    "use-count-up": "^3.0.1",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.0.1"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "scripts": {
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "prepare": "husky install",
+    "start": "react-app-rewired start",
+    "build": "npm run build:uat",
+    "build:uat": "env-cmd -f .env.uat react-app-rewired build",
+    "build:prod": "env-cmd -f .env.prod react-app-rewired build",
+    "analyzer": "npm run build:prod -- --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
+    "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "no-console": "off"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/extend": "^3.0.1",
+    "@types/redux-logger": "^3.0.9",
+    "@types/uuid": "^8.3.4",
+    "customize-cra": "^1.0.0",
+    "env-cmd": "^10.1.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "postcss-px-to-viewport": "^1.1.1",
+    "prettier": "2.5.1",
+    "react-app-rewire-postcss": "^3.0.2",
+    "react-app-rewired": "^2.1.8",
+    "sass": "^1.45.1"
+  }
+}

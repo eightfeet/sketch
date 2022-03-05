@@ -1,0 +1,12 @@
+.root {
+  display: block;
+  height: $interval;
+}
+
+.double {
+  height: $interval * 2;
+}
+
+.triple {
+  height: $interval * 3;
+}

@@ -1,0 +1,97 @@
+.root {
+  background-size: 100% auto;
+  background-position: 0 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: $radius;
+
+  header,
+  footer {
+    margin: 0;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: row;
+    min-height: 108px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  header {
+    font-weight: bold;
+  }
+
+  footer {
+    padding-bottom: 54px;
+    width: 100%;
+  }
+
+  .jc-space-between {
+    justify-content: space-between;
+  }
+  .jc-center {
+    justify-content: center;
+  }
+
+  .message,
+  .content {
+    flex: auto;
+    padding: 30px;
+    text-align: center;
+    line-height: 1.2;
+    box-sizing: border-box;
+  }
+
+  .offsetbottom {
+    padding-bottom: 80px;
+  }
+}
+
+/**
+   * 全局弹窗按钮样式
+   */
+.submit {
+  background-color: rgb(255, 120, 61);
+  box-sizing: border-box;
+  display: block;
+  margin: 0 30px;
+  height: 76px;
+  color: #fff;
+  border: none;
+  font-size: 32px;
+  border-radius: 37px;
+  padding: 0 30px;
+  min-width: 540px;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.cancel {
+  background-color: #fff7ee;
+  border: 1px solid #ff7a3f !important;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 30px;
+  height: 76px;
+  color: #ff7a3f;
+  border: none;
+  font-size: 32px;
+  border-radius: 37px;
+  padding: 0 30px;
+  min-width: 540px;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.submit,
+.cancel {
+  margin: 15px 0;
+}
