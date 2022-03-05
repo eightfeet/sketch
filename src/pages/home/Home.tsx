@@ -11,6 +11,9 @@ import img2 from "./show2.jpeg";
 import Clock from "~/components/Icons/Clock";
 import Icons from "~/components/Icons";
 import ClockFill from "~/components/Icons/ClockFill";
+import LiseCard from "~/components/Icons/LiseCard";
+import Space from "~/components/Space";
+import ArrowRight from "~/components/Icons/ArrowRight";
 
 interface Props {}
 
@@ -28,8 +31,21 @@ const Home: React.FC<Props> = () => {
         />
       </WingBlank>
       <WingBlank className={s.feature}>
-        <h3>sketck</h3>
+        <div>
+          <div className={s.menu}>
+            <Icons>
+              <Clock />
+            </Icons>
+            <Icons>
+              <LiseCard />
+            </Icons>
+            <Icons className={s.opacity}>
+              <ArrowRight />
+            </Icons>
+          </div>
+        </div>
       </WingBlank>
+      <WingBlank className={s.space} />
     </div>
   );
 };

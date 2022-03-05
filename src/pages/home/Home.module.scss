@@ -21,3 +21,20 @@
 .button {
   margin: 0 10px 10px 0;
 }
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 100px;
+}
+.feature {
+  flex: auto;
+}
+.space {
+  height: 200px;
+}
+
+.opacity {
+  opacity: 0.4;
+}

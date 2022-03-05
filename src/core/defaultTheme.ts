@@ -20,6 +20,7 @@ export const content: React.CSSProperties = {
   borderRadius: px2vw(20),
   width: px2vw(613),
   marginBottom: "20vh",
+  fontSize: px2vw(30),
 };
 /**关闭按钮 */
 export const close: React.CSSProperties = {
