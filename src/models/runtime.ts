@@ -7,26 +7,9 @@
 import { createModel } from "@rematch/core";
 import produce from "immer";
 import { RootModel } from "~/models";
-import { AnwserInfo } from "~/types/answer";
-import { ExerciseInfo } from "~/types/exercise";
 
 type RuntimeState = {
   [key: string]: any;
-  situation?: Array<{
-    projectId: number;
-    studentId: number;
-    data: Array<ExerciseInfo>;
-  }>;
-  answerInfo?: {
-    examId: number;
-    idx: number;
-    answers: Array<AnwserInfo>;
-  };
-  currentProjectPartner?: {
-    deptName: string;
-    deptId: number;
-    deptNo: string;
-  };
 };
 
 const INITIAL_STATE: RuntimeState = {};

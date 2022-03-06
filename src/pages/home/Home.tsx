@@ -10,10 +10,13 @@ import Icons from "~/components/Icons";
 import LiseCard from "~/components/Icons/LiseCard";
 import ArrowRight from "~/components/Icons/ArrowRight";
 import SketchTimer from "./components/SketchTimer";
+import { useSelector } from "react-redux";
+import { RootState } from "~/store";
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
+  const { pictureList } = useSelector((state: RootState) => state).dynamics;
   const navigate = useNavigate();
 
   return (
@@ -30,7 +33,7 @@ const Home: React.FC<Props> = () => {
       <WingBlank className={s.feature}>
         <div className={s.menu}>
           <SketchTimer />
-          <Icons tip={0} onClick={() => navigate("models")}>
+          <Icons tip={pictureList.length} onClick={() => navigate("models")}>
             <LiseCard />
           </Icons>
           <Icons className={s.opacity}>

@@ -12,6 +12,7 @@ interface Props {
   space?: number;
   width?: number;
   onClickSelect?: (item: ModelType) => void;
+  selectedData?: ModelType[];
 }
 
 const PicList: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const PicList: React.FC<Props> = ({
   data,
   space = 5,
   onClickSelect,
+  selectedData,
 }) => {
   const [columnGroup, setColumnGroup] = useState<number[]>([]);
   useEffect(() => {
@@ -63,7 +65,9 @@ const PicList: React.FC<Props> = ({
         path = process.env.REACT_APP_MPATH_M2! + "small/" + path;
       if (item.from === "md3")
         path = process.env.REACT_APP_MPATH_M3! + "small/" + path;
-
+      const isSelected = selectedData?.some(
+        (sItem) => sItem.imgUrl === item.imgUrl
+      );
       return (
         <div className={s.picwrap} style={styles} key={item.imgUrl + index}>
           <Pic className={s.pic} src={path} />
@@ -71,7 +75,7 @@ const PicList: React.FC<Props> = ({
             type="light"
             className={classNames(
               s.checkbutton,
-              item.selected ? s.selected : null
+              isSelected ? s.selected : null
             )}
             onClick={() => onClickSelect?.(item)}
           >
@@ -83,7 +87,7 @@ const PicList: React.FC<Props> = ({
     return (
       <div style={{ height: Math.max(...currentColumnGroup) }}>{nodes}</div>
     );
-  }, [column, columnGroup, data, onClickSelect, space, width]);
+  }, [column, columnGroup, data, onClickSelect, selectedData, space, width]);
 
   return (
     <div className={s.root} style={{ width: width }}>
