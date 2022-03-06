@@ -13,13 +13,17 @@ import { useInfiniteQuery } from "react-query";
 import { ModelType } from "~/types/models";
 import { useDispatch, useSelector } from "react-redux";
 import { RootDispatch, RootState } from "~/store";
+import SelectAll from "~/components/Icons/SelectAll";
+import UnselectAll from "~/components/Icons/UnselectAll";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
 
 const List: React.FC<Props> = ({}) => {
   const { dynamics } = useSelector((state: RootState) => state);
-  const { onTogglePictureList } = useDispatch<RootDispatch>().dynamics;
+  const [selectallpic, setSelectallpic] = useState(false);
+  const { onTogglePictureList, setPictureList, initPictureList } =
+    useDispatch<RootDispatch>().dynamics;
 
   const queryData: (pageParam: number) => Promise<ModelType[]> = useCallback(
     (pageParam) =>
@@ -51,21 +55,44 @@ const List: React.FC<Props> = ({}) => {
     [onTogglePictureList]
   );
 
+  const onClickSelectAll = useCallback(() => {
+    if (dynamics.pictureList.length > 0) {
+      initPictureList();
+      setSelectallpic(false);
+    } else if (result) {
+      setPictureList(result);
+      setSelectallpic(true);
+    }
+  }, [dynamics.pictureList.length, initPictureList, result, setPictureList]);
+
   return (
     <div className={s.root}>
       <NavigateBar
         left={
-          <Icons
-            type="dark"
-            tip={
-              dynamics.pictureList.length
-                ? dynamics.pictureList.length
-                : undefined
-            }
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft />
-          </Icons>
+          <>
+            <Icons
+              type="dark"
+              tip={
+                dynamics.pictureList.length
+                  ? dynamics.pictureList.length
+                  : undefined
+              }
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft />
+            </Icons>
+            &nbsp;
+            {selectallpic ? (
+              <Icons type={"light"} onClick={onClickSelectAll}>
+                <UnselectAll />
+              </Icons>
+            ) : null}
+            {selectallpic ? null : (
+              <Icons type={"light"} onClick={onClickSelectAll}>
+                <SelectAll />
+              </Icons>
+            )}
+          </>
         }
         right={
           <Icons
@@ -81,10 +108,10 @@ const List: React.FC<Props> = ({}) => {
       >
         选择图片
       </NavigateBar>
-      <PullToRefresh onPullUp={fetchNextPage}>
+      <PullToRefresh onPullUp={fetchNextPage} disablePullDown>
         <Space className={s.navspace} />
         <PicList
-          column={8}
+          column={10}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.pictureList}

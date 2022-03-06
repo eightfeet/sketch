@@ -31,6 +31,12 @@ export const dynamics = createModel<RootModel>()({
         modelList: INITIAL_STATE.modelList,
       };
     }),
+    setModelList: produce((state: DynamicsState, payload: ModelType[]) => {
+      return {
+        ...state,
+        modelList: payload,
+      };
+    }),
     onToggleModelList: (
       { pictureList, modelList }: DynamicsState,
       payload: ModelType
@@ -41,13 +47,20 @@ export const dynamics = createModel<RootModel>()({
       if (isSelect) {
         modelList = modelList.filter((item) => item.imgUrl !== payload.imgUrl);
       } else {
-        modelList.push(payload);
+        modelList = modelList.concat([payload]);
       }
       return {
         pictureList,
         modelList,
       };
     },
+    setPictureList: produce((state: DynamicsState, payload: ModelType[]) => {
+      return {
+        ...state,
+        pictureList: payload,
+      };
+    }),
+
     initPictureList: produce((state: DynamicsState) => {
       return {
         ...state,
@@ -67,7 +80,7 @@ export const dynamics = createModel<RootModel>()({
           (item) => item.imgUrl !== payload.imgUrl
         );
       } else {
-        pictureList.push(payload);
+        pictureList = pictureList.concat([payload]);
       }
       return {
         modelList,
