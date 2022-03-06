@@ -1,0 +1,22 @@
+.menubox {
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: $fontlarge;
+  min-height: 90px;
+}
+
+.title {
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: bold;
+}

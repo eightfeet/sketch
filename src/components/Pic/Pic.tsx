@@ -1,13 +1,16 @@
 import classNames from "classnames";
 import React, { HTMLAttributes, useState } from "react";
 import BlockLoading from "../BlockLoading";
-import defaultImg from "./default.png";
+import defaultImg from "./default.svg";
 import s from "./Pic.module.scss";
 
 interface Props {
   src?: string;
   alt?: string;
   defaultPic?: string;
+  width?: number;
+  height?: number;
+  top?: number;
 }
 
 const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
@@ -16,12 +19,21 @@ const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
   alt = "",
   defaultPic,
   src,
+  height,
+  width,
+  top,
   ...other
 }) => {
+  const styles = {
+    width,
+    height,
+    ...(style || {}),
+  };
+
   const [isErrorLoaded, setIsErrorLoaded] = useState<boolean>();
   const [loaded, setLoaded] = useState<boolean>();
   return (
-    <div className={classNames(s.root, className)} {...other}>
+    <div className={classNames(s.root, className)} style={styles} {...other}>
       {/**加载时显示loading */}
       {src && isErrorLoaded === undefined ? (
         loaded === true ? null : (
