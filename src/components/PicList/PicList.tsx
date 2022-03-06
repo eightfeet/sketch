@@ -11,7 +11,7 @@ interface Props {
   data?: ModelType[];
   space?: number;
   width?: number;
-  onSelect?: (item: any) => void;
+  onClickSelect?: (item: ModelType) => void;
 }
 
 const PicList: React.FC<Props> = ({
@@ -19,6 +19,7 @@ const PicList: React.FC<Props> = ({
   width = window.innerWidth,
   data,
   space = 5,
+  onClickSelect,
 }) => {
   const [columnGroup, setColumnGroup] = useState<number[]>([]);
   useEffect(() => {
@@ -72,6 +73,7 @@ const PicList: React.FC<Props> = ({
               s.checkbutton,
               item.selected ? s.selected : null
             )}
+            onClick={() => onClickSelect?.(item)}
           >
             <Selected />
           </Icons>
@@ -81,7 +83,7 @@ const PicList: React.FC<Props> = ({
     return (
       <div style={{ height: Math.max(...currentColumnGroup) }}>{nodes}</div>
     );
-  }, [column, columnGroup, data, space, width]);
+  }, [column, columnGroup, data, onClickSelect, space, width]);
 
   return (
     <div className={s.root} style={{ width: width }}>

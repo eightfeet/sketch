@@ -38,6 +38,10 @@ const List: React.FC<Props> = ({}) => {
   const result = data?.pages.flat();
   const navigate = useNavigate();
 
+  const onClickSelect = useCallback((item) => {
+    console.log(item);
+  }, []);
+
   return (
     <div className={s.root}>
       <NavigateBar
@@ -56,7 +60,12 @@ const List: React.FC<Props> = ({}) => {
       </NavigateBar>
       <PullToRefresh onPullUp={fetchNextPage}>
         <Space className={s.navspace} />
-        <PicList column={3} width={winwidth} data={result} />
+        <PicList
+          column={3}
+          width={winwidth}
+          onClickSelect={onClickSelect}
+          data={result}
+        />
       </PullToRefresh>
     </div>
   );
