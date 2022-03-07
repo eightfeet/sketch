@@ -9,6 +9,9 @@ import Routers from "./Routers";
 import { persistor, store } from "./store";
 import { onWindowblur, onWindowfocus } from "./core/utils";
 import { wechat } from "~/core/jssdk";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
 
 onWindowfocus();
 onWindowblur();

@@ -119,7 +119,7 @@ const List: React.FC<Props> = ({}) => {
       <PullToRefresh onPullUp={fetchNextPage} disablePullDown>
         <Space className={s.navspace} />
         <PicList
-          column={10}
+          column={3}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.pictureList}

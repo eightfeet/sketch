@@ -102,12 +102,12 @@ const List: React.FC<Props> = ({}) => {
           </>
         }
       >
-        选择图片
+        选择模特
       </NavigateBar>
       <PullToRefresh onPullUp={fetchNextPage} disablePullDown>
         <Space className={s.navspace} />
         <PicList
-          column={10}
+          column={3}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.modelList}

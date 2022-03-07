@@ -12,11 +12,13 @@ import { ModelType } from "~/types/models";
 type DynamicsState = {
   modelList: ModelType[];
   pictureList: ModelType[];
+  keepingTime: number;
 };
 
 const INITIAL_STATE: DynamicsState = {
   modelList: [],
   pictureList: [],
+  keepingTime: 5,
 };
 
 export const dynamics = createModel<RootModel>()({
@@ -38,7 +40,7 @@ export const dynamics = createModel<RootModel>()({
       };
     }),
     onToggleModelList: (
-      { pictureList, modelList }: DynamicsState,
+      { modelList, ...other }: DynamicsState,
       payload: ModelType
     ) => {
       const isSelect = modelList.some(
@@ -50,7 +52,7 @@ export const dynamics = createModel<RootModel>()({
         modelList = modelList.concat([payload]);
       }
       return {
-        pictureList,
+        ...other,
         modelList,
       };
     },
@@ -69,7 +71,7 @@ export const dynamics = createModel<RootModel>()({
     }),
 
     onTogglePictureList: (
-      { pictureList, modelList }: DynamicsState,
+      { pictureList, ...other }: DynamicsState,
       payload: ModelType
     ) => {
       const isSelect = pictureList.some(
@@ -83,8 +85,18 @@ export const dynamics = createModel<RootModel>()({
         pictureList = pictureList.concat([payload]);
       }
       return {
-        modelList,
+        ...other,
         pictureList,
+      };
+    },
+
+    setKeepingTime: (
+      { keepingTime, ...other }: DynamicsState,
+      payload: number
+    ) => {
+      return {
+        ...other,
+        keepingTime: payload,
       };
     },
   },
