@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PullToRefresh from "rmc-pull-updown-to-refresh";
 import Icons from "~/components/Icons";
@@ -22,6 +22,14 @@ interface Props {}
 const List: React.FC<Props> = ({}) => {
   const { dynamics } = useSelector((state: RootState) => state);
   const [selectallpic, setSelectallpic] = useState(false);
+  useEffect(() => {
+    if (!!dynamics.pictureList.length) {
+      setSelectallpic(true);
+    } else {
+      setSelectallpic(false);
+    }
+  }, [dynamics.pictureList.length]);
+
   const { onTogglePictureList, setPictureList, initPictureList } =
     useDispatch<RootDispatch>().dynamics;
 
