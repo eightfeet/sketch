@@ -23,6 +23,11 @@ const routers: routeItem[] = [
     page: "contents",
     component: React.lazy(() => import("~/pages/contents")),
   },
+  {
+    name: "SKETCH",
+    page: "view",
+    component: React.lazy(() => import("~/pages/view")),
+  },
 
   {
     name: "demo",

@@ -79,3 +79,31 @@ export const onWindowblur = () => {
     window.removeEventListener("blur", handleBlur);
   };
 };
+
+export function arrivedTime(sec: number) {
+  const current = new window.Date();
+  return new Date((current.getTime() / 1000 + 60 * sec) * 1000);
+}
+
+export function ShowCountDown(arrivedTime: any) {
+  let now = new Date();
+  let endDate = arrivedTime;
+  let leftTime = endDate.getTime() - now.getTime();
+  let leftsecond = parseInt(`${leftTime / 1000}`, 0);
+  let day1 = Math.floor(leftsecond / (60 * 60 * 24));
+  let hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600);
+  let minute = Math.floor(
+    (leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60
+  );
+  let second = Math.floor(
+    leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60
+  );
+  const result =
+    (hour >= 10 ? hour : "0" + hour) +
+    ":" +
+    (minute >= 10 ? minute : "0" + minute) +
+    ":" +
+    (second >= 10 ? second : "0" + second);
+
+  return result;
+}

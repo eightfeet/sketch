@@ -26,7 +26,7 @@ const Home: React.FC<Props> = () => {
 
   const onPlay = useCallback(() => {
     if (pictureList.length && keepingTime) {
-      navigate("/models");
+      navigate("/view");
     } else if (!pictureList.length) {
       message({
         title: "提示",

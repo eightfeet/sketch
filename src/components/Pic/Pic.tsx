@@ -11,6 +11,7 @@ interface Props {
   width?: number;
   height?: number;
   top?: number;
+  imgStyle?: React.CSSProperties;
 }
 
 const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
@@ -22,6 +23,7 @@ const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
   height,
   width,
   top,
+  imgStyle,
   ...other
 }) => {
   const styles = {
@@ -49,6 +51,7 @@ const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
           onLoad={() => setLoaded(true)}
           src={src}
           alt={alt}
+          style={imgStyle}
         />
       )}
     </div>
