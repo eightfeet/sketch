@@ -145,7 +145,10 @@ const View: React.FC<Props> = ({}) => {
             strokeWidth={3}
             onComplete={handleNext}
           >
-            {renderTime(swiperRef.current?.activeIndex || 0, 40)}
+            {renderTime(
+              swiperRef.current?.activeIndex || 0,
+              pictureList?.length
+            )}
           </CountdownCircleTimer>
         ) : null}
       </div>
