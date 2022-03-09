@@ -8,6 +8,7 @@ import { createModel } from "@rematch/core";
 import produce from "immer";
 import { RootModel } from "~/models";
 import { ModelType } from "~/types/models";
+import defaultmodelList from "./defaultmd.json";
 
 type DynamicsState = {
   modelList: ModelType[];
@@ -16,7 +17,7 @@ type DynamicsState = {
 };
 
 const INITIAL_STATE: DynamicsState = {
-  modelList: [],
+  modelList: defaultmodelList,
   pictureList: [],
   keepingTime: 5,
 };

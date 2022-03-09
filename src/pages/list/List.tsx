@@ -7,7 +7,6 @@ import IModels from "~/components/Icons/IModels";
 import NavigateBar from "~/components/NavigateBar";
 import PicList from "~/components/PicList";
 import Space from "~/components/Space";
-import mkdata from "./models01.json";
 import s from "./List.module.scss";
 import { useInfiniteQuery } from "react-query";
 import { ModelType } from "~/types/models";
@@ -119,7 +118,7 @@ const List: React.FC<Props> = ({}) => {
       >
         <Space className={s.navspace} />
         <PicList
-          column={8}
+          column={3}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.pictureList}

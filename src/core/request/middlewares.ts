@@ -7,7 +7,6 @@
 import { stringify } from "query-string";
 import { isAbsoluteUrl, methodWithBody, TimeoutError } from "./utils";
 import { Context, Middleware, NextFunction, KeyValuePair } from "./typings";
-import { store } from "~/store";
 
 export const baseUrl: Middleware = (context: Context, next: NextFunction) => {
   if (context.baseUrl && !isAbsoluteUrl(context.url)) {
@@ -107,9 +106,7 @@ export const authToken: Middleware = (
   next: NextFunction
 ) => {
   if (context.authToken !== false) {
-    const authToken =
-      context.authToken ??
-      (sessionStorage.getItem("authToken") || store.getState().member.jwtToken);
+    const authToken = context.authToken ?? sessionStorage.getItem("authToken");
     if (authToken) {
       context.headers = context.headers || {};
       context.headers["Authorization"] = `Bearer ${authToken}`;
