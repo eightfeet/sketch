@@ -57,11 +57,9 @@ const View: React.FC<Props> = ({}) => {
     };
   }, []);
 
-  console.log("wIsx", wIsx);
-
   const renderPic = useCallback(
     () =>
-      pictureList?.map(({ imgUrl }) => {
+      pictureList?.map(({ imgUrl, from }, index) => {
         const W = parseInt(imgUrl.split("&")[1], 0);
         const H = parseInt(imgUrl.split("&")[2], 0);
         const WW = window.innerWidth;
@@ -80,18 +78,22 @@ const View: React.FC<Props> = ({}) => {
           Height = "auto";
         }
 
+        let picPath = imgUrl;
+        if (from === "md1")
+          picPath = `${process.env.REACT_APP_MPATH_M1}models/${picPath}`;
+        if (from === "md2")
+          picPath = `${process.env.REACT_APP_MPATH_M2}${picPath}`;
+        if (from === "md3")
+          picPath = `${process.env.REACT_APP_MPATH_M3}${picPath}`;
+
         const imgStyle: React.CSSProperties = {
           width: Width,
           height: Height,
         };
 
         return (
-          <SwiperSlide>
-            <Pic
-              className={s.pic}
-              imgStyle={imgStyle}
-              src={`https://www.eightfeet.cn/md2/${imgUrl}`}
-            />
+          <SwiperSlide key={picPath}>
+            <Pic className={s.pic} imgStyle={imgStyle} src={picPath} />
           </SwiperSlide>
         );
       }),
@@ -121,7 +123,14 @@ const View: React.FC<Props> = ({}) => {
           <ArrowLeft />
         </Icons>
       </div>
-      <Swiper loop onSlideChange={handleSlideChange}>
+      <Swiper
+        lazy={{
+          enabled: true,
+          loadPrevNext: true,
+        }}
+        loop
+        onSlideChange={handleSlideChange}
+      >
         {renderPic()}
       </Swiper>
       <div className={s.timer}>

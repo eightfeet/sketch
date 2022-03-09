@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootDispatch, RootState } from "~/store";
 import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
+import { queryPicByModelId } from "~/api/sketch";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -33,25 +34,20 @@ const List: React.FC<Props> = ({}) => {
   const { onTogglePictureList, setPictureList, initPictureList } =
     useDispatch<RootDispatch>().dynamics;
 
-  const queryData: (pageParam: number) => Promise<ModelType[]> = useCallback(
-    (pageParam) =>
-      new Promise((resove) => {
-        setTimeout(() => {
-          console.log(pageParam);
-          resove(mkdata as ModelType[]);
-        }, 1000);
-      }),
-    []
-  );
-
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    "models",
-    ({ pageParam = 1 }) => queryData(pageParam),
+    ["models", dynamics.modelList.length],
+    ({ pageParam = 0 }) => {
+      return queryPicByModelId(pageParam);
+    },
     {
-      getNextPageParam: (lastPage, allPages) => allPages.length + 1,
+      getNextPageParam: (_, allpage) => {
+        if (dynamics.modelList.length > allpage.length) {
+          return allpage.length;
+        }
+        return false;
+      },
     }
   );
-  console.log("hasNextPage", hasNextPage);
 
   const result = data?.pages.flat();
   const navigate = useNavigate();
@@ -116,15 +112,20 @@ const List: React.FC<Props> = ({}) => {
       >
         选择图片
       </NavigateBar>
-      <PullToRefresh onPullUp={fetchNextPage} disablePullDown>
+      <PullToRefresh
+        onPullUp={() => fetchNextPage()}
+        disablePullDown
+        disablePullUp={!hasNextPage}
+      >
         <Space className={s.navspace} />
         <PicList
-          column={3}
+          column={8}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.pictureList}
           data={result}
         />
+        {!hasNextPage ? <div className={s.nodata}>没有更多了</div> : null}
       </PullToRefresh>
     </div>
   );

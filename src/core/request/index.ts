@@ -58,5 +58,24 @@ const saas = new Request(
   ]
 );
 
+export const sketch = new Request(
+  {
+    baseUrl: process.env.REACT_APP_SKETCH_URL,
+    mode: "cors",
+    type: "json",
+    errorHander: true,
+  },
+  [
+    middlewares.timeout,
+    middlewares.http,
+    middlewares.httpError,
+    middlewares.json,
+    middlewares.baseUrl,
+    middlewares.authToken,
+    middlewares.params,
+    middlewares.type,
+  ]
+);
+
 export default inst;
 export { Request, scrm, saas };
