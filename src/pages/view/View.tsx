@@ -1,10 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Swiper,
-  SwiperSlide,
-  SwiperProps,
-  useSwiper,
-} from "swiper/react/swiper-react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
 import SwiperCore, { Autoplay, EffectFade, Lazy } from "swiper";
 import s from "./View.module.scss";
@@ -12,25 +7,31 @@ import Pic from "~/components/Pic";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import dayjs from "dayjs";
+import { arrivedTime, ShowCountDown } from "~/core/utils";
+import Icons from "~/components/Icons";
+import ArrowLeft from "~/components/Icons/ArrowLeft";
+import { useNavigate } from "react-router-dom";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy]);
 
 interface Props {}
 
-const renderTime = ({ remainingTime }: { remainingTime: number }) => {
-  if (remainingTime === 0) {
-    return <div className={s.timercount}>next</div>;
-  }
+const renderTime =
+  (index: number, length: number) =>
+  ({ remainingTime }: { remainingTime: number }) => {
+    if (remainingTime === 0) {
+      return <div className={s.timercount}>next</div>;
+    }
 
-  return (
-    <div className={s.timercount}>
-      <div className="text">Remaining</div>
-      <div className="value">{remainingTime}</div>
-      <div className="text">seconds</div>
-    </div>
-  );
-};
+    return (
+      <div className={s.timercount}>
+        <div className={s.ind}>
+          {index}/{length}
+        </div>
+        <div>{ShowCountDown(arrivedTime(remainingTime))}</div>
+      </div>
+    );
+  };
 
 const View: React.FC<Props> = ({}) => {
   const { pictureList, keepingTime } = useSelector(
@@ -40,6 +41,7 @@ const View: React.FC<Props> = ({}) => {
     window.innerWidth >= window.innerHeight
   );
   const [initTime, setInitTime] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fn = () => {
@@ -99,19 +101,26 @@ const View: React.FC<Props> = ({}) => {
   const swiperRef = React.useRef<SwiperCore>(null);
 
   const handleNext = useCallback(() => {
-    setInitTime(false);
-    setTimeout(() => {
-      swiperRef.current?.slideNext();
-    }, 100);
+    swiperRef.current?.slideNext();
   }, []);
 
   const handleSlideChange = useCallback((currentSwiper: SwiperCore) => {
+    console.log(currentSwiper.activeIndex);
+
     (swiperRef as any).current = currentSwiper;
-    setInitTime(true);
+    setTimeout(() => {
+      setInitTime(true);
+    }, 1000);
+    setInitTime(false);
   }, []);
 
   return (
     <div className={s.root}>
+      <div className={s.back}>
+        <Icons type="dark" onClick={() => navigate("/", { replace: true })}>
+          <ArrowLeft />
+        </Icons>
+      </div>
       <Swiper loop onSlideChange={handleSlideChange}>
         {renderPic()}
       </Swiper>
@@ -121,10 +130,13 @@ const View: React.FC<Props> = ({}) => {
             isPlaying
             duration={keepingTime * 60}
             colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[7, 5, 2, 0]}
+            colorsTime={[60, 30, 20, 0]}
+            trailColor={"rgba(144,144,144,0.5)"}
+            size={80}
+            strokeWidth={3}
             onComplete={handleNext}
           >
-            {renderTime}
+            {renderTime(swiperRef.current?.activeIndex || 0, 40)}
           </CountdownCircleTimer>
         ) : null}
       </div>

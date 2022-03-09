@@ -16,7 +16,21 @@
   height: 100px;
   position: absolute;
   z-index: 10;
+  font-size: $fontsmaller;
+  right: 70px;
+  top: 10px;
 }
 .timercount {
-  color: #eee;
+  color: rgb(160, 160, 160);
+  text-align: center;
+}
+.back {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 10;
+}
+.ind {
+  font-size: $fontnormal;
+  font-weight: bolder;
 }
