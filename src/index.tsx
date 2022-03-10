@@ -9,6 +9,7 @@ import { persistor, store } from "./store";
 import { onWindowblur, onWindowfocus } from "./core/utils";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+
 dayjs.extend(duration);
 
 onWindowfocus();

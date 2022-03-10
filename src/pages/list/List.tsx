@@ -15,6 +15,7 @@ import { RootDispatch, RootState } from "~/store";
 import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import { queryPicByModelId } from "~/api/sketch";
+import Filter from "~/components/Icons/Filter";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -83,6 +84,10 @@ const List: React.FC<Props> = ({}) => {
               onClick={() => navigate(-1)}
             >
               <ArrowLeft />
+            </Icons>
+            &nbsp;
+            <Icons type="light">
+              <Filter />
             </Icons>
             &nbsp;
             {selectallpic ? (

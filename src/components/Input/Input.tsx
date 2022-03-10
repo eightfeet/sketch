@@ -6,12 +6,16 @@ interface Props {}
 
 const Input: React.FC<Props & React.InputHTMLAttributes<HTMLInputElement>> = ({
   className,
-  type,
-  min,
-  max,
+  style,
   ...other
 }) => {
-  return <input {...other} className={classNames(s.input, className)} />;
+  return (
+    <input
+      {...other}
+      className={classNames(s.input, className)}
+      style={style}
+    />
+  );
 };
 
 export default Input;

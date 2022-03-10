@@ -13,4 +13,16 @@ body {
   > iframe {
     display: none !important;
   }
+
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="number"],
+  input[type="text"] {
+    -webkit-appearance: none !important;
+  }
+  button {
+    border-radius: 0;
+    -webkit-border-radius: 0px;
+  }
 }

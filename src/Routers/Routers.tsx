@@ -5,6 +5,7 @@ import useDocumentTitle from "~/hooks/useDocumentTitle";
 import { QueryClientProvider, QueryClient } from "react-query";
 import BlockLoading from "~/components/BlockLoading";
 import { trackPageView } from "~/core/tracking";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
