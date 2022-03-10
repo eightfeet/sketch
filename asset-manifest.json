@@ -1,25 +1,25 @@
 {
   "files": {
-    "static/css/0.38ba388f.chunk.css": "https://www.eightfeet.cn/sketch/static/css/0.38ba388f.chunk.css",
-    "static/js/0.d5aac552.chunk.js": "https://www.eightfeet.cn/sketch/static/js/0.d5aac552.chunk.js",
+    "static/css/0.dec538e2.chunk.css": "https://www.eightfeet.cn/sketch/static/css/0.dec538e2.chunk.css",
+    "static/js/0.db93beba.chunk.js": "https://www.eightfeet.cn/sketch/static/js/0.db93beba.chunk.js",
     "static/css/1.f65e168d.chunk.css": "https://www.eightfeet.cn/sketch/static/css/1.f65e168d.chunk.css",
-    "static/js/1.2e950288.chunk.js": "https://www.eightfeet.cn/sketch/static/js/1.2e950288.chunk.js",
+    "static/js/1.fd3ecf00.chunk.js": "https://www.eightfeet.cn/sketch/static/js/1.fd3ecf00.chunk.js",
     "static/js/2.10a507ae.chunk.js": "https://www.eightfeet.cn/sketch/static/js/2.10a507ae.chunk.js",
-    "main.css": "https://www.eightfeet.cn/sketch/static/css/main.91d03fca.chunk.css",
-    "main.js": "https://www.eightfeet.cn/sketch/static/js/main.21b35e10.chunk.js",
-    "runtime-main.js": "https://www.eightfeet.cn/sketch/static/js/runtime-main.bfe1842d.js",
+    "main.css": "https://www.eightfeet.cn/sketch/static/css/main.b4aa8410.chunk.css",
+    "main.js": "https://www.eightfeet.cn/sketch/static/js/main.d6d99b81.chunk.js",
+    "runtime-main.js": "https://www.eightfeet.cn/sketch/static/js/runtime-main.e6c9cb8c.js",
     "static/js/5.cb6eb448.chunk.js": "https://www.eightfeet.cn/sketch/static/js/5.cb6eb448.chunk.js",
-    "static/css/6.3ee1b4af.chunk.css": "https://www.eightfeet.cn/sketch/static/css/6.3ee1b4af.chunk.css",
-    "static/js/6.344b0e2b.chunk.js": "https://www.eightfeet.cn/sketch/static/js/6.344b0e2b.chunk.js",
-    "static/css/7.ee7f7d46.chunk.css": "https://www.eightfeet.cn/sketch/static/css/7.ee7f7d46.chunk.css",
-    "static/js/7.13e93eb6.chunk.js": "https://www.eightfeet.cn/sketch/static/js/7.13e93eb6.chunk.js",
+    "static/css/6.4b5397c1.chunk.css": "https://www.eightfeet.cn/sketch/static/css/6.4b5397c1.chunk.css",
+    "static/js/6.b9a284f8.chunk.js": "https://www.eightfeet.cn/sketch/static/js/6.b9a284f8.chunk.js",
+    "static/css/7.2266697c.chunk.css": "https://www.eightfeet.cn/sketch/static/css/7.2266697c.chunk.css",
+    "static/js/7.8fda979a.chunk.js": "https://www.eightfeet.cn/sketch/static/js/7.8fda979a.chunk.js",
     "static/css/8.12ea78ec.chunk.css": "https://www.eightfeet.cn/sketch/static/css/8.12ea78ec.chunk.css",
-    "static/js/8.09cbe812.chunk.js": "https://www.eightfeet.cn/sketch/static/js/8.09cbe812.chunk.js",
+    "static/js/8.1d54ea16.chunk.js": "https://www.eightfeet.cn/sketch/static/js/8.1d54ea16.chunk.js",
     "static/css/9.8904fe38.chunk.css": "https://www.eightfeet.cn/sketch/static/css/9.8904fe38.chunk.css",
-    "static/js/9.850df5ac.chunk.js": "https://www.eightfeet.cn/sketch/static/js/9.850df5ac.chunk.js",
+    "static/js/9.03067d50.chunk.js": "https://www.eightfeet.cn/sketch/static/js/9.03067d50.chunk.js",
     "static/css/10.2595f4eb.chunk.css": "https://www.eightfeet.cn/sketch/static/css/10.2595f4eb.chunk.css",
-    "static/js/10.94e21b5c.chunk.js": "https://www.eightfeet.cn/sketch/static/js/10.94e21b5c.chunk.js",
-    "static/js/11.a5a2025f.chunk.js": "https://www.eightfeet.cn/sketch/static/js/11.a5a2025f.chunk.js",
+    "static/js/10.a8474f9f.chunk.js": "https://www.eightfeet.cn/sketch/static/js/10.a8474f9f.chunk.js",
+    "static/js/11.34780960.chunk.js": "https://www.eightfeet.cn/sketch/static/js/11.34780960.chunk.js",
     "index.html": "https://www.eightfeet.cn/sketch/index.html",
     "static/js/5.cb6eb448.chunk.js.LICENSE.txt": "https://www.eightfeet.cn/sketch/static/js/5.cb6eb448.chunk.js.LICENSE.txt",
     "static/media/default.02d2b00f.svg": "https://www.eightfeet.cn/sketch/static/media/default.02d2b00f.svg",
@@ -28,9 +28,9 @@
     "static/media/show2.d6a77bd9.jpeg": "https://www.eightfeet.cn/sketch/static/media/show2.d6a77bd9.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.bfe1842d.js",
+    "static/js/runtime-main.e6c9cb8c.js",
     "static/js/5.cb6eb448.chunk.js",
-    "static/css/main.91d03fca.chunk.css",
-    "static/js/main.21b35e10.chunk.js"
+    "static/css/main.b4aa8410.chunk.css",
+    "static/js/main.d6d99b81.chunk.js"
   ]
 }
