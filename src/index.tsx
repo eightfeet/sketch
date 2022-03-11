@@ -6,14 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import { PersistGate } from "redux-persist/integration/react";
 import Routers from "./Routers";
 import { persistor, store } from "./store";
-import { onWindowblur, onWindowfocus } from "./core/utils";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
 dayjs.extend(duration);
 
-onWindowfocus();
-onWindowblur();
 async function init() {
   ReactDOM.render(
     <React.StrictMode>

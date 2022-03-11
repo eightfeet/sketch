@@ -16,6 +16,7 @@ import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import { queryPicByModelId } from "~/api/sketch";
 import Filter from "~/components/Icons/Filter";
+import PicFilter from "./components/PicFilter";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -86,10 +87,6 @@ const List: React.FC<Props> = ({}) => {
               <ArrowLeft />
             </Icons>
             &nbsp;
-            <Icons type="light">
-              <Filter />
-            </Icons>
-            &nbsp;
             {selectallpic ? (
               <Icons type={"light"} onClick={onClickSelectAll}>
                 <UnselectAll />
@@ -103,15 +100,21 @@ const List: React.FC<Props> = ({}) => {
           </>
         }
         right={
-          <Icons
-            type="dark"
-            tip={
-              dynamics.modelList.length ? dynamics.modelList.length : undefined
-            }
-            onClick={() => navigate("/contents")}
-          >
-            <IModels />
-          </Icons>
+          <>
+            <PicFilter />
+            &nbsp;
+            <Icons
+              type="dark"
+              tip={
+                dynamics.modelList.length
+                  ? dynamics.modelList.length
+                  : undefined
+              }
+              onClick={() => navigate("/contents")}
+            >
+              <IModels />
+            </Icons>
+          </>
         }
       >
         选择图片
@@ -129,7 +132,9 @@ const List: React.FC<Props> = ({}) => {
           selectedData={dynamics.pictureList}
           data={result}
         />
-        {!hasNextPage ? <div className={s.nodata}>没有更多了</div> : null}
+        {hasNextPage === false ? (
+          <div className={s.nodata}>没有更多了</div>
+        ) : null}
       </PullToRefresh>
     </div>
   );

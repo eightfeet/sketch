@@ -5,7 +5,7 @@ import s from "./Button.module.scss";
 
 interface ButtonProps {
   /**按钮类型 */
-  type?: "dark" | "light";
+  type?: "dark" | "light" | "darkoutline";
   /**尺寸 */
   size?: "normal" | "mini" | "large";
   htmlType?: "submit" | "reset" | "button" | undefined;

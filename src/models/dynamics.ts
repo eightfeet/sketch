@@ -11,16 +11,47 @@ import { ModelType } from "~/types/models";
 
 import defaultmodelList from "./../models/defaultmd.json";
 
+export interface PictureFilter {
+  /**横向 */
+  isX?: boolean;
+  /**纵向 */
+  isY?: boolean;
+}
+
+export interface ModelFilter {
+  /**着衣 */
+  isClothes?: boolean;
+  /**人体 */
+  isBody?: boolean;
+  /**女性 */
+  isMale?: boolean;
+  /**男性 */
+  isFemale?: boolean;
+  /**头像 */
+  isHeader?: boolean;
+  /**手足 */
+  isHandsFeet?: boolean;
+  /**静物 */
+  isStill?: boolean;
+}
+
 type DynamicsState = {
   modelList: ModelType[];
   pictureList: ModelType[];
   keepingTime: number;
+  pictureFilter: PictureFilter;
+  modelFilter: ModelFilter;
 };
 
 const INITIAL_STATE: DynamicsState = {
   modelList: [],
   pictureList: [],
   keepingTime: 5,
+  pictureFilter: {
+    isX: true,
+    isY: true,
+  },
+  modelFilter: {},
 };
 
 export const dynamics = createModel<RootModel>()({
@@ -102,6 +133,26 @@ export const dynamics = createModel<RootModel>()({
       return {
         ...other,
         keepingTime: payload,
+      };
+    },
+
+    setPictureFilter: (
+      { pictureFilter, ...other }: DynamicsState,
+      payload: PictureFilter
+    ) => {
+      return {
+        ...other,
+        pictureFilter: { ...pictureFilter, ...payload },
+      };
+    },
+
+    setModelFilter: (
+      { modelFilter, ...other }: DynamicsState,
+      payload: ModelFilter
+    ) => {
+      return {
+        ...other,
+        modelFilter: { ...modelFilter, ...payload },
       };
     },
   },
