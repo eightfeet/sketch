@@ -35,9 +35,21 @@ const List: React.FC<Props> = ({}) => {
     useDispatch<RootDispatch>().dynamics;
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ["models", dynamics.modelList.length],
+    [
+      "models",
+      dynamics.modelList.length,
+      dynamics.pictureFilter.isX,
+      dynamics.pictureFilter.isY,
+    ],
     ({ pageParam = 0 }) => {
-      return queryPicByModelId(pageParam);
+      return queryPicByModelId(pageParam).then((res) => {
+        const data = res.filter(
+          (item) =>
+            item.isX === dynamics.pictureFilter.isX ||
+            item.isY === dynamics.pictureFilter.isY
+        );
+        return data;
+      });
     },
     {
       getNextPageParam: (_, allpage) => {
