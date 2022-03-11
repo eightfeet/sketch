@@ -51,7 +51,15 @@ const INITIAL_STATE: DynamicsState = {
     isX: true,
     isY: true,
   },
-  modelFilter: {},
+  modelFilter: {
+    isClothes: true,
+    isBody: false,
+    isMale: true,
+    isFemale: true,
+    isHeader: true,
+    isHandsFeet: true,
+    isStill: true,
+  },
 };
 
 export const dynamics = createModel<RootModel>()({

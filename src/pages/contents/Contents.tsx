@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootDispatch, RootState } from "~/store";
 import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
+import MdFilter from "./compomemys/MdFilter";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -101,6 +102,7 @@ const List: React.FC<Props> = ({}) => {
             )}
           </>
         }
+        right={<MdFilter />}
       >
         选择模特
       </NavigateBar>

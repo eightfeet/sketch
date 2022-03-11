@@ -4,7 +4,6 @@ import Button from "~/components/Button";
 import Icons from "~/components/Icons";
 import Filter from "~/components/Icons/Filter";
 import Modal from "~/components/Modal";
-import WingBlank from "~/components/WingBlank";
 import { RootDispatch, RootState } from "~/store";
 import s from "./MdFilter.module.scss";
 
@@ -12,11 +11,19 @@ interface Props {}
 
 const MdFilter: React.FC<Props> = () => {
   const [showClockModal, setShowClockModal] = useState(false);
-  const onOk = useCallback(() => {
-    setShowClockModal(false);
-  }, []);
-  const { pictureFilter } = useSelector((state: RootState) => state).dynamics;
-  const { setPictureFilter } = useDispatch<RootDispatch>().dynamics;
+  const { modelFilter } = useSelector((state: RootState) => state).dynamics;
+  const { setModelFilter } = useDispatch<RootDispatch>().dynamics;
+
+  const handle = useCallback(
+    (item: string) => () => {
+      console.log(item);
+      setModelFilter({
+        ...modelFilter,
+        [item]: !(modelFilter as any)[item],
+      });
+    },
+    [modelFilter, setModelFilter]
+  );
 
   return (
     <>
@@ -26,9 +33,21 @@ const MdFilter: React.FC<Props> = () => {
       <Modal visible={showClockModal} onCancel={() => setShowClockModal(false)}>
         <Modal.Header>筛选图片</Modal.Header>
         <div className={s.buttonwrap}>
-          {JSON.stringify(pictureFilter)}
-          {Object.keys(pictureFilter || {}).map((item) => {
-            return <Button type="darkoutline">111{item}</Button>;
+          {Object.keys(modelFilter).map((item: string) => {
+            return (
+              <Button
+                onClick={handle(item)}
+                type={(modelFilter as any)[item] ? "dark" : "darkoutline"}
+              >
+                {item === "isClothes" ? "着衣" : null}
+                {item === "isBody" ? "人体" : null}
+                {item === "isMale" ? "女性" : null}
+                {item === "isFemale" ? "男性" : null}
+                {item === "isHeader" ? "头像" : null}
+                {item === "isHandsFeet" ? "手足" : null}
+                {item === "isStill" ? "静物" : null}
+              </Button>
+            );
           })}
         </div>
       </Modal>

@@ -15,7 +15,6 @@ import { RootDispatch, RootState } from "~/store";
 import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import { queryPicByModelId } from "~/api/sketch";
-import Filter from "~/components/Icons/Filter";
 import PicFilter from "./components/PicFilter";
 
 const winwidth = window.innerWidth * 0.98;
