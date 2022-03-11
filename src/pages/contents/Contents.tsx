@@ -45,8 +45,41 @@ const List: React.FC<Props> = ({}) => {
   );
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    "models",
-    ({ pageParam = 1 }) => queryData(pageParam),
+    [
+      "models",
+      dynamics.modelFilter.isClothes,
+      dynamics.modelFilter.isBody,
+      dynamics.modelFilter.isFemale,
+      dynamics.modelFilter.isHandsFeet,
+      dynamics.modelFilter.isHeader,
+      dynamics.modelFilter.isMale,
+      dynamics.modelFilter.isStill,
+    ],
+    ({ pageParam = 1 }) =>
+      queryData(pageParam).then((res) => {
+        const data = [
+          ...res.filter(
+            (item) => item.isClothes === dynamics.modelFilter.isClothes
+          ),
+          ...res.filter(
+            (item) => item.isClothes === dynamics.modelFilter.isClothes
+          ),
+          ...res.filter(
+            (item) => item.isFemale === dynamics.modelFilter.isFemale
+          ),
+          ...res.filter(
+            (item) => item.isHandsFeet === dynamics.modelFilter.isHandsFeet
+          ),
+          ...res.filter(
+            (item) => item.isHeader === dynamics.modelFilter.isHeader
+          ),
+          ...res.filter((item) => item.isMale === dynamics.modelFilter.isMale),
+          ...res.filter(
+            (item) => item.isStill === dynamics.modelFilter.isStill
+          ),
+        ];
+        return data;
+      }),
     {
       getNextPageParam: (lastPage, allPages) => allPages.length + 1,
     }

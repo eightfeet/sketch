@@ -36,7 +36,7 @@ const List: React.FC<Props> = ({}) => {
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     [
-      "models",
+      "picture",
       dynamics.modelList.length,
       dynamics.pictureFilter.isX,
       dynamics.pictureFilter.isY,
