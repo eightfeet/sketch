@@ -34,3 +34,9 @@
   font-size: $fontnormal;
   font-weight: bolder;
 }
+.icon {
+  > span {
+    background-color: transparent;
+    color: #888;
+  }
+}

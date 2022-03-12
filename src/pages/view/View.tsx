@@ -11,10 +11,22 @@ import { arrivedTime, ShowCountDown } from "~/core/utils";
 import Icons from "~/components/Icons";
 import ArrowLeft from "~/components/Icons/ArrowLeft";
 import { useNavigate } from "react-router-dom";
+import SketchTimer from "../home/components/SketchTimer";
+import SuiJi from "~/components/Icons/SuiJi";
+import AnXu from "~/components/Icons/AnXU";
+import { ModelType } from "~/types/models";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy]);
 
 interface Props {}
+
+function setPic(arr: ModelType[], random: boolean) {
+  if (!random) return arr;
+  const data = [...arr];
+  return data.sort(function () {
+    return Math.random() - 0.5;
+  });
+}
 
 const renderTime =
   (index: number, length: number) =>
@@ -40,8 +52,15 @@ const View: React.FC<Props> = ({}) => {
   const [wIsx, setWIsx] = useState<boolean>(
     window.innerWidth >= window.innerHeight
   );
+  const [suiji, setSuiji] = useState(false);
   const [initTime, setInitTime] = useState(false);
+  const [data, setData] = useState<ModelType[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const currentData = setPic(pictureList, suiji);
+    setData([...currentData]);
+  }, [suiji, pictureList]);
 
   useEffect(() => {
     const fn = () => {
@@ -59,7 +78,7 @@ const View: React.FC<Props> = ({}) => {
 
   const renderPic = useCallback(
     () =>
-      pictureList?.map(({ imgUrl, from }, index) => {
+      data?.map(({ imgUrl, from }, index) => {
         const W = parseInt(imgUrl.split("&")[1], 0);
         const H = parseInt(imgUrl.split("&")[2], 0);
         const WW = window.innerWidth;
@@ -92,12 +111,12 @@ const View: React.FC<Props> = ({}) => {
         };
 
         return (
-          <SwiperSlide key={picPath}>
+          <SwiperSlide key={`${suiji}${picPath}`}>
             <Pic className={s.pic} imgStyle={imgStyle} src={picPath} />
           </SwiperSlide>
         );
       }),
-    [pictureList]
+    [data, suiji]
   );
 
   const swiperRef = React.useRef<SwiperCore>(null);
@@ -122,8 +141,13 @@ const View: React.FC<Props> = ({}) => {
         <Icons type="dark" onClick={() => navigate("/", { replace: true })}>
           <ArrowLeft />
         </Icons>
+
+        <Icons type="dark" className={s.icon} onClick={() => setSuiji(!suiji)}>
+          {!suiji ? <SuiJi /> : <AnXu />}
+        </Icons>
       </div>
       <Swiper
+        key={`${suiji}`}
         lazy={{
           enabled: true,
           loadPrevNext: true,
@@ -135,21 +159,23 @@ const View: React.FC<Props> = ({}) => {
       </Swiper>
       <div className={s.timer}>
         {initTime ? (
-          <CountdownCircleTimer
-            isPlaying
-            duration={keepingTime * 60}
-            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[60, 30, 20, 0]}
-            trailColor={"rgba(144,144,144,0.5)"}
-            size={80}
-            strokeWidth={3}
-            onComplete={handleNext}
-          >
-            {renderTime(
-              swiperRef.current?.activeIndex || 0,
-              pictureList?.length
-            )}
-          </CountdownCircleTimer>
+          <SketchTimer>
+            <CountdownCircleTimer
+              isPlaying
+              duration={keepingTime * 60}
+              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+              colorsTime={[60, 30, 20, 0]}
+              trailColor={"rgba(144,144,144,0.5)"}
+              size={80}
+              strokeWidth={3}
+              onComplete={handleNext}
+            >
+              {renderTime(
+                swiperRef.current?.activeIndex || 0,
+                pictureList?.length
+              )}
+            </CountdownCircleTimer>
+          </SketchTimer>
         ) : null}
       </div>
     </div>

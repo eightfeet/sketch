@@ -5,13 +5,12 @@ import Icons from "~/components/Icons";
 import Clock from "~/components/Icons/Clock";
 import Input from "~/components/Input";
 import Modal from "~/components/Modal";
-import WingBlank from "~/components/WingBlank";
 import { RootDispatch, RootState } from "~/store";
 import s from "./SketchTimer.module.scss";
 
 interface Props {}
 
-const SketchTimer: React.FC<Props> = () => {
+const SketchTimer: React.FC<Props> = ({ children }) => {
   const [showClockModal, setShowClockModal] = useState(false);
   const onOk = useCallback(() => {
     setShowClockModal(false);
@@ -36,9 +35,13 @@ const SketchTimer: React.FC<Props> = () => {
 
   return (
     <>
-      <Icons tip={`${keepingTime}m`} onClick={() => setShowClockModal(true)}>
-        <Clock />
-      </Icons>
+      {children ? (
+        <span onClick={() => setShowClockModal(true)}>{children}</span>
+      ) : (
+        <Icons tip={`${keepingTime}m`} onClick={() => setShowClockModal(true)}>
+          <Clock />
+        </Icons>
+      )}
       <Modal visible={showClockModal} onCancel={() => setShowClockModal(false)}>
         <Modal.Header>设置时间</Modal.Header>
         <div>
