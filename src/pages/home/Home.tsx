@@ -39,6 +39,11 @@ const Home: React.FC<Props> = () => {
     }
   }, [keepingTime, navigate, pictureList.length]);
 
+  const reset = useCallback(() => {
+    localStorage.removeItem("persist:sketch-persist");
+    window.location.reload();
+  }, []);
+
   return (
     <div className={s.root}>
       <WingBlank className={s.swiperwrap}>
@@ -78,6 +83,9 @@ const Home: React.FC<Props> = () => {
             .asHours()
             .toFixed(2)}
           小时
+        </div>
+        <div className={s.clear} onClick={reset}>
+          重制应用
         </div>
       </WingBlank>
     </div>

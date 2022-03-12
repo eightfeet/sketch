@@ -147,7 +147,7 @@ const List: React.FC<Props> = ({}) => {
           data={result}
         />
         {hasNextPage === false ? (
-          <div className={s.nodata}>没有更多了</div>
+          <div className={s.nodata}>没有内容了择更多类目</div>
         ) : null}
       </PullToRefresh>
     </div>

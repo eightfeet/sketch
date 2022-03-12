@@ -4,19 +4,11 @@ import storage from "redux-persist/lib/storage";
 import { getPersistor } from "@rematch/persist";
 import { createLogger } from "redux-logger";
 import { models, RootModel } from "./models";
-import { parse } from "query-string";
-import jwt_decode from "jwt-decode";
 import hardSet from "redux-persist/lib/stateReconciler/hardSet";
-const { jwt } = parse(window.location.search);
 
 export const initStore = () => {
-  let tag: string = "tourist";
-  if (jwt) {
-    tag = (jwt_decode(jwt as string) as any)?.sub;
-  }
-
   const persistConfig = {
-    key: `byhealth-training-${tag}`,
+    key: `sketch-persist`,
     storage,
 
     stateReconciler: hardSet,
