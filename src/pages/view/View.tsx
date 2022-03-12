@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
-import SwiperCore, { Autoplay, EffectFade, Lazy } from "swiper";
+import SwiperCore, { Autoplay, EffectFade, Keyboard, Lazy } from "swiper";
 import s from "./View.module.scss";
 import Pic from "~/components/Pic";
 import { useSelector } from "react-redux";
@@ -16,7 +16,7 @@ import SuiJi from "~/components/Icons/SuiJi";
 import AnXu from "~/components/Icons/AnXU";
 import { ModelType } from "~/types/models";
 
-SwiperCore.use([Autoplay, EffectFade, Lazy]);
+SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard]);
 
 interface Props {}
 
@@ -153,6 +153,7 @@ const View: React.FC<Props> = ({}) => {
         </Icons>
       </div>
       <Swiper
+        keyboard
         lazy={{
           enabled: true,
           loadPrevNext: true,
