@@ -71,7 +71,7 @@ const PicList: React.FC<Props> = ({
       );
       return (
         <div className={s.picwrap} style={styles} key={item.imgUrl + index}>
-          <Pic className={s.pic} src={path} />
+          <Pic lazy className={s.pic} src={path} />
           <Icons
             type="light"
             className={classNames(
