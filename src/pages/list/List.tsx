@@ -18,6 +18,8 @@ import { queryPicByModelId } from "~/api/sketch";
 import PicFilter from "./components/PicFilter";
 import BlockLoading from "~/components/BlockLoading";
 import ArrowRight from "~/components/Icons/ArrowRight";
+import { isMobile } from "~/core/utils";
+import Button from "~/components/Button";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -144,7 +146,7 @@ const List: React.FC<Props> = ({}) => {
       >
         <Space className={s.navspace} />
         <PicList
-          column={3}
+          column={isMobile ? 3 : 6}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.pictureList}
@@ -157,6 +159,13 @@ const List: React.FC<Props> = ({}) => {
             <Icons type="light" onClick={() => navigate("/contents")}>
               <ArrowRight />
             </Icons>
+          </div>
+        ) : null}
+        {!isMobile && hasNextPage ? (
+          <div className={s.pcmore}>
+            <Button onClick={() => fetchNextPage()} type="dark">
+              加载更多
+            </Button>
           </div>
         ) : null}
       </PullToRefresh>

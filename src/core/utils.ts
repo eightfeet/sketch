@@ -107,3 +107,7 @@ export function ShowCountDown(arrivedTime: any) {
 
   return result;
 }
+
+export const isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(
+  navigator.userAgent
+);

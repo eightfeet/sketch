@@ -16,6 +16,7 @@ import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import MdFilter from "./compomemys/MdFilter";
 import BlockLoading from "~/components/BlockLoading";
+import { isMobile } from "~/core/utils";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -149,7 +150,7 @@ const List: React.FC<Props> = ({}) => {
       >
         <Space className={s.navspace} />
         <PicList
-          column={3}
+          column={isMobile ? 3 : 6}
           width={winwidth}
           onClickSelect={onClickSelect}
           selectedData={dynamics.modelList}
