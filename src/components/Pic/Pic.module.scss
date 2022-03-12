@@ -15,8 +15,8 @@
   }
 
   .default {
-    max-height: 3rem;
-    max-width: 3rem;
+    max-height: 3rem !important;
+    max-width: 3rem !important;
   }
 
   .loading {
@@ -28,5 +28,7 @@
     top: 50%;
     margin-top: -15px;
     margin-left: -15px;
+    background-size: contain !important;
+    min-height: auto !important;
   }
 }

@@ -15,6 +15,7 @@ import { RootDispatch, RootState } from "~/store";
 import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import MdFilter from "./compomemys/MdFilter";
+import BlockLoading from "~/components/BlockLoading";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -44,63 +45,48 @@ const List: React.FC<Props> = ({}) => {
     []
   );
 
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    [
-      "models",
-      dynamics.modelFilter.isClothes,
-      dynamics.modelFilter.isBody,
-      dynamics.modelFilter.isFemale,
-      dynamics.modelFilter.isHandsFeet,
-      dynamics.modelFilter.isHeader,
-      dynamics.modelFilter.isMale,
-      dynamics.modelFilter.isStill,
-    ],
-    ({ pageParam = 1 }) =>
-      queryData(pageParam).then((res) => {
-        const { modelFilter } = dynamics;
-        const data: ModelType[] = [];
-        res.forEach((item) => {
-          const { isClothes, isBody, isMale, isFemale, isHeader, isHandsFeet } =
-            item;
-          if (
-            (modelFilter.isClothes === isClothes ||
-              modelFilter.isBody === isBody) &&
-            (modelFilter.isMale === isMale ||
-              modelFilter.isFemale === isFemale) &&
-            modelFilter.isHeader === isHeader &&
-            modelFilter.isHandsFeet === isHandsFeet
-          ) {
-            data.push(item);
-          }
-        });
-
-        // if (modelFilter.isMale) {
-        //   data = data.concat(res.filter((item) => item.isMale === modelFilter.isMale));
-        // }
-        // let step2: ModelType[] = []
-        // if (modelFilter.isClothes) {
-        //   step2 = step2.concat(data.filter((item) => item.isClothes === modelFilter.isClothes));
-        // }
-        // if (modelFilter.isBody) {
-        //   step2 = step2.concat(data.filter((item) => item.isBody === modelFilter.isBody));
-        // }
-
-        // if (modelFilter.isHandsFeet) {
-        //   step2 = step2.concat(res.filter((item) => item.isHandsFeet === modelFilter.isHandsFeet));
-        // }
-        // if (modelFilter.isHeader) {
-        //   step2 = step2.concat(res.filter((item) => item.isHeader === modelFilter.isHeader));
-        // }
-        // if (modelFilter.isStill) {
-        //   step2 = step2.concat(res.filter((item) => item.isStill === modelFilter.isStill));
-        // }
-        return data;
-      }),
-    {
-      getNextPageParam: (lastPage, allPages) => allPages.length + 1,
-    }
-  );
-  console.log("hasNextPage", hasNextPage);
+  const { data, hasNextPage, fetchNextPage, isFetchedAfterMount } =
+    useInfiniteQuery(
+      [
+        "models",
+        dynamics.modelFilter.isClothes,
+        dynamics.modelFilter.isBody,
+        dynamics.modelFilter.isFemale,
+        dynamics.modelFilter.isHandsFeet,
+        dynamics.modelFilter.isHeader,
+        dynamics.modelFilter.isMale,
+        dynamics.modelFilter.isStill,
+      ],
+      ({ pageParam = 1 }) =>
+        queryData(pageParam).then((res) => {
+          const { modelFilter } = dynamics;
+          const data: ModelType[] = [];
+          res.forEach((item) => {
+            const {
+              isClothes,
+              isBody,
+              isMale,
+              isFemale,
+              isHeader,
+              isHandsFeet,
+            } = item;
+            if (
+              (modelFilter.isClothes === isClothes ||
+                modelFilter.isBody === isBody) &&
+              (modelFilter.isMale === isMale ||
+                modelFilter.isFemale === isFemale) &&
+              modelFilter.isHeader === isHeader &&
+              modelFilter.isHandsFeet === isHandsFeet
+            ) {
+              data.push(item);
+            }
+          });
+          return data;
+        }),
+      {
+        getNextPageParam: (lastPage, allPages) => false,
+      }
+    );
 
   const result = data?.pages.flat();
   const navigate = useNavigate();
@@ -124,6 +110,7 @@ const List: React.FC<Props> = ({}) => {
 
   return (
     <div className={s.root}>
+      {isFetchedAfterMount ? null : <BlockLoading className={s.pageloading} />}
       <NavigateBar
         left={
           <>
@@ -155,7 +142,11 @@ const List: React.FC<Props> = ({}) => {
       >
         选择模特
       </NavigateBar>
-      <PullToRefresh onPullUp={fetchNextPage} disablePullDown>
+      <PullToRefresh
+        onPullUp={fetchNextPage}
+        disablePullDown
+        disablePullUp={!hasNextPage}
+      >
         <Space className={s.navspace} />
         <PicList
           column={3}

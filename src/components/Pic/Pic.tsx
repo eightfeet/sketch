@@ -37,15 +37,13 @@ const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement> & Args> = ({
 }) => {
   const first = useRef<HTMLDivElement>(null);
 
-  const { isIntersecting, intersectionRatio } =
+  const { isIntersecting } =
     useIntersectionObserver(first, {
       threshold,
       root,
       rootMargin,
       freezeOnceVisible,
     }) || {};
-
-  console.log("elements", isIntersecting, intersectionRatio);
 
   const styles = {
     width,
@@ -64,24 +62,29 @@ const Pic: React.FC<Props & HTMLAttributes<HTMLDivElement> & Args> = ({
       style={styles}
       {...other}
     >
+      {!picLink || isErrorLoaded ? (
+        <img src={defaultPic || defaultImg} alt={alt} className={s.default} />
+      ) : null}
       {/**加载时显示loading */}
       {picLink && isErrorLoaded === undefined ? (
         loaded === true ? null : (
           <BlockLoading className={s.loading} />
         )
       ) : null}
-      {!picLink || isErrorLoaded ? (
-        <img src={defaultPic || defaultImg} alt={alt} className={s.default} />
-      ) : (
+      {picLink && !isErrorLoaded ? (
         <img
+          key={picLink}
           className={s.pic}
-          onError={() => setIsErrorLoaded(true)}
+          onError={() => {
+            setIsErrorLoaded(true);
+            setLoaded(false);
+          }}
           onLoad={() => setLoaded(true)}
           src={picLink}
           alt={alt}
           style={imgStyle}
         />
-      )}
+      ) : null}
     </div>
   );
 };

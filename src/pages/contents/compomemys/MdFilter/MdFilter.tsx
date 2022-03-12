@@ -12,7 +12,7 @@ interface Props {}
 const MdFilter: React.FC<Props> = () => {
   const [showClockModal, setShowClockModal] = useState(false);
   const { modelFilter } = useSelector((state: RootState) => state).dynamics;
-  const { setModelFilter } = useDispatch<RootDispatch>().dynamics;
+  const { setModelFilter, setModelList } = useDispatch<RootDispatch>().dynamics;
 
   const handle = useCallback(
     (item: string) => () => {
@@ -21,8 +21,9 @@ const MdFilter: React.FC<Props> = () => {
         ...modelFilter,
         [item]: !(modelFilter as any)[item],
       });
+      setModelList([]);
     },
-    [modelFilter, setModelFilter]
+    [modelFilter, setModelFilter, setModelList]
   );
 
   return (
