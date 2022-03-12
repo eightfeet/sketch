@@ -142,7 +142,7 @@ const View: React.FC<Props> = ({}) => {
   }, [suiji]);
 
   return (
-    <div className={s.root}>
+    <div className={s.root} key={"wIsx"}>
       <div className={s.back}>
         <Icons type="dark" onClick={() => navigate("/", { replace: true })}>
           <ArrowLeft />
