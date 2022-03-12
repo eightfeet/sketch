@@ -126,7 +126,6 @@ const View: React.FC<Props> = ({}) => {
   }, []);
 
   const handleSlideChange = useCallback((currentSwiper: SwiperCore) => {
-    console.log(currentSwiper.activeIndex);
     (swiperRef as any).current = currentSwiper;
     setTimeout(() => {
       setInitTime(true);

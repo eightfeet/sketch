@@ -16,6 +16,7 @@ import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import { queryPicByModelId } from "~/api/sketch";
 import PicFilter from "./components/PicFilter";
+import BlockLoading from "~/components/BlockLoading";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -34,35 +35,36 @@ const List: React.FC<Props> = ({}) => {
   const { onTogglePictureList, setPictureList, initPictureList } =
     useDispatch<RootDispatch>().dynamics;
 
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    [
-      "picture",
-      dynamics.modelList.length,
-      dynamics.pictureFilter.isX,
-      dynamics.pictureFilter.isY,
-    ],
-    ({ pageParam = 0 }) => {
-      return queryPicByModelId(pageParam).then((res) => {
-        const data = [
-          ...(dynamics.pictureFilter.isX
-            ? res.filter((item) => item.isX === dynamics.pictureFilter.isX)
-            : []),
-          ...(dynamics.pictureFilter.isY
-            ? res.filter((item) => item.isY === dynamics.pictureFilter.isY)
-            : []),
-        ];
-        return data;
-      });
-    },
-    {
-      getNextPageParam: (_, allpage) => {
-        if (dynamics.modelList.length > allpage.length) {
-          return allpage.length;
-        }
-        return false;
+  const { data, hasNextPage, fetchNextPage, isFetchedAfterMount } =
+    useInfiniteQuery(
+      [
+        "picture",
+        dynamics.modelList.length,
+        dynamics.pictureFilter.isX,
+        dynamics.pictureFilter.isY,
+      ],
+      ({ pageParam = 0 }) => {
+        return queryPicByModelId(pageParam).then((res) => {
+          const data = [
+            ...(dynamics.pictureFilter.isX
+              ? res.filter((item) => item.isX === dynamics.pictureFilter.isX)
+              : []),
+            ...(dynamics.pictureFilter.isY
+              ? res.filter((item) => item.isY === dynamics.pictureFilter.isY)
+              : []),
+          ];
+          return data;
+        });
       },
-    }
-  );
+      {
+        getNextPageParam: (_, allpage) => {
+          if (dynamics.modelList.length > allpage.length) {
+            return allpage.length;
+          }
+          return false;
+        },
+      }
+    );
 
   const result = data?.pages.flat();
   const navigate = useNavigate();
@@ -86,6 +88,7 @@ const List: React.FC<Props> = ({}) => {
 
   return (
     <div className={s.root}>
+      {!isFetchedAfterMount ? <BlockLoading /> : null}
       <NavigateBar
         left={
           <>
