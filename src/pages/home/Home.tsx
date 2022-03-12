@@ -4,8 +4,14 @@ import s from "./Home.module.scss";
 import { useNavigate } from "react-router-dom";
 import WingBlank from "~/components/WingBlank";
 import Swiper from "~/components/Swiper";
-import img from "./show.jpg";
+import img from "./show.jpeg";
 import img2 from "./show2.jpeg";
+import img3 from "./show3.jpeg";
+import img4 from "./show4.jpeg";
+import img5 from "./show5.jpeg";
+import img6 from "./show6.jpeg";
+import img7 from "./show7.jpeg";
+import img8 from "./show8.jpeg";
 import Icons from "~/components/Icons";
 import LiseCard from "~/components/Icons/LiseCard";
 import ArrowRight from "~/components/Icons/ArrowRight";
@@ -49,7 +55,17 @@ const Home: React.FC<Props> = () => {
       <WingBlank className={s.swiperwrap}>
         <Swiper
           className={s.swiper}
-          data={[{ src: img }, { src: img2 }]}
+          keyboard
+          data={[
+            { src: img },
+            { src: img2 },
+            { src: img3 },
+            { src: img4 },
+            { src: img5 },
+            { src: img6 },
+            { src: img7 },
+            { src: img8 },
+          ]}
           autoplay
           loop
           effect="fade"
