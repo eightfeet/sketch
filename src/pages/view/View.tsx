@@ -26,7 +26,7 @@ const renderTime =
     return (
       <div className={s.timercount}>
         <div className={s.ind}>
-          {index}/{length}
+          {(index % length) + 1}/{length}
         </div>
         <div>{ShowCountDown(arrivedTime(remainingTime))}</div>
       </div>
