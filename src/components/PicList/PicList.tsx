@@ -13,6 +13,7 @@ interface Props {
   width?: number;
   onClickSelect?: (item: ModelType) => void;
   selectedData?: ModelType[];
+  type?: "picture" | "model";
 }
 
 const PicList: React.FC<Props> = ({

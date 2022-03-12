@@ -37,6 +37,7 @@ const PicFilter: React.FC<Props> = () => {
             return (
               <Button
                 onClick={handle(item)}
+                key={item}
                 type={(pictureFilter as any)[item] ? "dark" : "darkoutline"}
               >
                 {item === "isX" ? "横向" : null}

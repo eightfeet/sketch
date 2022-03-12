@@ -43,11 +43,14 @@ const List: React.FC<Props> = ({}) => {
     ],
     ({ pageParam = 0 }) => {
       return queryPicByModelId(pageParam).then((res) => {
-        const data = res.filter(
-          (item) =>
-            item.isX === dynamics.pictureFilter.isX ||
-            item.isY === dynamics.pictureFilter.isY
-        );
+        const data = [
+          ...(dynamics.pictureFilter.isX
+            ? res.filter((item) => item.isX === dynamics.pictureFilter.isX)
+            : []),
+          ...(dynamics.pictureFilter.isY
+            ? res.filter((item) => item.isY === dynamics.pictureFilter.isY)
+            : []),
+        ];
         return data;
       });
     },

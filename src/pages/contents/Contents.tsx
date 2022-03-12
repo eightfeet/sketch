@@ -57,27 +57,43 @@ const List: React.FC<Props> = ({}) => {
     ],
     ({ pageParam = 1 }) =>
       queryData(pageParam).then((res) => {
-        const data = [
-          ...res.filter(
-            (item) => item.isClothes === dynamics.modelFilter.isClothes
-          ),
-          ...res.filter(
-            (item) => item.isClothes === dynamics.modelFilter.isClothes
-          ),
-          ...res.filter(
-            (item) => item.isFemale === dynamics.modelFilter.isFemale
-          ),
-          ...res.filter(
-            (item) => item.isHandsFeet === dynamics.modelFilter.isHandsFeet
-          ),
-          ...res.filter(
-            (item) => item.isHeader === dynamics.modelFilter.isHeader
-          ),
-          ...res.filter((item) => item.isMale === dynamics.modelFilter.isMale),
-          ...res.filter(
-            (item) => item.isStill === dynamics.modelFilter.isStill
-          ),
-        ];
+        const { modelFilter } = dynamics;
+        const data: ModelType[] = [];
+        res.forEach((item) => {
+          const { isClothes, isBody, isMale, isFemale, isHeader, isHandsFeet } =
+            item;
+          if (
+            (modelFilter.isClothes === isClothes ||
+              modelFilter.isBody === isBody) &&
+            (modelFilter.isMale === isMale ||
+              modelFilter.isFemale === isFemale) &&
+            modelFilter.isHeader === isHeader &&
+            modelFilter.isHandsFeet === isHandsFeet
+          ) {
+            data.push(item);
+          }
+        });
+
+        // if (modelFilter.isMale) {
+        //   data = data.concat(res.filter((item) => item.isMale === modelFilter.isMale));
+        // }
+        // let step2: ModelType[] = []
+        // if (modelFilter.isClothes) {
+        //   step2 = step2.concat(data.filter((item) => item.isClothes === modelFilter.isClothes));
+        // }
+        // if (modelFilter.isBody) {
+        //   step2 = step2.concat(data.filter((item) => item.isBody === modelFilter.isBody));
+        // }
+
+        // if (modelFilter.isHandsFeet) {
+        //   step2 = step2.concat(res.filter((item) => item.isHandsFeet === modelFilter.isHandsFeet));
+        // }
+        // if (modelFilter.isHeader) {
+        //   step2 = step2.concat(res.filter((item) => item.isHeader === modelFilter.isHeader));
+        // }
+        // if (modelFilter.isStill) {
+        //   step2 = step2.concat(res.filter((item) => item.isStill === modelFilter.isStill));
+        // }
         return data;
       }),
     {

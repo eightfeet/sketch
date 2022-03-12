@@ -52,13 +52,13 @@ const INITIAL_STATE: DynamicsState = {
     isY: true,
   },
   modelFilter: {
+    isMale: false,
+    isFemale: false,
     isClothes: true,
     isBody: false,
-    isMale: true,
-    isFemale: true,
-    isHeader: true,
-    isHandsFeet: true,
-    isStill: true,
+    isHeader: false,
+    isHandsFeet: false,
+    isStill: false,
   },
 };
 

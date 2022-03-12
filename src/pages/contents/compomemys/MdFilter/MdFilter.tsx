@@ -36,13 +36,14 @@ const MdFilter: React.FC<Props> = () => {
           {Object.keys(modelFilter).map((item: string) => {
             return (
               <Button
+                key={item}
                 onClick={handle(item)}
                 type={(modelFilter as any)[item] ? "dark" : "darkoutline"}
               >
                 {item === "isClothes" ? "着衣" : null}
                 {item === "isBody" ? "人体" : null}
-                {item === "isMale" ? "女性" : null}
-                {item === "isFemale" ? "男性" : null}
+                {item === "isFemale" ? "女性" : null}
+                {item === "isMale" ? "男性" : null}
                 {item === "isHeader" ? "头像" : null}
                 {item === "isHandsFeet" ? "手足" : null}
                 {item === "isStill" ? "静物" : null}
