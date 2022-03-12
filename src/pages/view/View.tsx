@@ -53,7 +53,7 @@ const View: React.FC<Props> = ({}) => {
     window.innerWidth >= window.innerHeight
   );
   const [suiji, setSuiji] = useState(false);
-  const [initTime, setInitTime] = useState(false);
+  const [initTime, setInitTime] = useState(true);
   const [data, setData] = useState<ModelType[]>([]);
   const navigate = useNavigate();
 
@@ -127,13 +127,20 @@ const View: React.FC<Props> = ({}) => {
 
   const handleSlideChange = useCallback((currentSwiper: SwiperCore) => {
     console.log(currentSwiper.activeIndex);
-
     (swiperRef as any).current = currentSwiper;
     setTimeout(() => {
       setInitTime(true);
     }, 1000);
     setInitTime(false);
   }, []);
+
+  const handleSuiJi = useCallback(() => {
+    setSuiji(!suiji);
+    setTimeout(() => {
+      setInitTime(true);
+    }, 100);
+    setInitTime(false);
+  }, [suiji]);
 
   return (
     <div className={s.root}>
@@ -142,12 +149,11 @@ const View: React.FC<Props> = ({}) => {
           <ArrowLeft />
         </Icons>
 
-        <Icons type="dark" className={s.icon} onClick={() => setSuiji(!suiji)}>
+        <Icons type="dark" className={s.icon} onClick={handleSuiJi}>
           {!suiji ? <SuiJi /> : <AnXu />}
         </Icons>
       </div>
       <Swiper
-        key={`${suiji}`}
         lazy={{
           enabled: true,
           loadPrevNext: true,
