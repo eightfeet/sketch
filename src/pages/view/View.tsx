@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
-import SwiperCore, { Autoplay, EffectFade, Keyboard, Lazy } from "swiper";
+import SwiperCore, { Autoplay, EffectFade, Keyboard, Lazy, Zoom } from "swiper";
 import s from "./View.module.scss";
 import Pic from "~/components/Pic";
 import { useSelector } from "react-redux";
@@ -16,7 +16,7 @@ import SuiJi from "~/components/Icons/SuiJi";
 import AnXu from "~/components/Icons/AnXU";
 import { ModelType } from "~/types/models";
 
-SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard]);
+SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
 interface Props {}
 
@@ -49,9 +49,6 @@ const View: React.FC<Props> = ({}) => {
   const { pictureList, keepingTime } = useSelector(
     (state: RootState) => state.dynamics
   );
-  const [wIsx, setWIsx] = useState<boolean>(
-    window.innerWidth >= window.innerHeight
-  );
   const [suiji, setSuiji] = useState(false);
   const [initTime, setInitTime] = useState(true);
   const [data, setData] = useState<ModelType[]>([]);
@@ -61,20 +58,6 @@ const View: React.FC<Props> = ({}) => {
     const currentData = setPic(pictureList, suiji);
     setData([...currentData]);
   }, [suiji, pictureList]);
-
-  useEffect(() => {
-    const fn = () => {
-      if (window.innerWidth >= window.innerHeight) {
-        setWIsx(true);
-      } else {
-        setWIsx(false);
-      }
-    };
-    window.addEventListener("resize", fn, false);
-    return () => {
-      window.removeEventListener("resize", fn);
-    };
-  }, []);
 
   const renderPic = useCallback(
     () =>
@@ -112,7 +95,11 @@ const View: React.FC<Props> = ({}) => {
 
         return (
           <SwiperSlide key={`${suiji}${picPath}`}>
-            <Pic className={s.pic} imgStyle={imgStyle} src={picPath} />
+            <Pic
+              className={`swiper-zoom-container ${s.pic}`}
+              imgStyle={imgStyle}
+              src={picPath}
+            />
           </SwiperSlide>
         );
       }),
@@ -154,6 +141,10 @@ const View: React.FC<Props> = ({}) => {
       </div>
       <Swiper
         keyboard
+        zoom={{
+          maxRatio: 5,
+          minRatio: 2,
+        }}
         lazy={{
           enabled: true,
           loadPrevNext: true,
