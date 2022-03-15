@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import WingBlank from "~/components/WingBlank";
 import Swiper from "~/components/Swiper";
 import img from "./show.jpeg";
-import img2 from "./show2.jpeg";
 import img3 from "./show3.jpeg";
 import img4 from "./show4.jpeg";
 import img5 from "./show5.jpeg";
@@ -60,7 +59,6 @@ const Home: React.FC<Props> = () => {
           keyboard
           data={[
             { src: img },
-            { src: img2 },
             { src: img3 },
             { src: img4 },
             { src: img5 },
