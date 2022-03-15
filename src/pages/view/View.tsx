@@ -158,7 +158,7 @@ const View: React.FC<Props> = ({}) => {
           <SketchTimer>
             <CountdownCircleTimer
               isPlaying
-              duration={keepingTime * 60}
+              duration={(keepingTime || 0) * 60}
               colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[60, 30, 20, 0]}
               trailColor={"rgba(144,144,144,0.5)"}

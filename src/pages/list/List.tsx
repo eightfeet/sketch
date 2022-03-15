@@ -102,7 +102,7 @@ const List: React.FC<Props> = ({}) => {
                   ? dynamics.pictureList.length
                   : undefined
               }
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/", { replace: true })}
             >
               <ArrowLeft />
             </Icons>
@@ -130,7 +130,7 @@ const List: React.FC<Props> = ({}) => {
                   ? dynamics.modelList.length
                   : undefined
               }
-              onClick={() => navigate("/contents")}
+              onClick={() => navigate("/contents", { replace: true })}
             >
               <IModels />
             </Icons>
@@ -156,7 +156,10 @@ const List: React.FC<Props> = ({}) => {
           <div className={s.nodata}>
             没有内容了,您可以择更多图片类目
             <br />
-            <Icons type="light" onClick={() => navigate("/contents")}>
+            <Icons
+              type="light"
+              onClick={() => navigate("/contents", { replace: true })}
+            >
               <ArrowRight />
             </Icons>
           </div>

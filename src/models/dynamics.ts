@@ -38,7 +38,7 @@ export interface ModelFilter {
 type DynamicsState = {
   modelList: ModelType[];
   pictureList: ModelType[];
-  keepingTime: number;
+  keepingTime?: number;
   pictureFilter: PictureFilter;
   modelFilter: ModelFilter;
 };
@@ -136,7 +136,7 @@ export const dynamics = createModel<RootModel>()({
 
     setKeepingTime: (
       { keepingTime, ...other }: DynamicsState,
-      payload: number
+      payload: number | undefined
     ) => {
       return {
         ...other,

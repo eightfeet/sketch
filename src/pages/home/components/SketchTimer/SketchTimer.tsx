@@ -19,7 +19,7 @@ const SketchTimer: React.FC<Props> = ({ children }) => {
   const { setKeepingTime } = useDispatch<RootDispatch>().dynamics;
   const onChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
-      const value = Number(e.target.value);
+      const value = e.target.value ? Number(e.target.value) : undefined;
       setKeepingTime(value);
     },
     [setKeepingTime]
@@ -46,7 +46,7 @@ const SketchTimer: React.FC<Props> = ({ children }) => {
         <Modal.Header>设置时间</Modal.Header>
         <div>
           <Input
-            type={"number"}
+            type={"tel"}
             placeholder="请输入时长（分钟）"
             value={keepingTime}
             prefix=""

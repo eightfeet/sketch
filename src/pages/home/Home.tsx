@@ -32,7 +32,9 @@ const Home: React.FC<Props> = () => {
 
   const onPlay = useCallback(() => {
     if (pictureList.length && keepingTime) {
-      navigate("/view");
+      navigate("/view", {
+        replace: true,
+      });
     } else if (!pictureList.length) {
       message({
         title: "提示",
@@ -74,7 +76,10 @@ const Home: React.FC<Props> = () => {
       <WingBlank className={s.feature}>
         <div className={s.menu}>
           <SketchTimer />
-          <Icons tip={pictureList.length} onClick={() => navigate("/models")}>
+          <Icons
+            tip={pictureList.length}
+            onClick={() => navigate("/models", { replace: true })}
+          >
             <LiseCard />
           </Icons>
           <Icons
@@ -94,7 +99,7 @@ const Home: React.FC<Props> = () => {
           速写预计持续
           {dayjs
             .duration({
-              minutes: pictureList.length * keepingTime,
+              minutes: pictureList.length * (keepingTime || 0),
             })
             .asHours()
             .toFixed(2)}
