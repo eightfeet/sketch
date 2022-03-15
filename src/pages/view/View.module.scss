@@ -12,6 +12,10 @@
   background-color: #000 !important;
   touch-action: none;
   overflow: visible !important;
+  user-select: none !important;
+  img {
+    user-select: none !important;
+  }
 }
 
 .timer {
