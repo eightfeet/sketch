@@ -18,8 +18,12 @@ body {
   input[type="submit"],
   input[type="reset"],
   input[type="number"],
-  input[type="text"] {
+  input[type="text"],
+  input[type="tel"] {
     -webkit-appearance: none !important;
+    &::placeholder {
+      font-size: $fontsmaller;
+    }
   }
   button {
     border-radius: 0;

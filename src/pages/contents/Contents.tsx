@@ -122,7 +122,7 @@ const List: React.FC<Props> = ({}) => {
                   ? dynamics.modelList.length
                   : undefined
               }
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/models", { replace: true })}
             >
               <ArrowLeft />
             </Icons>
