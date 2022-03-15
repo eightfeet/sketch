@@ -143,7 +143,6 @@ const View: React.FC<Props> = ({}) => {
         keyboard
         zoom={{
           maxRatio: 5,
-          minRatio: 2,
         }}
         lazy={{
           enabled: true,
