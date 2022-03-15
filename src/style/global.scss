@@ -22,7 +22,10 @@ body {
   input[type="tel"] {
     -webkit-appearance: none !important;
     &::placeholder {
-      font-size: $fontsmaller;
+      font-size: $fontsmall;
+    }
+    &:focus {
+      outline: none;
     }
   }
   button {
