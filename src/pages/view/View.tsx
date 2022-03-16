@@ -6,15 +6,14 @@ import s from "./View.module.scss";
 import Pic from "~/components/Pic";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { arrivedTime, ShowCountDown } from "~/core/utils";
 import Icons from "~/components/Icons";
 import ArrowLeft from "~/components/Icons/ArrowLeft";
 import { useNavigate } from "react-router-dom";
-import SketchTimer from "../home/components/SketchTimer";
 import SuiJi from "~/components/Icons/SuiJi";
 import AnXu from "~/components/Icons/AnXU";
 import { ModelType } from "~/types/models";
+import Timer from "./components/Timer";
+import dayjs from "dayjs";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -28,27 +27,8 @@ function setPic(arr: ModelType[], random: boolean) {
   });
 }
 
-const renderTime =
-  (index: number, length: number) =>
-  ({ remainingTime }: { remainingTime: number }) => {
-    if (remainingTime === 0) {
-      return <div className={s.timercount}>next</div>;
-    }
-
-    return (
-      <div className={s.timercount}>
-        <div className={s.ind}>
-          {(index % length) + 1}/{length}
-        </div>
-        <div>{ShowCountDown(arrivedTime(remainingTime))}</div>
-      </div>
-    );
-  };
-
-const View: React.FC<Props> = ({}) => {
-  const { pictureList, keepingTime } = useSelector(
-    (state: RootState) => state.dynamics
-  );
+const View: React.FC<Props> = () => {
+  const { pictureList } = useSelector((state: RootState) => state.dynamics);
   const [suiji, setSuiji] = useState(false);
   const [initTime, setInitTime] = useState(true);
   const [data, setData] = useState<ModelType[]>([]);
@@ -108,12 +88,7 @@ const View: React.FC<Props> = ({}) => {
 
   const swiperRef = React.useRef<SwiperCore>(null);
 
-  const handleNext = useCallback(() => {
-    swiperRef.current?.slideNext();
-  }, []);
-
   const handleSlideChange = useCallback((currentSwiper: SwiperCore) => {
-    (swiperRef as any).current = currentSwiper;
     setTimeout(() => {
       setInitTime(true);
     }, 1000);
@@ -127,6 +102,12 @@ const View: React.FC<Props> = ({}) => {
     }, 100);
     setInitTime(false);
   }, [suiji]);
+
+  const onInit = useCallback((currentSwiper) => {
+    (swiperRef as any).current = currentSwiper;
+  }, []);
+
+  const handleComplete = useCallback(() => swiperRef.current?.slideNext(), []);
 
   return (
     <div className={s.root} key={"wIsx"}>
@@ -150,28 +131,19 @@ const View: React.FC<Props> = ({}) => {
         }}
         loop
         onSlideChange={handleSlideChange}
+        onInit={onInit}
       >
         {renderPic()}
       </Swiper>
       <div className={s.timer}>
         {initTime ? (
-          <SketchTimer>
-            <CountdownCircleTimer
-              isPlaying
-              duration={(keepingTime || 0) * 60}
-              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-              colorsTime={[60, 30, 20, 0]}
-              trailColor={"rgba(144,144,144,0.5)"}
-              size={80}
-              strokeWidth={3}
-              onComplete={handleNext}
-            >
-              {renderTime(
-                swiperRef.current?.activeIndex || 0,
-                pictureList?.length
-              )}
-            </CountdownCircleTimer>
-          </SketchTimer>
+          <Timer
+            onComplete={handleComplete}
+            frizeTime={dayjs()}
+            info={`${
+              ((swiperRef.current?.activeIndex || 0) % pictureList?.length) + 1
+            }/${pictureList?.length}`}
+          />
         ) : null}
       </div>
     </div>
