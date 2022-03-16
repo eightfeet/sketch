@@ -45,8 +45,8 @@ const Timer: React.FC<Props> = ({ onComplete, frizeTime, info }) => {
 
       return (
         <div className={s.timercount}>
-          <div className={s.ind}>{time}</div>
-          <div>{info}</div>
+          <div className={s.index}>{info}</div>
+          <div className={s.time}>{time}</div>
         </div>
       );
     },
@@ -60,8 +60,8 @@ const Timer: React.FC<Props> = ({ onComplete, frizeTime, info }) => {
       colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
       colorsTime={[60, 30, 20, 0]}
       trailColor={"rgba(144,144,144,0.5)"}
-      size={80}
-      strokeWidth={3}
+      size={70}
+      strokeWidth={2}
       onComplete={onComplete}
     >
       {renderTime}

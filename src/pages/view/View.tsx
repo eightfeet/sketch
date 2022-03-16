@@ -14,6 +14,7 @@ import AnXu from "~/components/Icons/AnXU";
 import { ModelType } from "~/types/models";
 import Timer from "./components/Timer";
 import dayjs from "dayjs";
+import SketchTimer from "../home/components/SketchTimer";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -136,15 +137,18 @@ const View: React.FC<Props> = () => {
         {renderPic()}
       </Swiper>
       <div className={s.timer}>
-        {initTime ? (
-          <Timer
-            onComplete={handleComplete}
-            frizeTime={dayjs()}
-            info={`${
-              ((swiperRef.current?.activeIndex || 0) % pictureList?.length) + 1
-            }/${pictureList?.length}`}
-          />
-        ) : null}
+        <SketchTimer>
+          {initTime ? (
+            <Timer
+              onComplete={handleComplete}
+              frizeTime={dayjs()}
+              info={`${
+                ((swiperRef.current?.activeIndex || 0) % pictureList?.length) +
+                1
+              }/${pictureList?.length}`}
+            />
+          ) : null}
+        </SketchTimer>
       </div>
     </div>
   );

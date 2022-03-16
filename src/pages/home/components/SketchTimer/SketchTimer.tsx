@@ -38,7 +38,10 @@ const SketchTimer: React.FC<Props> = ({ children }) => {
       {children ? (
         <span onClick={() => setShowClockModal(true)}>{children}</span>
       ) : (
-        <Icons tip={`${keepingTime}m`} onClick={() => setShowClockModal(true)}>
+        <Icons
+          tip={`${keepingTime || "-"}m`}
+          onClick={() => setShowClockModal(true)}
+        >
           <Clock />
         </Icons>
       )}
@@ -48,12 +51,12 @@ const SketchTimer: React.FC<Props> = ({ children }) => {
           <Input
             type={"tel"}
             placeholder="请输入时长（分钟）"
-            value={keepingTime}
+            value={keepingTime || ""}
             prefix=""
             onBlur={onBlur}
             onChange={onChange}
           />
-          <div className={s.info}>每张素材计时{keepingTime}分钟</div>
+          <div className={s.info}>每张素材计时{keepingTime || "-"}分钟</div>
         </div>
         <Modal.Footer>
           <Button style={{ width: "85%" }} onClick={onOk}>

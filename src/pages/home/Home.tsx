@@ -96,12 +96,12 @@ const Home: React.FC<Props> = () => {
         <div className={s.info}>
           速写预计持续
           {dayjs
-            .duration({
-              minutes: pictureList.length * (keepingTime || 0),
-            })
-            .asHours()
-            .toFixed(2)}
-          小时
+            .duration(
+              dayjs()
+                .add((keepingTime || 0) * pictureList.length, "minute")
+                .diff(dayjs())
+            )
+            .format("HH时mm分ss秒")}
         </div>
         <div className={s.clear} onClick={reset}>
           重制应用
