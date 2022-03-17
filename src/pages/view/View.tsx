@@ -147,7 +147,9 @@ const View: React.FC<Props> = () => {
                 1
               }/${pictureList?.length}`}
             />
-          ) : null}
+          ) : (
+            <span></span>
+          )}
         </SketchTimer>
       </div>
     </div>
