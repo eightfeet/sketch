@@ -32,7 +32,7 @@ const readData = async () => {
 const writeData = async (data) => {
   console.log(data);
   const modelsIndex = []
-  for (let index = 1; index <= 253; index++) {
+  for (let index = 1; index <= 254; index++) {
       const mdid = index < 10 ? `0${index}` : index;
       const models = [];
       for (let ind = 0; ind < data.length; ind++) {
