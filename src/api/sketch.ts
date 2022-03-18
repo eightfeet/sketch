@@ -8,3 +8,8 @@ export function queryPicByModelId(index: number) {
   const id = mdId?.replace("md", "");
   return sketch.get<ModelType[]>(`/models/models${id}.json`);
 }
+
+export function queryContByPage(page: number, total: number) {
+  if (page > total) return Promise.reject("没有更多了");
+  return sketch.get<ModelType[]>(`/contents/modelsIndex_${page}.json`);
+}

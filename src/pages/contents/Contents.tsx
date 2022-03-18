@@ -17,6 +17,8 @@ import UnselectAll from "~/components/Icons/UnselectAll";
 import MdFilter from "./compomemys/MdFilter";
 import BlockLoading from "~/components/BlockLoading";
 import { isMobile } from "~/core/utils";
+import { queryContByPage } from "~/api/sketch";
+import { message } from "~/components/Modal";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -35,17 +37,6 @@ const List: React.FC<Props> = ({}) => {
   const { onToggleModelList, setModelList, initModelList } =
     useDispatch<RootDispatch>().dynamics;
 
-  const queryData: (pageParam: number) => Promise<ModelType[]> = useCallback(
-    (pageParam) =>
-      new Promise((resove) => {
-        setTimeout(() => {
-          console.log(pageParam);
-          resove(mkdata as ModelType[]);
-        }, 1000);
-      }),
-    []
-  );
-
   const { data, hasNextPage, fetchNextPage, isFetchedAfterMount } =
     useInfiniteQuery(
       [
@@ -59,9 +50,11 @@ const List: React.FC<Props> = ({}) => {
         dynamics.modelFilter.isStill,
       ],
       ({ pageParam = 1 }) =>
-        queryData(pageParam).then((res) => {
+        queryContByPage(pageParam, 12).then((res) => {
           const { modelFilter } = dynamics;
           const data: ModelType[] = [];
+          if (!pageParam) return data;
+
           res.forEach((item) => {
             const {
               isClothes,
@@ -82,10 +75,26 @@ const List: React.FC<Props> = ({}) => {
               data.push(item);
             }
           });
+
+          if (!data.length)
+            message({
+              title: "提示",
+              content: "筛选条件下当前页无数据！点击确定获取下一页",
+              onOk: async (md) => {
+                await md.remove();
+                fetchNextPage();
+              },
+            });
+
           return data;
         }),
       {
-        getNextPageParam: (lastPage, allPages) => false,
+        getNextPageParam: (lastPage, allPages) => {
+          if (allPages.length < 12) {
+            return allPages.length + 1;
+          }
+          return false;
+        },
       }
     );
 
