@@ -62,11 +62,10 @@ const writeData = async (data) => {
       const models = [];
       for (let ind = 0; ind < data.length; ind++) {
         const element = data[ind];
-        const { isClothes, isBody, isMale, isFemale, isHeader, isHandsFeet } = element;
+        const { isStill } = element;
         if (element.mdId === `md${mdid}`) {
-          if (isClothes || isBody || isMale || isFemale || isHeader || isHandsFeet) {
-            element.isStill = false
-          } else {
+          element.isStill = false
+          if (isStill) {
             element.isStill = true
           }
           if (index <= 56) {
