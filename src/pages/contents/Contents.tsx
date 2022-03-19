@@ -19,6 +19,7 @@ import BlockLoading from "~/components/BlockLoading";
 import { isMobile } from "~/core/utils";
 import { queryContByPage } from "~/api/sketch";
 import { message } from "~/components/Modal";
+import useLoading from "~/hooks/useLoading";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -33,6 +34,7 @@ const List: React.FC<Props> = ({}) => {
       setSelectallpic(false);
     }
   }, [dynamics.modelList.length]);
+  const loading = useLoading();
 
   const { onToggleModelList, setModelList, initModelList } =
     useDispatch<RootDispatch>().dynamics;
@@ -63,7 +65,14 @@ const List: React.FC<Props> = ({}) => {
               isFemale,
               isHeader,
               isHandsFeet,
+              isStill,
             } = item;
+            if (modelFilter.isStill === true) {
+              if (isStill === true) {
+                data.push(item);
+              }
+              return;
+            }
             if (
               (modelFilter.isClothes === isClothes ||
                 modelFilter.isBody === isBody) &&
@@ -75,15 +84,9 @@ const List: React.FC<Props> = ({}) => {
               data.push(item);
             }
           });
-
           if (!data.length)
-            message({
-              title: "提示",
-              content: "筛选条件下当前页无数据！点击确定获取下一页",
-              onOk: async (md) => {
-                await md.remove();
-                fetchNextPage();
-              },
+            setTimeout(() => {
+              fetchNextPage();
             });
 
           return data;
