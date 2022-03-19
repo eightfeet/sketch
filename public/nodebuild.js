@@ -57,7 +57,7 @@ const writeData = async (data) => {
       console.log(error)
       return;
     }
-    for (let index = 1; index <= 256; index++) {
+    for (let index = 1; index <= 257; index++) {
       const mdid = index < 10 ? `0${index}` : index;
       const models = [];
       for (let ind = 0; ind < data.length; ind++) {
