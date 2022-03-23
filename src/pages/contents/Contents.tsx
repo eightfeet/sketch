@@ -52,7 +52,7 @@ const List: React.FC<Props> = ({}) => {
         dynamics.modelFilter.isStill,
       ],
       ({ pageParam = 1 }) =>
-        queryContByPage(pageParam, 12).then((res) => {
+        queryContByPage(pageParam, 13).then((res) => {
           const { modelFilter } = dynamics;
           const data: ModelType[] = [];
           if (!pageParam) return data;
@@ -66,19 +66,37 @@ const List: React.FC<Props> = ({}) => {
               isHeader,
               isHandsFeet,
               isStill,
+              isStructure,
             } = item;
+            if (modelFilter.isStructure === true) {
+              if (isStructure === true) {
+                data.push(item);
+              }
+              return;
+            }
             if (modelFilter.isStill === true) {
               if (isStill === true) {
                 data.push(item);
               }
               return;
             }
+
+            if (
+              modelFilter.isHeader === true &&
+              (modelFilter.isMale === isMale ||
+                modelFilter.isFemale === isFemale)
+            ) {
+              if (isHeader === true) {
+                data.push(item);
+              }
+              return;
+            }
+
             if (
               (modelFilter.isClothes === isClothes ||
                 modelFilter.isBody === isBody) &&
               (modelFilter.isMale === isMale ||
                 modelFilter.isFemale === isFemale) &&
-              modelFilter.isHeader === isHeader &&
               modelFilter.isHandsFeet === isHandsFeet
             ) {
               data.push(item);
@@ -93,7 +111,7 @@ const List: React.FC<Props> = ({}) => {
         }),
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (allPages.length < 12) {
+          if (allPages.length < 13) {
             return allPages.length + 1;
           }
           return false;

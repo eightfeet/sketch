@@ -4,7 +4,9 @@ import Button from "~/components/Button";
 import Icons from "~/components/Icons";
 import Filter from "~/components/Icons/Filter";
 import Modal from "~/components/Modal";
+import { ModelFilter } from "~/models/dynamics";
 import { RootDispatch, RootState } from "~/store";
+import { ModelType } from "~/types/models";
 import s from "./MdFilter.module.scss";
 
 interface Props {}
@@ -15,12 +17,39 @@ const MdFilter: React.FC<Props> = () => {
   const { setModelFilter, setModelList } = useDispatch<RootDispatch>().dynamics;
 
   const handle = useCallback(
-    (item: string) => () => {
-      console.log(item);
-      setModelFilter({
+    (item: keyof ModelFilter) => () => {
+      let data: ModelFilter = {
         ...modelFilter,
-        [item]: !(modelFilter as any)[item],
-      });
+        [item]: !modelFilter[item],
+      };
+      const off = () => {
+        data = {
+          isMale: false,
+          isFemale: false,
+          isClothes: false,
+          isBody: false,
+          isHeader: false,
+          isHandsFeet: false,
+          isStructure: false,
+          isStill: false,
+        };
+      };
+      switch (item) {
+        case "isStill":
+        case "isHandsFeet":
+        case "isStructure":
+          if (data[item]) {
+            off();
+            data[item] = true;
+          }
+          break;
+        default:
+          data.isStill = false;
+          data.isStructure = false;
+          data.isHandsFeet = false;
+          break;
+      }
+      setModelFilter(data);
       setModelList([]);
     },
     [modelFilter, setModelFilter, setModelList]
@@ -34,12 +63,16 @@ const MdFilter: React.FC<Props> = () => {
       <Modal visible={showClockModal} onCancel={() => setShowClockModal(false)}>
         <Modal.Header>筛选图片</Modal.Header>
         <div className={s.buttonwrap}>
-          {Object.keys(modelFilter).map((item: string) => {
+          {Object.keys(modelFilter).map((item: any) => {
             return (
               <Button
                 key={item}
                 onClick={handle(item)}
-                type={(modelFilter as any)[item] ? "dark" : "darkoutline"}
+                type={
+                  (modelFilter as keyof ModelType)[item]
+                    ? "dark"
+                    : "darkoutline"
+                }
               >
                 {item === "isClothes" ? "着衣" : null}
                 {item === "isBody" ? "人体" : null}
@@ -47,6 +80,7 @@ const MdFilter: React.FC<Props> = () => {
                 {item === "isMale" ? "男性" : null}
                 {item === "isHeader" ? "头像" : null}
                 {item === "isHandsFeet" ? "手足" : null}
+                {item === "isStructure" ? "肌肉结构" : null}
                 {item === "isStill" ? "静物" : null}
               </Button>
             );

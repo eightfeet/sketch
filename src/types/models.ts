@@ -11,5 +11,6 @@ export interface ModelType {
   mdId: string;
   selected: boolean;
   isStill: boolean;
+  isStructure?: boolean;
   from: string;
 }

@@ -31,6 +31,8 @@ export interface ModelFilter {
   isHeader?: boolean;
   /**手足 */
   isHandsFeet?: boolean;
+  /**肌肉结构 */
+  isStructure?: boolean;
   /**静物 */
   isStill?: boolean;
 }
@@ -58,6 +60,7 @@ const INITIAL_STATE: DynamicsState = {
     isBody: false,
     isHeader: false,
     isHandsFeet: false,
+    isStructure: false,
     isStill: false,
   },
 };
