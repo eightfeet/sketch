@@ -63,7 +63,7 @@ const writeData = async (data) => {
       for (let ind = 0; ind < data.length; ind++) {
         const element = data[ind];
         const { isStill } = element;
-        if (element.mdId === `md${mdid}`) {
+        if (element.mdId === `md${mdid}` && element.from !== 'md4') {
           element.isStill = false
           if (isStill) {
             element.isStill = true
@@ -88,27 +88,41 @@ const writeData = async (data) => {
     }
   })
 
+  for (let index = 57; index <= 67; index++) {
+    fs.readFile(`./data/models${index}.json`, 'utf8', (fileerr, data) => {
+      if (fileerr) {
+        throw fileerr
+      }
+      const currentData = JSON.parse(data);
+      modelsIndex.push(currentData[0]);
+    })
+    fs.copyFile(`./data/models${index}.json`, `./models/models${index}.json`, function (err) {
+      if (err) {
+        console.log(err)
+      }
+    });
+  }
+
   delDir('./contents')
   fs.mkdir('./contents', function (error) {
     if (error) {
       console.log(error)
       return;
     }
-    let contentsdata = [];
-    let page = 1;
-    modelsIndex.forEach((element, index) => {
-      const indfloat = (index + 1) % 10;
-      contentsdata.push(element)
-      if (indfloat === 0 || index + 1 === modelsIndex.length) {
-        fs.writeFileSync(`./contents/modelsIndex_${page}.json`, JSON.stringify(contentsdata));
-        contentsdata = [];
-        page = page + 1;
-      }
-    });
+    setTimeout(() => {
+      let contentsdata = [];
+      let page = 1;
+      modelsIndex.forEach((element, index) => {
+        const indfloat = (index + 1) % 10;
+        contentsdata.push(element)
+        if (indfloat === 0 || index + 1 === modelsIndex.length) {
+          fs.writeFileSync(`./contents/modelsIndex_${page}.json`, JSON.stringify(contentsdata));
+          contentsdata = [];
+          page = page + 1;
+        }
+      });
+    }, 1000);
   })
-
-
-
 }
 
 readData();
