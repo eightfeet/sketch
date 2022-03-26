@@ -37,6 +37,7 @@ const Video: React.FC<Props> = ({ style, picPath }) => {
         ref={vref}
         style={{ ...style, display: play ? "block" : "none" }}
         controls={false}
+        preload="auto"
         loop
         playsInline
       >
