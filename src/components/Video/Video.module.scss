@@ -1,0 +1,24 @@
+.video {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  img,
+  video {
+    transform: scale(1.5);
+  }
+}
+
+.pic {
+  width: 100%;
+  height: 100%;
+  border-radius: 0 !important;
+  background-color: #000 !important;
+  touch-action: none;
+  overflow: visible !important;
+  user-select: none !important;
+  img {
+    user-select: none !important;
+  }
+}

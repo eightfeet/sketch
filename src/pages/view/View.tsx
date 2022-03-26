@@ -15,6 +15,7 @@ import { ModelType } from "~/types/models";
 import Timer from "./components/Timer";
 import dayjs from "dayjs";
 import SketchTimer from "../home/components/SketchTimer";
+import Video from "~/components/Video";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -39,10 +40,6 @@ const View: React.FC<Props> = () => {
     const currentData = setPic(pictureList, suiji);
     setData([...currentData]);
   }, [suiji, pictureList]);
-
-  const vplay: React.MouseEventHandler<HTMLVideoElement> = useCallback((e) => {
-    (e.target as any).play();
-  }, []);
 
   const renderPic = useCallback(
     () =>
@@ -73,11 +70,7 @@ const View: React.FC<Props> = () => {
         if (from === "md3")
           picPath = `${process.env.REACT_APP_MPATH_M3}${picPath}`;
         if (from === "md4")
-          picPath = `${process.env.REACT_APP_MPATH_M4}${picPath}`.replace(
-            ".png",
-            ".mp4"
-          );
-        console.log(picPath);
+          picPath = `${process.env.REACT_APP_MPATH_M4}${picPath}`;
 
         const imgStyle: React.CSSProperties = {
           width: Width,
@@ -94,24 +87,13 @@ const View: React.FC<Props> = () => {
               />
             ) : (
               <div className={`swiper-zoom-container`}>
-                <div className={s.video}>
-                  <video
-                    style={imgStyle}
-                    controls={false}
-                    loop
-                    playsInline
-                    onClick={vplay}
-                  >
-                    <source src={picPath} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
+                <Video style={imgStyle} picPath={picPath} />
               </div>
             )}
           </SwiperSlide>
         );
       }),
-    [data, suiji, vplay]
+    [data, suiji]
   );
 
   const swiperRef = React.useRef<SwiperCore>(null);
