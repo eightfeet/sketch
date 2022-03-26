@@ -66,6 +66,8 @@ const PicList: React.FC<Props> = ({
         path = process.env.REACT_APP_MPATH_M2! + "small/" + path;
       if (item.from === "md3")
         path = process.env.REACT_APP_MPATH_M3! + "small/" + path;
+      if (item.from === "md4")
+        path = process.env.REACT_APP_MPATH_M4! + "small/" + path;
       const isSelected = selectedData?.some(
         (sItem) => sItem.imgUrl === item.imgUrl
       );

@@ -6,7 +6,6 @@ import ArrowLeft from "~/components/Icons/ArrowLeft";
 import NavigateBar from "~/components/NavigateBar";
 import PicList from "~/components/PicList";
 import Space from "~/components/Space";
-import mkdata from "./modelsIndex.json";
 import s from "./Contents.module.scss";
 import { useInfiniteQuery } from "react-query";
 import { ModelType } from "~/types/models";
@@ -18,7 +17,6 @@ import MdFilter from "./compomemys/MdFilter";
 import BlockLoading from "~/components/BlockLoading";
 import { isMobile } from "~/core/utils";
 import { queryContByPage } from "~/api/sketch";
-import { message } from "~/components/Modal";
 import useLoading from "~/hooks/useLoading";
 
 const winwidth = window.innerWidth * 0.98;
@@ -52,7 +50,7 @@ const List: React.FC<Props> = ({}) => {
         dynamics.modelFilter.isStill,
       ],
       ({ pageParam = 1 }) =>
-        queryContByPage(pageParam, 13).then((res) => {
+        queryContByPage(pageParam, 14).then((res) => {
           const { modelFilter } = dynamics;
           const data: ModelType[] = [];
           if (!pageParam) return data;
@@ -111,7 +109,7 @@ const List: React.FC<Props> = ({}) => {
         }),
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (allPages.length < 13) {
+          if (allPages.length < 14) {
             return allPages.length + 1;
           }
           return false;

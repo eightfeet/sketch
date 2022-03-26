@@ -40,6 +40,10 @@ const View: React.FC<Props> = () => {
     setData([...currentData]);
   }, [suiji, pictureList]);
 
+  const vplay: React.MouseEventHandler<HTMLVideoElement> = useCallback((e) => {
+    (e.target as any).play();
+  }, []);
+
   const renderPic = useCallback(
     () =>
       data?.map(({ imgUrl, from }, index) => {
@@ -68,6 +72,12 @@ const View: React.FC<Props> = () => {
           picPath = `${process.env.REACT_APP_MPATH_M2}${picPath}`;
         if (from === "md3")
           picPath = `${process.env.REACT_APP_MPATH_M3}${picPath}`;
+        if (from === "md4")
+          picPath = `${process.env.REACT_APP_MPATH_M4}${picPath}`.replace(
+            ".png",
+            ".mp4"
+          );
+        console.log(picPath);
 
         const imgStyle: React.CSSProperties = {
           width: Width,
@@ -76,15 +86,32 @@ const View: React.FC<Props> = () => {
 
         return (
           <SwiperSlide key={`${suiji}${picPath}`}>
-            <Pic
-              className={`swiper-zoom-container ${s.pic}`}
-              imgStyle={imgStyle}
-              src={picPath}
-            />
+            {from !== "md4" ? (
+              <Pic
+                className={`swiper-zoom-container ${s.pic}`}
+                imgStyle={imgStyle}
+                src={picPath}
+              />
+            ) : (
+              <div className={`swiper-zoom-container`}>
+                <div className={s.video}>
+                  <video
+                    style={imgStyle}
+                    controls={false}
+                    loop
+                    playsInline
+                    onClick={vplay}
+                  >
+                    <source src={picPath} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            )}
           </SwiperSlide>
         );
       }),
-    [data, suiji]
+    [data, suiji, vplay]
   );
 
   const swiperRef = React.useRef<SwiperCore>(null);
