@@ -50,33 +50,9 @@ const readData = async () => {
             if (currentDataItem[condition]) {
               resdata.tags.push(condition.replace('is',''))
             }
-              
           })
           newCurrentData.push(resdata)
         })
-
-        
-
-
-        // mdId
-        // * imgUrl: 'md11/767-x&600&500.png',
-        // isX: true,
-        // isY: false,
-        // isClothes: false,
-        // isBody: false,
-        // isMale: false,
-        // isFemale: false,
-        // isHeader: false,
-        // isHandsFeet: false,
-        // isHalf: false,
-        // isGroup: false,
-        // mdId: 'md67',
-        // selected: false,
-        // isStill: false,
-        // isStructure: true,
-        // from: 'md4'
-
-        // console.log(333, Array.isArray(currentData));
         allData = allData.concat(newCurrentData)
         resolve();
       })
