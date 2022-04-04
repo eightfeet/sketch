@@ -69,6 +69,7 @@ const readData = async () => {
 }
 
 const writeData = async (data) => {
+  const pageSize = 10;
   const modelsIndex = []
   delDir('./models')
   fs.mkdir('./models', function (error) {
@@ -77,7 +78,7 @@ const writeData = async (data) => {
       return;
     }
     for (let index = 1; index <= 1000; index++) {
-      const mdid = index < 10 ? `0${index}` : index;
+      const mdid = index < pageSize ? `0${index}` : index;
       const models = [];
       for (let ind = 0; ind < data.length; ind++) {
         const element = data[ind];
@@ -121,15 +122,21 @@ const writeData = async (data) => {
     setTimeout(() => {
       let contentsdata = [];
       let page = 1;
+      const max = modelsIndex.length % pageSize;
+      let total = Math.floor(modelsIndex.length/pageSize);
+      if (max) {
+        total = total + 1
+      }
       modelsIndex.forEach((element, index) => {
-        const indfloat = (index + 1) % 10;
+        const indfloat = (index + 1) % pageSize;
         contentsdata.push(element)
         if (indfloat === 0 || index + 1 === modelsIndex.length) {
-          fs.writeFileSync(`./contents/modelsIndex_${page}.json`, JSON.stringify(contentsdata));
+          fs.writeFileSync(`./contents/modelsIndex_${page}.json`, JSON.stringify({items: contentsdata, total: total}));
           contentsdata = [];
           page = page + 1;
         }
       });
+      console.log(max);
     }, 1000);
   })
 }

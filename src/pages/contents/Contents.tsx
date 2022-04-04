@@ -42,18 +42,18 @@ const List: React.FC<Props> = ({}) => {
     useInfiniteQuery(
       ["models", dynamics.modelFilter],
       ({ pageParam = 1 }) =>
-        queryContByPage(pageParam, 14).then((res) => {
+        queryContByPage(pageParam).then((res) => {
           const { modelFilter } = dynamics;
-          const data: ModelType[] = filterModel(res, modelFilter);
+          const data: ModelType[] = filterModel(res.items, modelFilter);
           if (!data.length)
             setTimeout(() => {
               fetchNextPage();
             });
-          return data;
+          return res;
         }),
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (allPages.length < 14) {
+          if (allPages.length < lastPage.total) {
             return allPages.length + 1;
           }
           return false;
@@ -69,7 +69,7 @@ const List: React.FC<Props> = ({}) => {
     }
   }, [isLoading, loading]);
 
-  const result = data?.pages.flat();
+  const result = data?.pages.map((item) => item.items).flat();
   const navigate = useNavigate();
 
   const onClickSelect = useCallback(

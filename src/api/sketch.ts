@@ -9,7 +9,8 @@ export function queryPicByModelId(index: number) {
   return sketch.get<ModelType[]>(`/models/models${id}.json`);
 }
 
-export function queryContByPage(page: number, total: number) {
-  if (page > total) return Promise.reject("没有更多了");
-  return sketch.get<ModelType[]>(`/contents/modelsIndex_${page}.json`);
+export function queryContByPage(page: number) {
+  return sketch.get<{ total: number; items: ModelType[] }>(
+    `/contents/modelsIndex_${page}.json`
+  );
 }
