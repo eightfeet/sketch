@@ -34,28 +34,35 @@ const readData = async () => {
     // eslint-disable-next-line no-loop-func
     await new Promise(resolve => {
       const file = files[index];
-      fs.readFile(`./data/${file}`, 'utf8', (fileerr, data) => {
-        if (fileerr) {
-          throw fileerr
-        }
-        const currentData = JSON.parse(data);
-        const newCurrentData = [];
-        currentData.forEach(currentDataItem => {
-          const { mdId, imgUrl, from } = currentDataItem;
-          const resdata = {
-            mdId, imgUrl, from, tags: [],
+
+      if (file.indexOf('.json') > 0) {
+        fs.readFile(`./data/${file}`, 'utf8', (fileerr, data) => {
+          if (fileerr) {
+            throw fileerr
           }
-          const tages = ['isX', 'isY', 'isClothes', 'isBody', 'isMale', 'isFemale', 'isHeader', 'isHandsFeet', 'isHalf', 'isGroup', 'isStill', 'isVideo', 'isStructure'];
-          tages.forEach(condition => {
-            if (currentDataItem[condition]) {
-              resdata.tags.push(condition.replace('is',''))
-            }
-          })
-          newCurrentData.push(resdata)
+          const currentData = JSON.parse(data);
+          // 改造历史数据
+          // const newCurrentData = [];
+          // currentData.forEach(currentDataItem => {
+          //   const { mdId, imgUrl, from } = currentDataItem;
+          //   const resdata = {
+          //     mdId, imgUrl, from, tags: [],
+          //   }
+          //   const tages = ['isX', 'isY', 'isClothes', 'isBody', 'isMale', 'isFemale', 'isHeader', 'isHandsFeet', 'isHalf', 'isGroup', 'isStill', 'isVideo', 'isStructure'];
+          //   tages.forEach(condition => {
+          //     if (currentDataItem[condition]) {
+          //       resdata.tags.push(condition.replace('is',''))
+          //     }
+          //   })
+          //   newCurrentData.push(resdata)
+          // })
+          allData = allData.concat(currentData)
+          resolve();
         })
-        allData = allData.concat(newCurrentData)
+      } else {
         resolve();
-      })
+      };
+
     })
   }
   return allData;

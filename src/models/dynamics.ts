@@ -25,8 +25,8 @@ const INITIAL_STATE: DynamicsState = {
   modelList: [],
   pictureList: [],
   keepingTime: 5,
-  pictureFilter: [Tags.横向, Tags.竖向],
-  modelFilter: [Tags.人体],
+  pictureFilter: [],
+  modelFilter: [Tags.着衣],
 };
 
 export const dynamics = createModel<RootModel>()({

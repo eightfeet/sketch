@@ -35,12 +35,10 @@ const PicFilter: React.FC<Props> = () => {
     (item: keyof Tags) => () => {
       let filter: Tags[] = [...pictureFilter];
       if (pictureFilter.includes(item as any)) {
-        console.log(pictureFilter);
         filter = pictureFilter.filter((el: any) => el !== item);
       } else {
         filter.push(item as any);
       }
-      console.log("结果", filter);
       setPictureFilter(filter);
       setPictureList([]);
     },
