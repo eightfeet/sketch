@@ -4,12 +4,24 @@ import Button from "~/components/Button";
 import Icons from "~/components/Icons";
 import Filter from "~/components/Icons/Filter";
 import Modal from "~/components/Modal";
-import { ModelFilter } from "~/models/dynamics";
 import { RootDispatch, RootState } from "~/store";
-import { ModelType } from "~/types/models";
+import { Tags } from "~/types/models";
 import s from "./MdFilter.module.scss";
 
 interface Props {}
+
+const tagsLabel = {
+  Clothes: "着衣",
+  Body: "人体",
+  Male: "男性",
+  Female: "女性",
+  Header: "头像",
+  HandsFeet: "手足",
+  Half: "半身",
+  Group: "组合",
+  Still: "静物",
+  Structure: "结构",
+};
 
 const MdFilter: React.FC<Props> = () => {
   const [showClockModal, setShowClockModal] = useState(false);
@@ -17,39 +29,16 @@ const MdFilter: React.FC<Props> = () => {
   const { setModelFilter, setModelList } = useDispatch<RootDispatch>().dynamics;
 
   const handle = useCallback(
-    (item: keyof ModelFilter) => () => {
-      let data: ModelFilter = {
-        ...modelFilter,
-        [item]: !modelFilter[item],
-      };
-      const off = () => {
-        data = {
-          isMale: false,
-          isFemale: false,
-          isClothes: false,
-          isBody: false,
-          isHeader: false,
-          isHandsFeet: false,
-          isStructure: false,
-          isStill: false,
-        };
-      };
-      switch (item) {
-        case "isStill":
-        case "isHandsFeet":
-        case "isStructure":
-          if (data[item]) {
-            off();
-            data[item] = true;
-          }
-          break;
-        default:
-          data.isStill = false;
-          data.isStructure = false;
-          data.isHandsFeet = false;
-          break;
+    (item: keyof Tags) => () => {
+      let filter: Tags[] = [...modelFilter];
+      if (modelFilter.includes(item as any)) {
+        console.log(modelFilter);
+        filter = modelFilter.filter((el: any) => el !== item);
+      } else {
+        filter.push(item as any);
       }
-      setModelFilter(data);
+      console.log("结果", filter);
+      setModelFilter(filter);
       setModelList([]);
     },
     [modelFilter, setModelFilter, setModelList]
@@ -63,25 +52,14 @@ const MdFilter: React.FC<Props> = () => {
       <Modal visible={showClockModal} onCancel={() => setShowClockModal(false)}>
         <Modal.Header>筛选图片</Modal.Header>
         <div className={s.buttonwrap}>
-          {Object.keys(modelFilter).map((item: any) => {
+          {Object.keys(tagsLabel).map((item: any) => {
             return (
               <Button
                 key={item}
                 onClick={handle(item)}
-                type={
-                  (modelFilter as keyof ModelType)[item]
-                    ? "dark"
-                    : "darkoutline"
-                }
+                type={modelFilter?.includes(item) ? "dark" : "darkoutline"}
               >
-                {item === "isClothes" ? "着衣" : null}
-                {item === "isBody" ? "人体" : null}
-                {item === "isFemale" ? "女性" : null}
-                {item === "isMale" ? "男性" : null}
-                {item === "isHeader" ? "头像" : null}
-                {item === "isHandsFeet" ? "手足" : null}
-                {item === "isStructure" ? "肌肉结构" : null}
-                {item === "isStill" ? "静物" : null}
+                {(tagsLabel as any)[item]}
               </Button>
             );
           })}

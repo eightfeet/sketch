@@ -7,69 +7,30 @@
 import { createModel } from "@rematch/core";
 import produce from "immer";
 import { RootModel } from "~/models";
-import { ModelType } from "~/types/models";
+import { ModelType, Tags } from "~/types/models";
 
-import defaultmodelList from "./../models/defaultmd.json";
+export type PictureFilter = Tags[];
 
-export interface PictureFilter {
-  /**横向 */
-  isX?: boolean;
-  /**纵向 */
-  isY?: boolean;
-}
-
-export interface ModelFilter {
-  /**着衣 */
-  isClothes?: boolean;
-  /**人体 */
-  isBody?: boolean;
-  /**女性 */
-  isMale?: boolean;
-  /**男性 */
-  isFemale?: boolean;
-  /**头像 */
-  isHeader?: boolean;
-  /**手足 */
-  isHandsFeet?: boolean;
-  /**肌肉结构 */
-  isStructure?: boolean;
-  /**静物 */
-  isStill?: boolean;
-}
+export type ModelFilter = Tags[];
 
 type DynamicsState = {
   modelList: ModelType[];
   pictureList: ModelType[];
   keepingTime?: number;
-  pictureFilter: PictureFilter;
-  modelFilter: ModelFilter;
+  pictureFilter: Tags[];
+  modelFilter: Tags[];
 };
 
 const INITIAL_STATE: DynamicsState = {
   modelList: [],
   pictureList: [],
   keepingTime: 5,
-  pictureFilter: {
-    isX: true,
-    isY: true,
-  },
-  modelFilter: {
-    isMale: false,
-    isFemale: false,
-    isClothes: true,
-    isBody: false,
-    isHeader: false,
-    isHandsFeet: false,
-    isStructure: false,
-    isStill: false,
-  },
+  pictureFilter: [Tags.横向, Tags.竖向],
+  modelFilter: [Tags.人体],
 };
 
 export const dynamics = createModel<RootModel>()({
-  state: {
-    ...INITIAL_STATE,
-    modelList: defaultmodelList,
-  },
+  state: INITIAL_STATE,
   reducers: {
     init() {
       return INITIAL_STATE;
@@ -149,21 +110,21 @@ export const dynamics = createModel<RootModel>()({
 
     setPictureFilter: (
       { pictureFilter, ...other }: DynamicsState,
-      payload: PictureFilter
+      payload: Tags[]
     ) => {
       return {
         ...other,
-        pictureFilter: { ...pictureFilter, ...payload },
+        pictureFilter: payload,
       };
     },
 
     setModelFilter: (
       { modelFilter, ...other }: DynamicsState,
-      payload: ModelFilter
+      payload: Tags[]
     ) => {
       return {
         ...other,
-        modelFilter: { ...modelFilter, ...payload },
+        modelFilter: payload,
       };
     },
   },

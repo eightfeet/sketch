@@ -39,7 +39,45 @@ const readData = async () => {
           throw fileerr
         }
         const currentData = JSON.parse(data);
-        allData = allData.concat(currentData)
+        const newCurrentData = [];
+        currentData.forEach(currentDataItem => {
+          const { mdId, imgUrl, from } = currentDataItem;
+          const resdata = {
+            mdId, imgUrl, from, tags: [],
+          }
+          const tages = ['isX', 'isY', 'isClothes', 'isBody', 'isMale', 'isFemale', 'isHeader', 'isHandsFeet', 'isHalf', 'isGroup', 'isStill', 'isVideo', 'isStructure'];
+          tages.forEach(condition => {
+            if (currentDataItem[condition]) {
+              resdata.tags.push(condition.replace('is',''))
+            }
+              
+          })
+          newCurrentData.push(resdata)
+        })
+
+        
+
+
+        // mdId
+        // * imgUrl: 'md11/767-x&600&500.png',
+        // isX: true,
+        // isY: false,
+        // isClothes: false,
+        // isBody: false,
+        // isMale: false,
+        // isFemale: false,
+        // isHeader: false,
+        // isHandsFeet: false,
+        // isHalf: false,
+        // isGroup: false,
+        // mdId: 'md67',
+        // selected: false,
+        // isStill: false,
+        // isStructure: true,
+        // from: 'md4'
+
+        // console.log(333, Array.isArray(currentData));
+        allData = allData.concat(newCurrentData)
         resolve();
       })
     })
@@ -62,12 +100,12 @@ const writeData = async (data) => {
       const models = [];
       for (let ind = 0; ind < data.length; ind++) {
         const element = data[ind];
-        const { isStill } = element;
+        // const { isStill } = element;
         if (element.mdId === `md${mdid}` && element.from !== 'md4') {
-          element.isStill = false
-          if (isStill) {
-            element.isStill = true
-          }
+          // element.isStill = false
+          // if (isStill) {
+          //   element.isStill = true
+          // }
           if (index <= 56) {
             element.from = 'md1';
           } else if (index > 56 && index <= 248) {

@@ -18,7 +18,7 @@ import { queryPicByModelId } from "~/api/sketch";
 import PicFilter from "./components/PicFilter";
 import BlockLoading from "~/components/BlockLoading";
 import ArrowRight from "~/components/Icons/ArrowRight";
-import { isMobile } from "~/core/utils";
+import { filterModel, isMobile } from "~/core/utils";
 import Button from "~/components/Button";
 
 const winwidth = window.innerWidth * 0.98;
@@ -38,36 +38,23 @@ const List: React.FC<Props> = ({}) => {
   const { onTogglePictureList, setPictureList, initPictureList } =
     useDispatch<RootDispatch>().dynamics;
 
-  const { data, hasNextPage, fetchNextPage, isFetchedAfterMount } =
-    useInfiniteQuery(
-      [
-        "picture",
-        dynamics.modelList.length,
-        dynamics.pictureFilter.isX,
-        dynamics.pictureFilter.isY,
-      ],
-      ({ pageParam = 0 }) => {
-        return queryPicByModelId(pageParam).then((res) => {
-          const data = [
-            ...(dynamics.pictureFilter.isX
-              ? res.filter((item) => item.isX === dynamics.pictureFilter.isX)
-              : []),
-            ...(dynamics.pictureFilter.isY
-              ? res.filter((item) => item.isY === dynamics.pictureFilter.isY)
-              : []),
-          ];
-          return data;
-        });
+  const { data, hasNextPage, fetchNextPage, isLoading } = useInfiniteQuery(
+    ["picture", dynamics.modelList.length, dynamics.pictureFilter],
+    async ({ pageParam = 0 }) => {
+      const res = await queryPicByModelId(pageParam);
+      const result = filterModel(res, dynamics.pictureFilter);
+      return result;
+    },
+    {
+      getNextPageParam: (_, allpage) => {
+        if (dynamics.modelList.length > allpage.length) {
+          return allpage.length;
+        }
+        return false;
       },
-      {
-        getNextPageParam: (_, allpage) => {
-          if (dynamics.modelList.length > allpage.length) {
-            return allpage.length;
-          }
-          return false;
-        },
-      }
-    );
+      enabled: !!dynamics.modelList.length,
+    }
+  );
 
   const result = data?.pages.flat();
   const navigate = useNavigate();
@@ -91,7 +78,7 @@ const List: React.FC<Props> = ({}) => {
 
   return (
     <div className={s.root}>
-      {!isFetchedAfterMount ? <BlockLoading /> : null}
+      {isLoading === true ? <BlockLoading /> : null}
       <NavigateBar
         left={
           <>
@@ -152,6 +139,18 @@ const List: React.FC<Props> = ({}) => {
           selectedData={dynamics.pictureList}
           data={result}
         />
+        {!dynamics.modelList?.length ? (
+          <div className={s.nodata}>
+            没有选择类目,请选择模特类目
+            <br />
+            <Icons
+              type="light"
+              onClick={() => navigate("/contents", { replace: true })}
+            >
+              <ArrowRight />
+            </Icons>
+          </div>
+        ) : null}
         {hasNextPage === false ? (
           <div className={s.nodata}>
             没有内容了,您可以择更多图片类目

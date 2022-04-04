@@ -15,7 +15,7 @@ import SelectAll from "~/components/Icons/SelectAll";
 import UnselectAll from "~/components/Icons/UnselectAll";
 import MdFilter from "./compomemys/MdFilter";
 import BlockLoading from "~/components/BlockLoading";
-import { isMobile } from "~/core/utils";
+import { filterModel, isMobile } from "~/core/utils";
 import { queryContByPage } from "~/api/sketch";
 import useLoading from "~/hooks/useLoading";
 import Button from "~/components/Button";
@@ -38,74 +38,17 @@ const List: React.FC<Props> = ({}) => {
   const { onToggleModelList, setModelList, initModelList } =
     useDispatch<RootDispatch>().dynamics;
 
-  const { data, hasNextPage, fetchNextPage, isFetchedAfterMount } =
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchedAfterMount } =
     useInfiniteQuery(
-      [
-        "models",
-        dynamics.modelFilter.isClothes,
-        dynamics.modelFilter.isBody,
-        dynamics.modelFilter.isFemale,
-        dynamics.modelFilter.isHandsFeet,
-        dynamics.modelFilter.isHeader,
-        dynamics.modelFilter.isMale,
-        dynamics.modelFilter.isStill,
-      ],
+      ["models", dynamics.modelFilter],
       ({ pageParam = 1 }) =>
         queryContByPage(pageParam, 14).then((res) => {
           const { modelFilter } = dynamics;
-          const data: ModelType[] = [];
-          if (!pageParam) return data;
-
-          res.forEach((item) => {
-            const {
-              isClothes,
-              isBody,
-              isMale,
-              isFemale,
-              isHeader,
-              isHandsFeet,
-              isStill,
-              isStructure,
-            } = item;
-            if (modelFilter.isStructure === true) {
-              if (isStructure === true) {
-                data.push(item);
-              }
-              return;
-            }
-            if (modelFilter.isStill === true) {
-              if (isStill === true) {
-                data.push(item);
-              }
-              return;
-            }
-
-            if (
-              modelFilter.isHeader === true &&
-              (modelFilter.isMale === isMale ||
-                modelFilter.isFemale === isFemale)
-            ) {
-              if (isHeader === true) {
-                data.push(item);
-              }
-              return;
-            }
-
-            if (
-              (modelFilter.isClothes === isClothes ||
-                modelFilter.isBody === isBody) &&
-              (modelFilter.isMale === isMale ||
-                modelFilter.isFemale === isFemale) &&
-              modelFilter.isHandsFeet === isHandsFeet
-            ) {
-              data.push(item);
-            }
-          });
+          const data: ModelType[] = filterModel(res, modelFilter);
           if (!data.length)
             setTimeout(() => {
               fetchNextPage();
             });
-
           return data;
         }),
       {
@@ -117,6 +60,14 @@ const List: React.FC<Props> = ({}) => {
         },
       }
     );
+
+  useEffect(() => {
+    if (isLoading) {
+      loading.show();
+    } else {
+      loading.hide();
+    }
+  }, [isLoading, loading]);
 
   const result = data?.pages.flat();
   const navigate = useNavigate();
@@ -185,6 +136,7 @@ const List: React.FC<Props> = ({}) => {
           selectedData={dynamics.modelList}
           data={result}
         />
+        {!result?.length ? <div className={s.nodata}>没有图片</div> : null}
         {!isMobile && hasNextPage ? (
           <div className={s.pcmore}>
             <Button onClick={() => fetchNextPage()} type="dark">

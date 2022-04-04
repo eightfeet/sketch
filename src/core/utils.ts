@@ -1,6 +1,7 @@
 import { REHYDRATE, getStoredState } from "redux-persist";
 import { persistConfig, persistor, store } from "~/store";
 import { parse } from "query-string";
+import { ModelType, Tags } from "~/types/models";
 const { t } = parse(window.location.hash.split("?")[1] || "");
 export const px2vw = (px: number): string => {
   const result = px / 7.5;
@@ -111,3 +112,19 @@ export function ShowCountDown(arrivedTime: any) {
 export const isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(
   navigator.userAgent
 );
+
+export const filterModel = (models: ModelType[], condition: Tags[]) => {
+  const data: ModelType[] = [];
+  // 无过滤时直接返回数据
+  if (!condition.length) return models;
+  models.forEach((item) => {
+    let inCondition: boolean = true;
+    condition.forEach((element) => {
+      if (!item.tags?.includes(element)) {
+        inCondition = false;
+      }
+    });
+    if (inCondition === true) data.push(item);
+  });
+  return data;
+};
