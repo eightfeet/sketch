@@ -69,8 +69,6 @@ const readData = async () => {
 }
 
 const writeData = async (data) => {
-
-  console.log(33333, data.length);
   const modelsIndex = []
   delDir('./models')
   fs.mkdir('./models', function (error) {
