@@ -18,6 +18,7 @@ import BlockLoading from "~/components/BlockLoading";
 import { isMobile } from "~/core/utils";
 import { queryContByPage } from "~/api/sketch";
 import useLoading from "~/hooks/useLoading";
+import Button from "~/components/Button";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -184,6 +185,13 @@ const List: React.FC<Props> = ({}) => {
           selectedData={dynamics.modelList}
           data={result}
         />
+        {!isMobile && hasNextPage ? (
+          <div className={s.pcmore}>
+            <Button onClick={() => fetchNextPage()} type="dark">
+              加载更多
+            </Button>
+          </div>
+        ) : null}
       </PullToRefresh>
     </div>
   );
