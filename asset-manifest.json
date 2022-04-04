@@ -2,14 +2,14 @@
   "files": {
     "static/js/0.3b8c30b6.chunk.js": "https://www.eightfeet.cn/sketch/static/js/0.3b8c30b6.chunk.js",
     "static/css/1.cfee492b.chunk.css": "https://www.eightfeet.cn/sketch/static/css/1.cfee492b.chunk.css",
-    "static/js/1.f75788a9.chunk.js": "https://www.eightfeet.cn/sketch/static/js/1.f75788a9.chunk.js",
+    "static/js/1.ec7f325d.chunk.js": "https://www.eightfeet.cn/sketch/static/js/1.ec7f325d.chunk.js",
     "static/css/2.abcaa4f9.chunk.css": "https://www.eightfeet.cn/sketch/static/css/2.abcaa4f9.chunk.css",
     "static/js/2.68d8a42e.chunk.js": "https://www.eightfeet.cn/sketch/static/js/2.68d8a42e.chunk.js",
     "static/css/3.f65e168d.chunk.css": "https://www.eightfeet.cn/sketch/static/css/3.f65e168d.chunk.css",
     "static/js/3.eaead020.chunk.js": "https://www.eightfeet.cn/sketch/static/js/3.eaead020.chunk.js",
     "main.css": "https://www.eightfeet.cn/sketch/static/css/main.9393139b.chunk.css",
     "main.js": "https://www.eightfeet.cn/sketch/static/js/main.1a39439d.chunk.js",
-    "runtime-main.js": "https://www.eightfeet.cn/sketch/static/js/runtime-main.ae08f4cd.js",
+    "runtime-main.js": "https://www.eightfeet.cn/sketch/static/js/runtime-main.e664f6b6.js",
     "static/js/6.e746decc.chunk.js": "https://www.eightfeet.cn/sketch/static/js/6.e746decc.chunk.js",
     "static/css/7.40a89d4f.chunk.css": "https://www.eightfeet.cn/sketch/static/css/7.40a89d4f.chunk.css",
     "static/js/7.65041074.chunk.js": "https://www.eightfeet.cn/sketch/static/js/7.65041074.chunk.js",
@@ -21,7 +21,7 @@
     "static/css/11.2c0360b6.chunk.css": "https://www.eightfeet.cn/sketch/static/css/11.2c0360b6.chunk.css",
     "static/js/11.c72e4849.chunk.js": "https://www.eightfeet.cn/sketch/static/js/11.c72e4849.chunk.js",
     "static/css/12.caf75dec.chunk.css": "https://www.eightfeet.cn/sketch/static/css/12.caf75dec.chunk.css",
-    "static/js/12.164530a8.chunk.js": "https://www.eightfeet.cn/sketch/static/js/12.164530a8.chunk.js",
+    "static/js/12.63c897aa.chunk.js": "https://www.eightfeet.cn/sketch/static/js/12.63c897aa.chunk.js",
     "static/js/13.98ff80f2.chunk.js": "https://www.eightfeet.cn/sketch/static/js/13.98ff80f2.chunk.js",
     "index.html": "https://www.eightfeet.cn/sketch/index.html",
     "static/js/6.e746decc.chunk.js.LICENSE.txt": "https://www.eightfeet.cn/sketch/static/js/6.e746decc.chunk.js.LICENSE.txt",
@@ -36,7 +36,7 @@
     "static/media/show8.d2d192cc.jpeg": "https://www.eightfeet.cn/sketch/static/media/show8.d2d192cc.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.ae08f4cd.js",
+    "static/js/runtime-main.e664f6b6.js",
     "static/js/6.e746decc.chunk.js",
     "static/css/main.9393139b.chunk.css",
     "static/js/main.1a39439d.chunk.js"
