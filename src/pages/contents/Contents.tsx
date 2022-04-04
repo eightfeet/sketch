@@ -49,7 +49,10 @@ const List: React.FC<Props> = ({}) => {
             setTimeout(() => {
               fetchNextPage();
             });
-          return res;
+          return {
+            ...res,
+            items: data,
+          };
         }),
       {
         getNextPageParam: (lastPage, allPages) => {
