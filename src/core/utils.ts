@@ -128,3 +128,14 @@ export const filterModel = (models: ModelType[], condition: Tags[]) => {
   });
   return data;
 };
+
+export const getImagePath = (item: ModelType) => {
+  const num = item.from.replace(/[^0-9]*/, "");
+  let rootPath = process.env[`REACT_APP_MPATH_M${num}`]!;
+  const smallPath = `${rootPath}${item.from === "md1" ? "models/" : "small/"}`;
+  rootPath = `${rootPath}${item.from === "md1" ? "models/" : ""}`;
+  return {
+    root: rootPath,
+    small: smallPath,
+  };
+};

@@ -42,20 +42,20 @@ const readData = async () => {
           }
           const currentData = JSON.parse(data);
           // 改造历史数据
-          // const newCurrentData = [];
-          // currentData.forEach(currentDataItem => {
-          //   const { mdId, imgUrl, from } = currentDataItem;
-          //   const resdata = {
-          //     mdId, imgUrl, from, tags: [],
-          //   }
-          //   const tages = ['isX', 'isY', 'isClothes', 'isBody', 'isMale', 'isFemale', 'isHeader', 'isHandsFeet', 'isHalf', 'isGroup', 'isStill', 'isVideo', 'isStructure'];
-          //   tages.forEach(condition => {
-          //     if (currentDataItem[condition]) {
-          //       resdata.tags.push(condition.replace('is',''))
-          //     }
-          //   })
-          //   newCurrentData.push(resdata)
-          // })
+          const newCurrentData = [];
+          currentData.forEach(currentDataItem => {
+            const { mdId, imgUrl, from } = currentDataItem;
+            const resdata = {
+              mdId, imgUrl, from, tags: [],
+            }
+            const tages = ['isX', 'isY', 'isClothes', 'isBody', 'isMale', 'isFemale', 'isHeader', 'isHandsFeet', 'isHalf', 'isGroup', 'isStill', 'isVideo', 'isStructure'];
+            tages.forEach(condition => {
+              if (currentDataItem[condition]) {
+                resdata.tags.push(condition.replace('is', ''))
+              }
+            })
+            newCurrentData.push(resdata)
+          })
           allData = allData.concat(currentData)
           resolve();
         })
@@ -70,7 +70,7 @@ const readData = async () => {
 
 const writeData = async (data) => {
 
-  console.log(data.imgUrl);
+  console.log(33333, data.length);
   const modelsIndex = []
   delDir('./models')
   fs.mkdir('./models', function (error) {
@@ -78,7 +78,7 @@ const writeData = async (data) => {
       console.log(error)
       return;
     }
-    for (let index = 1; index <= 268; index++) {
+    for (let index = 1; index <= 1000; index++) {
       const mdid = index < 10 ? `0${index}` : index;
       const models = [];
       for (let ind = 0; ind < data.length; ind++) {
@@ -93,10 +93,15 @@ const writeData = async (data) => {
             element.from = 'md1';
           } else if (index > 56 && index <= 248) {
             element.from = 'md2'
-          } else {
+          } else if (!element.from) {
             element.from = 'md3'
           };
           models.push(element)
+        }
+
+        if (index >= 57 && index <= 67 && element.mdId === `md${mdid}` && element.from === 'md4') {
+          const md4data = { "mdId": element.mdId, "imgUrl": element.imgUrl, "from": 'md4', "tags": [(element.isX ? "X" : "Y"), "Structure"] }
+          models.push(md4data)
         }
       }
 
@@ -108,21 +113,6 @@ const writeData = async (data) => {
       };
     }
   })
-
-  for (let index = 57; index <= 67; index++) {
-    fs.readFile(`./data/models${index}.json`, 'utf8', (fileerr, data) => {
-      if (fileerr) {
-        throw fileerr
-      }
-      const currentData = JSON.parse(data);
-      modelsIndex.push(currentData[0]);
-    })
-    fs.copyFile(`./data/models${index}.json`, `./models/models${index}.json`, function (err) {
-      if (err) {
-        console.log(err)
-      }
-    });
-  }
 
   delDir('./contents')
   fs.mkdir('./contents', function (error) {

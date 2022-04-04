@@ -16,6 +16,7 @@ import Timer from "./components/Timer";
 import dayjs from "dayjs";
 import SketchTimer from "../home/components/SketchTimer";
 import Video from "~/components/Video";
+import { getImagePath } from "~/core/utils";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -43,7 +44,8 @@ const View: React.FC<Props> = () => {
 
   const renderPic = useCallback(
     () =>
-      data?.map(({ imgUrl, from }, index) => {
+      data?.map((item, index) => {
+        const { imgUrl, from } = item;
         const W = parseInt(imgUrl.split("&")[1], 0);
         const H = parseInt(imgUrl.split("&")[2], 0);
         const WW = window.innerWidth;
@@ -62,15 +64,7 @@ const View: React.FC<Props> = () => {
           Height = "auto";
         }
 
-        let picPath = imgUrl;
-        if (from === "md1")
-          picPath = `${process.env.REACT_APP_MPATH_M1}models/${picPath}`;
-        if (from === "md2")
-          picPath = `${process.env.REACT_APP_MPATH_M2}${picPath}`;
-        if (from === "md3")
-          picPath = `${process.env.REACT_APP_MPATH_M3}${picPath}`;
-        if (from === "md4")
-          picPath = `${process.env.REACT_APP_MPATH_M4}${picPath}`;
+        const { root } = getImagePath(item);
 
         const imgStyle: React.CSSProperties = {
           width: Width,
@@ -78,16 +72,16 @@ const View: React.FC<Props> = () => {
         };
 
         return (
-          <SwiperSlide key={`${suiji}${picPath}`}>
+          <SwiperSlide key={`${suiji}${imgUrl}`}>
             {from !== "md4" ? (
               <Pic
                 className={`swiper-zoom-container ${s.pic}`}
                 imgStyle={imgStyle}
-                src={picPath}
+                src={`${root}${imgUrl}`}
               />
             ) : (
               <div className={`swiper-zoom-container`}>
-                <Video style={imgStyle} picPath={picPath} />
+                <Video style={imgStyle} picPath={`${root}${imgUrl}`} />
               </div>
             )}
           </SwiperSlide>

@@ -5,6 +5,7 @@ import Pic from "../Pic";
 import Selected from "../Icons/Selected";
 import Icons from "../Icons";
 import classNames from "classnames";
+import { getImagePath } from "~/core/utils";
 
 interface Props {
   column?: number;
@@ -58,22 +59,14 @@ const PicList: React.FC<Props> = ({
       };
       currentColumnGroup[currentLine] =
         (currentColumnGroup[currentLine] || 0) + picheight + space;
-
-      let path = item.imgUrl;
-      if (item.from === "md1")
-        path = process.env.REACT_APP_MPATH_M1! + "models/" + path;
-      if (item.from === "md2")
-        path = process.env.REACT_APP_MPATH_M2! + "small/" + path;
-      if (item.from === "md3")
-        path = process.env.REACT_APP_MPATH_M3! + "small/" + path;
-      if (item.from === "md4")
-        path = process.env.REACT_APP_MPATH_M4! + "small/" + path;
+      const { small } = getImagePath(item);
       const isSelected = selectedData?.some(
         (sItem) => sItem.imgUrl === item.imgUrl
       );
+
       return (
         <div className={s.picwrap} style={styles} key={item.imgUrl + index}>
-          <Pic lazy className={s.pic} src={path} />
+          <Pic lazy className={s.pic} src={`${small}${item.imgUrl}`} />
           <Icons
             type="light"
             className={classNames(
