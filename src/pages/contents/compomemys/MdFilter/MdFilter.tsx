@@ -21,6 +21,8 @@ const tagsLabel = {
   Group: "组合",
   Still: "静物",
   Structure: "结构",
+  LineDrawing: "线描",
+  Cartoon: "卡通",
 };
 
 const MdFilter: React.FC<Props> = () => {

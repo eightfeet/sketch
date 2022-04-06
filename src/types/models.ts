@@ -19,4 +19,6 @@ export enum Tags {
   静物 = "Still",
   视频 = "Video",
   结构 = "Structure",
+  线描 = "LineDrawing",
+  卡通 = "Cartoon",
 }
