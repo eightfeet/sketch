@@ -104,7 +104,7 @@ const Home: React.FC<Props> = () => {
             .format("HH时mm分ss秒")}
         </div>
         <div className={s.clear} onClick={reset}>
-          重制应用
+          重置应用
         </div>
       </WingBlank>
     </div>
