@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import s from "./Home.module.scss";
 
 import { useNavigate } from "react-router-dom";
@@ -14,12 +14,13 @@ import img8 from "./show8.jpeg";
 import Icons from "~/components/Icons";
 import LiseCard from "~/components/Icons/LiseCard";
 import ArrowRight from "~/components/Icons/ArrowRight";
-import SketchTimer from "./components/SketchTimer";
+import SketchTimer from "~/components/SketchTimer";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
 import dayjs from "dayjs";
 import classNames from "classnames";
 import { message } from "~/components/Modal";
+import ReactAudioPlayer from "react-audio-player";
 
 interface Props {}
 
@@ -27,13 +28,14 @@ const Home: React.FC<Props> = () => {
   const { pictureList, keepingTime } = useSelector(
     (state: RootState) => state
   ).dynamics;
+  const player = useRef<ReactAudioPlayer>(null);
+
   const navigate = useNavigate();
 
   const onPlay = useCallback(() => {
     if (pictureList.length && keepingTime) {
-      navigate("/view", {
-        replace: true,
-      });
+      player.current?.audioEl.current?.play();
+      navigate("/view");
     } else if (!pictureList.length) {
       message({
         title: "提示",
@@ -51,8 +53,14 @@ const Home: React.FC<Props> = () => {
     window.location.reload();
   }, []);
 
+  const goM = useCallback(() => {
+    player.current?.audioEl.current?.play();
+    navigate("/models");
+  }, [navigate]);
+
   return (
     <div className={s.root}>
+      <ReactAudioPlayer ref={player} src="./warning.mp3" />
       <WingBlank className={s.swiperwrap}>
         <Swiper
           className={s.swiper}
@@ -74,10 +82,7 @@ const Home: React.FC<Props> = () => {
       <WingBlank className={s.feature}>
         <div className={s.menu}>
           <SketchTimer />
-          <Icons
-            tip={pictureList.length}
-            onClick={() => navigate("/models", { replace: true })}
-          >
+          <Icons tip={pictureList.length} onClick={goM}>
             <LiseCard />
           </Icons>
           <Icons

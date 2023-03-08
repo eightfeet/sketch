@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
 import SwiperCore, { Autoplay, EffectFade, Keyboard, Lazy, Zoom } from "swiper";
@@ -14,9 +14,10 @@ import AnXu from "~/components/Icons/AnXU";
 import { ModelType } from "~/types/models";
 import Timer from "./components/Timer";
 import dayjs from "dayjs";
-import SketchTimer from "../home/components/SketchTimer";
+import SketchTimer from "../../components/SketchTimer";
 import Video from "~/components/Video";
 import { getImagePath } from "~/core/utils";
+import ReactAudioPlayer from "react-audio-player";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -36,6 +37,7 @@ const View: React.FC<Props> = () => {
   const [initTime, setInitTime] = useState(true);
   const [data, setData] = useState<ModelType[]>([]);
   const navigate = useNavigate();
+  const player = useRef<ReactAudioPlayer>(null);
 
   useEffect(() => {
     const currentData = setPic(pictureList, suiji);
@@ -111,12 +113,21 @@ const View: React.FC<Props> = () => {
     (swiperRef as any).current = currentSwiper;
   }, []);
 
-  const handleComplete = useCallback(() => swiperRef.current?.slideNext(), []);
+  const handleComplete = useCallback(() => {
+    swiperRef.current?.slideNext();
+  }, []);
+
+  const onUpdate = useCallback((remainingTime: number) => {
+    if (remainingTime === 4) {
+      player.current?.audioEl.current?.play();
+    }
+  }, []);
 
   return (
     <div className={s.root} key={"wIsx"}>
+      <ReactAudioPlayer ref={player} src="./warning.mp3" />
       <div className={s.back}>
-        <Icons type="dark" onClick={() => navigate("/", { replace: true })}>
+        <Icons type="dark" onClick={() => navigate(-1)}>
           <ArrowLeft />
         </Icons>
 
@@ -144,6 +155,7 @@ const View: React.FC<Props> = () => {
           {initTime ? (
             <Timer
               onComplete={handleComplete}
+              onUpdate={onUpdate}
               frizeTime={dayjs()}
               info={`${
                 ((swiperRef.current?.activeIndex || 0) % pictureList?.length) +

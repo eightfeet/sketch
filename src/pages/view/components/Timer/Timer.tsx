@@ -9,9 +9,10 @@ interface Props {
   onComplete: () => void;
   frizeTime: dayjs.Dayjs;
   info?: string;
+  onUpdate?: (remainingTime: number) => void;
 }
 
-const Timer: React.FC<Props> = ({ onComplete, frizeTime, info }) => {
+const Timer: React.FC<Props> = ({ onComplete, frizeTime, info, onUpdate }) => {
   const { keepingTime } = useSelector((state: RootState) => state.dynamics);
 
   const [time, setTime] = useState<string>();
@@ -63,6 +64,7 @@ const Timer: React.FC<Props> = ({ onComplete, frizeTime, info }) => {
       size={70}
       strokeWidth={2}
       onComplete={onComplete}
+      onUpdate={onUpdate}
     >
       {renderTime}
     </CountdownCircleTimer>

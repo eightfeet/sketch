@@ -13,9 +13,9 @@ const NavigateBar: React.FC<Props> = ({ children, left, right }) => {
     <div className={s.menubox}>
       <Space />
       <WingBlank className={s.menu}>
-        <div>{left}</div>
+        <div className={s.menu}>{left}</div>
         <div className={s.title}>{children}</div>
-        <div>{right}</div>
+        <div className={s.menu}>{right}</div>
       </WingBlank>
       <Space />
     </div>

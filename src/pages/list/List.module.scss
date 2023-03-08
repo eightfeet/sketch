@@ -14,3 +14,30 @@
   text-align: center;
   margin-top: 20px;
 }
+.start {
+  width: 280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  svg {
+    height: 100%;
+    fill: #f00;
+  }
+  span {
+    font-size: smaller;
+  }
+}
+.icon {
+  width: 70px;
+  flex-shrink: 0;
+}
+.info {
+  line-height: 1.3;
+  text-align: right;
+  margin-right: 20px;
+  span {
+    color: #aaa;
+    display: block;
+  }
+}

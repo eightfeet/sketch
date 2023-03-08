@@ -20,6 +20,9 @@ import BlockLoading from "~/components/BlockLoading";
 import ArrowRight from "~/components/Icons/ArrowRight";
 import { filterModel, isMobile } from "~/core/utils";
 import Button from "~/components/Button";
+import Play from "~/components/Icons/Play";
+import dayjs from "dayjs";
+import SketchTimer from "~/components/SketchTimer";
 
 const winwidth = window.innerWidth * 0.98;
 interface Props {}
@@ -27,6 +30,7 @@ interface Props {}
 const List: React.FC<Props> = ({}) => {
   const { dynamics } = useSelector((state: RootState) => state);
   const [selectallpic, setSelectallpic] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     if (!!dynamics.pictureList.length) {
       setSelectallpic(true);
@@ -57,7 +61,10 @@ const List: React.FC<Props> = ({}) => {
   );
 
   const result = data?.pages.flat();
-  const navigate = useNavigate();
+
+  const onPlay = useCallback(() => {
+    navigate("/view");
+  }, [navigate]);
 
   const onClickSelect = useCallback(
     (item: ModelType) => {
@@ -117,6 +124,7 @@ const List: React.FC<Props> = ({}) => {
                   ? dynamics.modelList.length
                   : undefined
               }
+              tipOpacity={0.2}
               onClick={() => navigate("/contents", { replace: true })}
             >
               <IModels />
@@ -124,7 +132,33 @@ const List: React.FC<Props> = ({}) => {
           </>
         }
       >
-        选择图片
+        {dynamics.pictureList.length ? (
+          <div className={s.start}>
+            <div className={s.info}>
+              速写将耗时
+              <SketchTimer>
+                <span>
+                  {dayjs
+                    .duration(
+                      dayjs()
+                        .add(
+                          (dynamics.keepingTime || 0) *
+                            dynamics.pictureList.length,
+                          "minute"
+                        )
+                        .diff(dayjs())
+                    )
+                    .format("HH时mm分ss秒")}
+                </span>
+              </SketchTimer>
+            </div>
+            <span className={s.icon} onClick={onPlay}>
+              <Play />
+            </span>
+          </div>
+        ) : (
+          "选择图片"
+        )}
       </NavigateBar>
       <PullToRefresh
         onPullUp={() => fetchNextPage()}
