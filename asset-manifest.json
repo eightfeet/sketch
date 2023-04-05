@@ -7,7 +7,7 @@
     "static/js/2.53f0b340.chunk.js": "https://www.eightfeet.cn/sketch/static/js/2.53f0b340.chunk.js",
     "main.css": "https://www.eightfeet.cn/sketch/static/css/main.9393139b.chunk.css",
     "main.js": "https://www.eightfeet.cn/sketch/static/js/main.70ca442c.chunk.js",
-    "runtime-main.js": "https://www.eightfeet.cn/sketch/static/js/runtime-main.c8798c90.js",
+    "runtime-main.js": "https://www.eightfeet.cn/sketch/static/js/runtime-main.a5d5c56d.js",
     "static/js/5.58d71f0d.chunk.js": "https://www.eightfeet.cn/sketch/static/js/5.58d71f0d.chunk.js",
     "static/css/6.ae49b270.chunk.css": "https://www.eightfeet.cn/sketch/static/css/6.ae49b270.chunk.css",
     "static/js/6.b5894dce.chunk.js": "https://www.eightfeet.cn/sketch/static/js/6.b5894dce.chunk.js",
@@ -15,8 +15,8 @@
     "static/js/7.cd8bbe3d.chunk.js": "https://www.eightfeet.cn/sketch/static/js/7.cd8bbe3d.chunk.js",
     "static/css/8.40a89d4f.chunk.css": "https://www.eightfeet.cn/sketch/static/css/8.40a89d4f.chunk.css",
     "static/js/8.5705970e.chunk.js": "https://www.eightfeet.cn/sketch/static/js/8.5705970e.chunk.js",
-    "static/css/9.543e698b.chunk.css": "https://www.eightfeet.cn/sketch/static/css/9.543e698b.chunk.css",
-    "static/js/9.e5fc9c25.chunk.js": "https://www.eightfeet.cn/sketch/static/js/9.e5fc9c25.chunk.js",
+    "static/css/9.114aaba1.chunk.css": "https://www.eightfeet.cn/sketch/static/css/9.114aaba1.chunk.css",
+    "static/js/9.f5f58c0b.chunk.js": "https://www.eightfeet.cn/sketch/static/js/9.f5f58c0b.chunk.js",
     "static/js/10.213fe831.chunk.js": "https://www.eightfeet.cn/sketch/static/js/10.213fe831.chunk.js",
     "static/css/11.f3a00c34.chunk.css": "https://www.eightfeet.cn/sketch/static/css/11.f3a00c34.chunk.css",
     "static/js/11.e04be102.chunk.js": "https://www.eightfeet.cn/sketch/static/js/11.e04be102.chunk.js",
@@ -34,7 +34,7 @@
     "static/media/show8.d2d192cc.jpeg": "https://www.eightfeet.cn/sketch/static/media/show8.d2d192cc.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.c8798c90.js",
+    "static/js/runtime-main.a5d5c56d.js",
     "static/js/5.58d71f0d.chunk.js",
     "static/css/main.9393139b.chunk.css",
     "static/js/main.70ca442c.chunk.js"
