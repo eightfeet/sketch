@@ -68,7 +68,8 @@ const Painter: React.FC<Props> = ({
             <div className={s.cvs}>{canvas}</div>
             <div className={s.handlebar}>
               <div>
-                粗细<span className={s.sliderblock}>({initLineWidth})</span>
+                &nbsp; 粗细
+                <span className={s.sliderblock}>({initLineWidth})</span>
                 &nbsp;
                 <input
                   className={s.slider}
@@ -85,6 +86,7 @@ const Painter: React.FC<Props> = ({
                   value={initLineColor}
                   onChange={onLinColor(setColor)}
                 />{" "}
+                {/* <>
                 &nbsp;&nbsp;
                 <button onClick={triggerSave}>生成图片</button>
                 {imageDownloadUrl ? (
@@ -92,6 +94,7 @@ const Painter: React.FC<Props> = ({
                     点击保存
                   </a>
                 ) : null}
+                </> */}
               </div>
               <div>
                 <button onClick={() => setClearStamp(new Date().getTime())}>
