@@ -23,6 +23,9 @@
     width: 100vw;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    user-select: none;
     flex-wrap: wrap;
     .sliderblock {
       display: inline-block;
@@ -71,7 +74,8 @@
     > div {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      justify-content: center;
+      padding: 10px;
     }
   }
 }
