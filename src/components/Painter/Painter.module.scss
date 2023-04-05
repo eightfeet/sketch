@@ -1,0 +1,77 @@
+.root {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  font-size: 12px;
+  color: #fff;
+
+  a {
+    color: #999;
+  }
+
+  .cvs {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .handlebar {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .sliderblock {
+      display: inline-block;
+      width: 50px;
+    }
+    button,
+    .color {
+      border: 1px solid #666;
+      border-radius: 4px;
+      margin: 0;
+      width: auto;
+      overflow: visible;
+
+      background: transparent;
+
+      /* inherit font & color from ancestor */
+      color: inherit;
+      font: inherit;
+
+      /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+      line-height: normal;
+      /* Corrects font smoothing for webkit */
+      -webkit-font-smoothing: inherit;
+      -moz-osx-font-smoothing: inherit;
+      /* Corrects inability to style clickable `input` types in iOS */
+      -webkit-appearance: none;
+    }
+
+    button {
+      padding: 5px 10px;
+      margin: 0 5px;
+    }
+    input[type="color" i]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .color {
+      -webkit-appearance: none;
+      padding: 2px;
+      width: 60px;
+      height: 60px;
+    }
+
+    .slider {
+      width: 150px;
+    }
+    > div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+  }
+}

@@ -4,8 +4,8 @@ import "swiper/swiper.scss";
 import SwiperCore, { Autoplay, EffectFade, Keyboard, Lazy, Zoom } from "swiper";
 import s from "./View.module.scss";
 import Pic from "~/components/Pic";
-import { useSelector } from "react-redux";
-import { RootState } from "~/store";
+import { useDispatch, useSelector } from "react-redux";
+import { RootDispatch, RootState } from "~/store";
 import Icons from "~/components/Icons";
 import ArrowLeft from "~/components/Icons/ArrowLeft";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ import SketchTimer from "../../components/SketchTimer";
 import Video from "~/components/Video";
 import { getImagePath } from "~/core/utils";
 import ReactAudioPlayer from "react-audio-player";
+import Painter from "~/components/Painter";
+import Pen from "~/components/Icons/Pen";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -33,11 +35,17 @@ function setPic(arr: ModelType[], random: boolean) {
 
 const View: React.FC<Props> = () => {
   const { pictureList } = useSelector((state: RootState) => state.dynamics);
+  const { defaultLineColor, defaultLineWidth } = useSelector(
+    (state: RootState) => state.runtime
+  );
+
   const [suiji, setSuiji] = useState(false);
+  const [showPainter, setShowPainter] = useState(false);
   const [initTime, setInitTime] = useState(true);
   const [data, setData] = useState<ModelType[]>([]);
   const navigate = useNavigate();
   const player = useRef<ReactAudioPlayer>(null);
+  const { set } = useDispatch<RootDispatch>().runtime;
 
   useEffect(() => {
     const currentData = setPic(pictureList, suiji);
@@ -123,51 +131,91 @@ const View: React.FC<Props> = () => {
     }
   }, []);
 
-  return (
-    <div className={s.root} key={"wIsx"}>
-      <ReactAudioPlayer ref={player} src="./warning.mp3" />
-      <div className={s.back}>
-        <Icons type="dark" onClick={() => navigate(-1)}>
-          <ArrowLeft />
-        </Icons>
+  const onShowPainter = useCallback(() => {
+    setShowPainter(true);
+  }, []);
 
-        <Icons type="dark" className={s.icon} onClick={handleSuiJi}>
-          {!suiji ? <SuiJi /> : <AnXu />}
-        </Icons>
+  const onHidePainter = useCallback(() => {
+    setShowPainter(false);
+  }, []);
+
+  const onChangePainter = useCallback(
+    ({ lineColor, lineWidth }) => {
+      console.log(lineColor, lineWidth);
+
+      lineColor &&
+        set({
+          name: "defaultLineColor",
+          value: lineColor,
+        });
+      lineWidth &&
+        set({
+          name: "defaultLineWidth",
+          value: lineWidth,
+        });
+    },
+    [set]
+  );
+
+  return (
+    <>
+      <Painter
+        visible={showPainter}
+        onClose={onHidePainter}
+        onChange={onChangePainter}
+        defaultLineColor={defaultLineColor}
+        defaultLineWidth={defaultLineWidth}
+      />
+      <div className={s.root} key={"wIsx"}>
+        <ReactAudioPlayer ref={player} src="./warning.mp3" />
+        <div className={s.back} style={{ opacity: showPainter ? 0 : 1 }}>
+          <Icons type="dark" onClick={() => navigate(-1)}>
+            <ArrowLeft />
+          </Icons>
+
+          <Icons type="dark" className={s.icon} onClick={handleSuiJi}>
+            {!suiji ? <SuiJi /> : <AnXu />}
+          </Icons>
+
+          <Icons type="dark" className={s.icon} onClick={onShowPainter}>
+            <Pen />
+          </Icons>
+        </div>
+        <Swiper
+          keyboard
+          zoom={{
+            maxRatio: 5,
+          }}
+          lazy={{
+            enabled: true,
+            loadPrevNext: true,
+          }}
+          loop
+          onSlideChange={handleSlideChange}
+          onInit={onInit}
+        >
+          {renderPic()}
+        </Swiper>
+        <div className={s.timer} style={{ opacity: showPainter ? 0 : 1 }}>
+          <SketchTimer>
+            {initTime ? (
+              <Timer
+                onComplete={handleComplete}
+                onUpdate={onUpdate}
+                frizeTime={dayjs()}
+                info={`${
+                  ((swiperRef.current?.activeIndex || 0) %
+                    pictureList?.length) +
+                  1
+                }/${pictureList?.length}`}
+              />
+            ) : (
+              <span></span>
+            )}
+          </SketchTimer>
+        </div>
       </div>
-      <Swiper
-        keyboard
-        zoom={{
-          maxRatio: 5,
-        }}
-        lazy={{
-          enabled: true,
-          loadPrevNext: true,
-        }}
-        loop
-        onSlideChange={handleSlideChange}
-        onInit={onInit}
-      >
-        {renderPic()}
-      </Swiper>
-      <div className={s.timer}>
-        <SketchTimer>
-          {initTime ? (
-            <Timer
-              onComplete={handleComplete}
-              onUpdate={onUpdate}
-              frizeTime={dayjs()}
-              info={`${
-                ((swiperRef.current?.activeIndex || 0) % pictureList?.length) +
-                1
-              }/${pictureList?.length}`}
-            />
-          ) : (
-            <span></span>
-          )}
-        </SketchTimer>
-      </div>
-    </div>
+    </>
   );
 };
 
