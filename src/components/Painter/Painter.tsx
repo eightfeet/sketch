@@ -54,6 +54,24 @@ const Painter: React.FC<Props> = ({
     [onChange]
   );
 
+  const onbgColor = useCallback(
+    (setColor: (color: string) => void) => (e: any) => {
+      const val = e.target.value;
+      setColor(val);
+      setInitLineColor(val);
+      onChange?.({ lineColor: val });
+    },
+    [onChange]
+  );
+
+  const onbgAlph = useCallback(
+    (e: any) => {
+      const val = e.target.value;
+      onChange?.({ lineColor: val });
+    },
+    [onChange]
+  );
+
   return (
     <ReactPainter
       width={window.innerWidth}
