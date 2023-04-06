@@ -1,11 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { ReactPainter } from "react-painter";
 import s from "./Painter.module.scss";
 
 interface Props {
   visible?: boolean;
   onClose?: () => void;
-  onChange?: (data: { lineColor?: string; lineWidth?: number }) => void;
+  onChange?: (data: {
+    lineColor?: string;
+    lineWidth?: number;
+    bgColor?: string;
+    bgAlph?: number;
+  }) => void;
   defaultLineColor?: string;
   defaultLineWidth?: number;
   bgAlph?: number;
@@ -17,14 +22,15 @@ const Painter: React.FC<Props> = ({
   onClose,
   defaultLineColor = "#ff0000",
   defaultLineWidth = 2,
+  bgColor = "#ffffff",
+  bgAlph = 0,
   onChange,
 }) => {
   const [clearStamp, setClearStamp] = useState(new Date().getTime());
   const [initLineWidth, setInitLineWidth] = useState(defaultLineWidth);
   const [initLineColor, setInitLineColor] = useState(defaultLineColor);
   const [showBgConfig, setShowBgConfig] = useState(false);
-  const [bgColor, setBgColor] = useState("#ffffff");
-  const [bgAlph, setBgAlph] = useState(0);
+  const ref = useRef<HTMLCanvasElement>(null);
 
   const close = useCallback(() => {
     onClose?.();
@@ -55,19 +61,17 @@ const Painter: React.FC<Props> = ({
   );
 
   const onbgColor = useCallback(
-    (setColor: (color: string) => void) => (e: any) => {
+    (e: any) => {
       const val = e.target.value;
-      setColor(val);
-      setInitLineColor(val);
-      onChange?.({ lineColor: val });
+      onChange?.({ bgColor: val });
     },
     [onChange]
   );
 
   const onbgAlph = useCallback(
     (e: any) => {
-      const val = e.target.value;
-      onChange?.({ lineColor: val });
+      const val = Number(e.target.value);
+      onChange?.({ bgAlph: val });
     },
     [onChange]
   );
@@ -96,6 +100,9 @@ const Painter: React.FC<Props> = ({
           >
             <div className={s.cvs}>
               {canvas}
+              {/* {React.cloneElement(canvas, {
+                ref
+              })} */}
               <div
                 className={s.bgcover}
                 style={{
@@ -144,7 +151,7 @@ const Painter: React.FC<Props> = ({
                     step={0.1}
                     max="1"
                     value={bgAlph}
-                    onChange={(e) => setBgAlph(Number(e.target.value))}
+                    onChange={onbgAlph}
                   />{" "}
                   <span className={s.sliderblock}>({bgAlph})</span>
                   &nbsp;&nbsp;&nbsp; 背景色 &nbsp;&nbsp;
@@ -152,7 +159,7 @@ const Painter: React.FC<Props> = ({
                     className={s.color}
                     type="color"
                     value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
+                    onChange={onbgColor}
                   />{" "}
                   <button
                     onClick={toggleBackground}

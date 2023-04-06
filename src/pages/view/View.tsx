@@ -140,19 +140,13 @@ const View: React.FC<Props> = () => {
   }, []);
 
   const onChangePainter = useCallback(
-    ({ lineColor, lineWidth }) => {
-      console.log(lineColor, lineWidth);
-
-      lineColor &&
-        set({
-          name: "defaultLineColor",
-          value: lineColor,
-        });
-      lineWidth &&
-        set({
-          name: "defaultLineWidth",
-          value: lineWidth,
-        });
+    (valus: { [key: string]: any }) => {
+      for (const key in valus) {
+        if (Object.prototype.hasOwnProperty.call(valus, key)) {
+          const value = valus[key];
+          value && set({ name: key, value });
+        }
+      }
     },
     [set]
   );
