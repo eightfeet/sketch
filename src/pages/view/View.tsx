@@ -20,6 +20,7 @@ import { getImagePath } from "~/core/utils";
 import ReactAudioPlayer from "react-audio-player";
 import Painter from "~/components/Painter";
 import Pen from "~/components/Icons/Pen";
+import Pain from "~/components/Painter/Canvas";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -153,7 +154,8 @@ const View: React.FC<Props> = () => {
 
   return (
     <>
-      <Painter
+      <Painter />
+      {/* <Painter
         visible={showPainter}
         onClose={onHidePainter}
         onChange={onChangePainter}
@@ -161,7 +163,7 @@ const View: React.FC<Props> = () => {
         defaultLineWidth={defaultLineWidth}
         bgColor={bgColor}
         bgAlph={bgAlph}
-      />
+      /> */}
       <div className={s.root} key={"wIsx"}>
         <ReactAudioPlayer ref={player} src="./warning.mp3" />
         <div className={s.back} style={{ opacity: showPainter ? 0 : 1 }}>

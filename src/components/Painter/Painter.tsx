@@ -1,6 +1,10 @@
-import React, { useCallback, useRef, useState } from "react";
-import { ReactPainter } from "react-painter";
+import React, { useCallback, useState } from "react";
+import Canvas from "./Canvas";
+import Eraser from "./Icons/Eraser";
+import Pen from "./Icons/Pen";
+import Fill from "./Icons/Fill";
 import s from "./Painter.module.scss";
+import Display from "./Icons/Display";
 
 interface Props {
   visible?: boolean;
@@ -16,7 +20,6 @@ interface Props {
   bgAlph?: number;
   bgColor?: string;
 }
-
 const Painter: React.FC<Props> = ({
   visible,
   onClose,
@@ -26,11 +29,13 @@ const Painter: React.FC<Props> = ({
   bgAlph = 0,
   onChange,
 }) => {
+  const [color, setColor] = useState("#000");
   const [clearStamp, setClearStamp] = useState(new Date().getTime());
   const [initLineWidth, setInitLineWidth] = useState(defaultLineWidth);
   const [initLineColor, setInitLineColor] = useState(defaultLineColor);
   const [showBgConfig, setShowBgConfig] = useState(false);
-  const ref = useRef<HTMLCanvasElement>(null);
+  const [type, setType] = useState<"pen" | "eraser">("pen");
+  const [fillmode, setFillmode] = useState(false);
 
   const close = useCallback(() => {
     onClose?.();
@@ -41,9 +46,10 @@ const Painter: React.FC<Props> = ({
   }, []);
 
   const onLinsize = useCallback(
-    (setLineWidth: (num: number) => void) => (e: any) => {
+    (e: any) => {
       const val = Number(e.target.value);
-      setLineWidth(val);
+      console.log("val", val);
+
       setInitLineWidth(val);
       onChange?.({ lineWidth: val });
     },
@@ -77,103 +83,80 @@ const Painter: React.FC<Props> = ({
   );
 
   return (
-    <ReactPainter
-      width={window.innerWidth}
-      key={clearStamp}
-      height={window.innerHeight}
-      onSave={(blob) => console.log(blob.stream().getReader())}
-      initialLineWidth={initLineWidth}
-      initialColor={initLineColor}
-      render={({
-        canvas,
-        triggerSave,
-        imageDownloadUrl,
-        setLineWidth,
-        setColor,
-      }) => (
-        <>
-          <div
-            className={s.root}
-            style={{
-              display: visible ? "block" : "none",
-            }}
-          >
-            <div className={s.cvs}>
-              {canvas}
-              {/* {React.cloneElement(canvas, {
-                ref
-              })} */}
-              <div
-                className={s.bgcover}
-                style={{
-                  backgroundColor: bgColor,
-                  opacity: bgAlph,
-                }}
-              />
+    <div className={s.root}>
+      <div className={s.handlebar}>
+        {showBgConfig ? (
+          <div>
+            &nbsp;
+            <div
+              className={`${s.icon} ${type === "pen" ? s.iconact : ""}`}
+              onClick={() => setType("pen")}
+            >
+              <Pen />
             </div>
-            <div className={s.handlebar}>
-              {showBgConfig ? (
-                <button onClick={toggleBackground}>设置</button>
-              ) : (
-                <div> &nbsp;</div>
-              )}
-
-              <div>
-                <button onClick={() => setClearStamp(new Date().getTime())}>
-                  清空
-                </button>
-                <button onClick={close}>关闭</button>
-              </div>
-              {!showBgConfig && (
-                <div className={s.bgbar}>
-                  &nbsp; 画笔 &nbsp;&nbsp;
-                  <input
-                    className={s.slider}
-                    type="range"
-                    min="1"
-                    max="60"
-                    value={initLineWidth}
-                    onChange={onLinsize(setLineWidth)}
-                  />{" "}
-                  <span className={s.sliderblock}>({initLineWidth})</span>
-                  &nbsp;&nbsp;
-                  <input
-                    className={s.color}
-                    type="color"
-                    value={initLineColor}
-                    onChange={onLinColor(setColor)}
-                  />{" "}
-                  &nbsp; 透明度 &nbsp;&nbsp;
-                  <input
-                    className={s.slider}
-                    type="range"
-                    min="0"
-                    step={0.1}
-                    max="1"
-                    value={bgAlph}
-                    onChange={onbgAlph}
-                  />{" "}
-                  <span className={s.sliderblock}>({bgAlph})</span>
-                  &nbsp;&nbsp;&nbsp; 背景色 &nbsp;&nbsp;
-                  <input
-                    className={s.color}
-                    type="color"
-                    value={bgColor}
-                    onChange={onbgColor}
-                  />{" "}
-                  <button
-                    onClick={toggleBackground}
-                    className={showBgConfig ? "" : s.effectbtn}
-                  >
-                    确定
-                  </button>
-                </div>
-              )}
+            <div
+              className={`${s.icon} ${type === "eraser" ? s.iconact : ""}`}
+              onClick={() => setType("eraser")}
+            >
+              <Eraser />
             </div>
+            &nbsp;&nbsp;
+            <input
+              className={s.slider}
+              type="range"
+              min="1"
+              max="60"
+              value={initLineWidth}
+              onChange={onLinsize}
+            />{" "}
+            <span className={s.sliderblock}>({initLineWidth})</span>
+            &nbsp;&nbsp;
+            <input
+              className={s.color}
+              type="color"
+              value={initLineColor}
+              onChange={onLinColor(setColor)}
+            />{" "}
+            <div
+              className={`${s.icon} ${fillmode ? s.iconact : ""}`}
+              onClick={() => setFillmode(!fillmode)}
+            >
+              <Fill />
+            </div>
+            <input
+              className={s.slider}
+              type="range"
+              min="0"
+              step={0.1}
+              max="1"
+              value={bgAlph}
+              onChange={onbgAlph}
+            />{" "}
+            <span className={s.sliderblock}>({bgAlph})</span>
+            &nbsp;&nbsp;&nbsp; 背景色 &nbsp;&nbsp;
+            <input
+              className={s.color}
+              type="color"
+              value={bgColor}
+              onChange={onbgColor}
+            />
           </div>
-        </>
-      )}
-    />
+        ) : (
+          <div>&nbsp;</div>
+        )}
+        <div
+          className={`${s.icon} ${showBgConfig ? s.iconact : ""}`}
+          onClick={() => setShowBgConfig(!showBgConfig)}
+        >
+          <Display />
+        </div>
+      </div>
+      <Canvas
+        color={initLineColor}
+        eraser={type === "eraser"}
+        lineWidth={initLineWidth}
+      />
+    </div>
   );
 };
 
