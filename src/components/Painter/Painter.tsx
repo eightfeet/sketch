@@ -39,10 +39,6 @@ const Painter: React.FC<Props> = ({
     onClose?.();
   }, [onClose]);
 
-  const toggleBackground = useCallback(() => {
-    setShowBgConfig((bg) => !bg);
-  }, []);
-
   const onLinsize = useCallback(
     (e: any) => {
       const val = Number(e.target.value);
