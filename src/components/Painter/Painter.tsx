@@ -157,9 +157,7 @@ const Painter: React.FC<Props> = ({
                 <button>清除</button>
               </div>
             </>
-          ) : (
-            <>&nbsp;</>
-          )}
+          ) : null}
         </div>
       </div>
       <Canvas

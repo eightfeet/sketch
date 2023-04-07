@@ -59,6 +59,8 @@
     button {
       padding: 5px 10px;
       margin: 0 5px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
     }
     input[type="color" i]::-webkit-color-swatch-wrapper {
       padding: 0;
@@ -117,18 +119,21 @@
     display: flex;
     position: absolute;
     top: 0;
-    width: 100vw;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
     > div {
-      margin-bottom: 10px;
+      padding: 10px;
     }
   }
 
   .switch {
     width: 180px;
     display: flex;
+    align-items: center;
   }
 
   canvas {
