@@ -5,6 +5,7 @@ import Pen from "./Icons/Pen";
 import Fill from "./Icons/Fill";
 import s from "./Painter.module.scss";
 import Display from "./Icons/Display";
+import Close from "./Icons/Close";
 
 interface Props {
   visible?: boolean;
@@ -75,9 +76,15 @@ const Painter: React.FC<Props> = ({
   );
 
   return (
-    <div className={s.root}>
+    <div className={s.root} style={{ display: visible ? "block" : "none" }}>
       <div className={s.toolbar}>
         <div className={s.switch}>
+          <div
+            className={`${s.icon} ${type === "eraser" ? s.iconact : ""}`}
+            onClick={close}
+          >
+            <Close />
+          </div>
           <div
             className={`${s.icon} ${showBgConfig ? s.iconact : ""}`}
             onClick={() => setShowBgConfig(!showBgConfig)}
@@ -109,7 +116,9 @@ const Painter: React.FC<Props> = ({
                 value={lineWidth}
                 onChange={onLinsize}
               />{" "}
-              <span className={s.sliderblock}>({lineWidth})</span>
+              <span className={s.sliderblock} style={{ width: "1.5rem" }}>
+                ({lineWidth})
+              </span>
               &nbsp;&nbsp;
               <input
                 className={s.color}
@@ -117,31 +126,35 @@ const Painter: React.FC<Props> = ({
                 value={lineColor}
                 onChange={onLinColor}
               />{" "}
-              <div
-                className={`${s.icon} ${fillmode ? s.iconact : ""}`}
-                onClick={() => setFillmode(!fillmode)}
-              >
-                <Fill />
+              <div className={`${s.icon} ${fillmode ? s.iconact : ""}`}>
+                <Fill onClick={() => setFillmode(!fillmode)} />
+                {fillmode && (
+                  <div className={s.fillmodebox}>
+                    <span className={s.block}> &nbsp;&nbsp;背景色 &nbsp;</span>
+                    <input
+                      className={s.color}
+                      type="color"
+                      value={bgColor}
+                      onChange={onbgColor}
+                    />
+                    &nbsp;&nbsp;透明度 &nbsp;
+                    <input
+                      className={s.slider}
+                      type="range"
+                      min="0"
+                      step={0.1}
+                      max="1"
+                      value={bgAlph}
+                      onChange={onbgAlph}
+                    />{" "}
+                    <span className={s.block} style={{ width: "1.5rem" }}>
+                      ({bgAlph})
+                    </span>
+                  </div>
+                )}
               </div>
-              <input
-                className={s.slider}
-                type="range"
-                min="0"
-                step={0.1}
-                max="1"
-                value={bgAlph}
-                onChange={onbgAlph}
-              />{" "}
-              <span className={s.block}>({bgAlph})</span>
-              <span className={s.block}> &nbsp;&nbsp;背景色 &nbsp;</span>
-              <input
-                className={s.color}
-                type="color"
-                value={bgColor}
-                onChange={onbgColor}
-              />
               <div onClick={() => setClearStamp(new Date().getTime())}>
-                清除
+                <button>清除</button>
               </div>
             </>
           ) : (
@@ -151,9 +164,11 @@ const Painter: React.FC<Props> = ({
       </div>
       <Canvas
         key={clearStamp}
-        color={lineColor}
+        lineColor={lineColor}
         eraser={type === "eraser"}
         lineWidth={lineWidth}
+        bgColor={bgColor}
+        bgAlph={bgAlph}
       />
     </div>
   );

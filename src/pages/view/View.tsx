@@ -144,7 +144,7 @@ const View: React.FC<Props> = () => {
       for (const key in valus) {
         if (Object.prototype.hasOwnProperty.call(valus, key)) {
           const value = valus[key];
-          value && set({ name: key, value });
+          (value || value === 0) && set({ name: key, value });
         }
       }
     },

@@ -1,15 +1,22 @@
 import React, { useRef, useEffect } from "react";
+import { hex2rgba } from "./help";
 
 interface CanvasProps {
-  color: string;
+  lineColor: string;
   eraser: boolean;
   lineWidth: number;
+  bgColor?: string;
+  bgAlph?: number;
 }
 
+const isMobileDevice = typeof window.ontouchstart !== "undefined";
+
 const Canvas: React.FC<CanvasProps> = ({
-  color = "#f00",
+  lineColor = "#f00",
   eraser = false,
   lineWidth = 20,
+  bgColor = "#fff",
+  bgAlph = 0.2,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,17 +30,32 @@ const Canvas: React.FC<CanvasProps> = ({
     const ctx = canvas.getContext("2d");
     let isDrawing = false;
 
-    function startDraw(e: MouseEvent) {
+    function startDraw(e: any) {
+      e.preventDefault();
+      let x = 0;
+      let y = 0;
+      if (isMobileDevice) {
+        // 获取第一个触点的坐标
+        x = e.touches[0].clientX - e.target.offsetLeft;
+        y = e.touches[0].clientY - e.target.offsetTop;
+      } else {
+        x = e.clientX;
+        y = e.clientY;
+      }
+
+      // 开始绘制
       isDrawing = true;
       ctx!.beginPath();
-      ctx!.moveTo(e.clientX, e.clientY);
+      ctx!.moveTo(x, y);
     }
 
     function stopDraw() {
       isDrawing = false;
     }
 
-    function draw(e: MouseEvent) {
+    function draw(e: any) {
+      e.preventDefault();
+
       if (!isDrawing) {
         return;
       }
@@ -45,36 +67,56 @@ const Canvas: React.FC<CanvasProps> = ({
       } else {
         ctx!.globalCompositeOperation = "source-over";
         ctx!.lineWidth = lineWidth;
-        ctx!.strokeStyle = color;
+        ctx!.strokeStyle = lineColor;
         ctx!.globalAlpha = 0.5;
       }
 
-      // ctx!.beginPath();
-      // ctx!.arc(e.clientX, e.clientY, 5, 0, Math.PI * 2);
-      // ctx!.fill();
+      let x = 0;
+      let y = 0;
+      if (isMobileDevice) {
+        // 获取第一个触点的坐标
+        x = e.touches[0].clientX - e.target.offsetLeft;
+        y = e.touches[0].clientY - e.target.offsetTop;
+      } else {
+        x = e.clientX;
+        y = e.clientY;
+      }
 
       ctx!.lineCap = "round";
       ctx!.lineJoin = "round";
-      ctx!.lineTo(e.clientX, e.clientY);
+      ctx!.lineTo(x, y);
       ctx!.stroke();
     }
 
-    canvas.addEventListener("mousedown", startDraw);
-    canvas.addEventListener("mouseup", stopDraw);
-    canvas.addEventListener("mousemove", draw);
+    if (isMobileDevice) {
+      canvas.addEventListener("touchstart", startDraw);
+      canvas.addEventListener("touchend", stopDraw);
+      canvas.addEventListener("touchmove", draw);
+    } else {
+      canvas.addEventListener("mousedown", startDraw);
+      canvas.addEventListener("mouseup", stopDraw);
+      canvas.addEventListener("mousemove", draw);
+    }
 
     return () => {
-      canvas.removeEventListener("mousedown", startDraw);
-      canvas.removeEventListener("mouseup", stopDraw);
-      canvas.removeEventListener("mousemove", draw);
+      if (isMobileDevice) {
+        canvas.removeEventListener("touchstart", startDraw);
+        canvas.removeEventListener("touchend", stopDraw);
+        canvas.removeEventListener("touchmove", draw);
+      } else {
+        canvas.removeEventListener("mousedown", startDraw);
+        canvas.removeEventListener("mouseup", stopDraw);
+        canvas.removeEventListener("mousemove", draw);
+      }
     };
-  }, [color, eraser, lineWidth]);
+  }, [lineColor, eraser, lineWidth]);
 
   return (
     <canvas
       ref={canvasRef}
       width={window.innerWidth}
       height={window.innerHeight}
+      style={{ backgroundColor: hex2rgba(bgColor, bgAlph) }}
     />
   );
 };
