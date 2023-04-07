@@ -20,7 +20,6 @@ import { getImagePath } from "~/core/utils";
 import ReactAudioPlayer from "react-audio-player";
 import Painter from "~/components/Painter";
 import Pen from "~/components/Icons/Pen";
-import Pain from "~/components/Painter/Canvas";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -36,7 +35,7 @@ function setPic(arr: ModelType[], random: boolean) {
 
 const View: React.FC<Props> = () => {
   const { pictureList } = useSelector((state: RootState) => state.dynamics);
-  const { defaultLineColor, defaultLineWidth, bgColor, bgAlph } = useSelector(
+  const { lineColor, lineWidth, bgColor, bgAlph } = useSelector(
     (state: RootState) => state.runtime
   );
 
@@ -154,16 +153,15 @@ const View: React.FC<Props> = () => {
 
   return (
     <>
-      <Painter />
-      {/* <Painter
+      <Painter
         visible={showPainter}
         onClose={onHidePainter}
         onChange={onChangePainter}
-        defaultLineColor={defaultLineColor}
-        defaultLineWidth={defaultLineWidth}
+        lineColor={lineColor}
+        lineWidth={lineWidth}
         bgColor={bgColor}
         bgAlph={bgAlph}
-      /> */}
+      />
       <div className={s.root} key={"wIsx"}>
         <ReactAudioPlayer ref={player} src="./warning.mp3" />
         <div className={s.back} style={{ opacity: showPainter ? 0 : 1 }}>
