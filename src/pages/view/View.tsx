@@ -13,13 +13,13 @@ import SuiJi from "~/components/Icons/SuiJi";
 import AnXu from "~/components/Icons/AnXU";
 import { ModelType } from "~/types/models";
 import Timer from "./components/Timer";
-import dayjs from "dayjs";
 import SketchTimer from "../../components/SketchTimer";
 import Video from "~/components/Video";
 import { getImagePath } from "~/core/utils";
 import ReactAudioPlayer from "react-audio-player";
 import Painter from "~/components/Painter";
 import Pen from "~/components/Icons/Pen";
+import classNames from "classnames";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -46,6 +46,7 @@ const View: React.FC<Props> = () => {
   const navigate = useNavigate();
   const player = useRef<ReactAudioPlayer>(null);
   const { set } = useDispatch<RootDispatch>().runtime;
+  const [wranTime, setWranTime] = useState(true);
 
   useEffect(() => {
     const currentData = setPic(pictureList, suiji);
@@ -122,14 +123,25 @@ const View: React.FC<Props> = () => {
   }, []);
 
   const handleComplete = useCallback(() => {
+    setWranTime(false);
     swiperRef.current?.slideNext();
   }, []);
 
-  const onUpdate = useCallback((remainingTime: number) => {
-    if (remainingTime === 4) {
-      player.current?.audioEl.current?.play();
-    }
-  }, []);
+  const onUpdate = useCallback(
+    (remainingTime: number) => {
+      if (remainingTime === 4) {
+        player.current?.audioEl.current?.play();
+        setWranTime(true);
+      }
+      if (remainingTime < 4) {
+        !wranTime && setWranTime(false);
+      }
+      if (remainingTime > 4) {
+        wranTime && setWranTime(true);
+      }
+    },
+    [wranTime]
+  );
 
   const onShowPainter = useCallback(() => {
     setShowPainter(true);
@@ -192,18 +204,21 @@ const View: React.FC<Props> = () => {
         >
           {renderPic()}
         </Swiper>
-        <div className={s.timer} style={{ opacity: showPainter ? 0 : 1 }}>
+        <div
+          className={classNames(s.timer, { [s.timewran]: wranTime })}
+          style={{ opacity: showPainter ? 0 : 1 }}
+        >
           <SketchTimer>
             {initTime ? (
               <Timer
                 onComplete={handleComplete}
                 onUpdate={onUpdate}
-                frizeTime={dayjs()}
                 info={`${
                   ((swiperRef.current?.activeIndex || 0) %
                     pictureList?.length) +
                   1
                 }/${pictureList?.length}`}
+                wranTime
               />
             ) : (
               <span></span>

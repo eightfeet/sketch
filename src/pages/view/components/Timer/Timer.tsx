@@ -1,57 +1,50 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback } from "react";
 import s from "./Timer.module.scss";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
 import dayjs from "dayjs";
+import classNames from "classnames";
 
 interface Props {
   onComplete: () => void;
-  frizeTime: dayjs.Dayjs;
   info?: string;
   onUpdate?: (remainingTime: number) => void;
+  wranTime: boolean;
 }
 
-const Timer: React.FC<Props> = ({ onComplete, frizeTime, info, onUpdate }) => {
+const Timer: React.FC<Props> = ({ onComplete, info, onUpdate, wranTime }) => {
   const { keepingTime } = useSelector((state: RootState) => state.dynamics);
 
-  const [time, setTime] = useState<string>();
+  const handleUpdate = useCallback(
+    (remainingTime: number) => {
+      onUpdate?.(remainingTime);
+    },
+    [onUpdate]
+  );
 
-  const safeUpdateTime = useRef<() => void>();
-
-  safeUpdateTime.current = useCallback(() => {
-    const timeresult = frizeTime.add(keepingTime || 0, "minute");
-    const result = dayjs.duration(timeresult.diff(dayjs()));
+  const getCurrentTime = useCallback((time: number) => {
+    const result = dayjs.duration(time * 1000);
     if (result.hours() <= 0 && result.minutes() <= 0 && result.seconds() <= 0) {
-      return;
+      return null;
     } else {
-      setTime(result.format("HH:mm:ss"));
+      return result.format("HH:mm:ss");
     }
-  }, [frizeTime, keepingTime]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      safeUpdateTime.current?.();
-    }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, [frizeTime, keepingTime]);
+  }, []);
 
   const renderTime = useCallback(
     ({ remainingTime }: { remainingTime: number }) => {
       if (remainingTime === 0) {
         return <div className={s.timercount}>next</div>;
       }
-
       return (
-        <div className={s.timercount}>
+        <div className={classNames(s.timercount, { [s.wrantime]: wranTime })}>
           <div className={s.index}>{info}</div>
-          <div className={s.time}>{time}</div>
+          <div className={s.time}>{getCurrentTime(remainingTime)}</div>
         </div>
       );
     },
-    [info, time]
+    [wranTime, info, getCurrentTime]
   );
 
   return (
@@ -64,7 +57,7 @@ const Timer: React.FC<Props> = ({ onComplete, frizeTime, info, onUpdate }) => {
       size={70}
       strokeWidth={2}
       onComplete={onComplete}
-      onUpdate={onUpdate}
+      onUpdate={handleUpdate}
     >
       {renderTime}
     </CountdownCircleTimer>

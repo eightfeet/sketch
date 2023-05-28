@@ -8,3 +8,13 @@
 .time {
   font-size: $fontsmaller;
 }
+
+.wrantime {
+  .index {
+    display: none;
+  }
+  .time {
+    font-weight: bold;
+    color: #555;
+  }
+}
