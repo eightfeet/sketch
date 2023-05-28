@@ -46,7 +46,7 @@ const View: React.FC<Props> = () => {
   const navigate = useNavigate();
   const player = useRef<ReactAudioPlayer>(null);
   const { set } = useDispatch<RootDispatch>().runtime;
-  const [wranTime, setWranTime] = useState(true);
+  const [wranTime, setWranTime] = useState(false);
 
   useEffect(() => {
     const currentData = setPic(pictureList, suiji);
@@ -218,7 +218,7 @@ const View: React.FC<Props> = () => {
                     pictureList?.length) +
                   1
                 }/${pictureList?.length}`}
-                wranTime
+                wranTime={wranTime}
               />
             ) : (
               <span></span>
