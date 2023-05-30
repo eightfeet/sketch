@@ -6,6 +6,8 @@ import Fill from "./Icons/Fill";
 import s from "./Painter.module.scss";
 import Display from "./Icons/Display";
 import Close from "./Icons/Close";
+import Paint from "./Icons/Paint";
+import Clear from "./Icons/Clear";
 
 interface Props {
   visible?: boolean;
@@ -75,11 +77,14 @@ const Painter: React.FC<Props> = ({
     <div className={s.root} style={{ display: visible ? "block" : "none" }}>
       <div className={s.toolbar}>
         <div className={s.switch}>
+          <div className={`${s.icon} ${s.iconact}`} onClick={close}>
+            <Paint />
+          </div>
           <div
-            className={`${s.icon} ${type === "eraser" ? s.iconact : ""}`}
-            onClick={close}
+            className={`${s.icon}`}
+            onClick={() => setClearStamp(new Date().getTime())}
           >
-            <Close />
+            <Clear />
           </div>
           <div
             className={`${s.icon} ${showBgConfig ? s.iconact : ""}`}
@@ -148,9 +153,6 @@ const Painter: React.FC<Props> = ({
                     </span>
                   </div>
                 )}
-              </div>
-              <div onClick={() => setClearStamp(new Date().getTime())}>
-                <button>清除</button>
               </div>
             </>
           ) : null}

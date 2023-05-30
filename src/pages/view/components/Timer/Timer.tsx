@@ -11,9 +11,16 @@ interface Props {
   info?: string;
   onUpdate?: (remainingTime: number) => void;
   wranTime: boolean;
+  isPlaying: boolean;
 }
 
-const Timer: React.FC<Props> = ({ onComplete, info, onUpdate, wranTime }) => {
+const Timer: React.FC<Props> = ({
+  onComplete,
+  info,
+  onUpdate,
+  wranTime,
+  isPlaying,
+}) => {
   const { keepingTime } = useSelector((state: RootState) => state.dynamics);
 
   const handleUpdate = useCallback(
@@ -49,7 +56,7 @@ const Timer: React.FC<Props> = ({ onComplete, info, onUpdate, wranTime }) => {
 
   return (
     <CountdownCircleTimer
-      isPlaying
+      isPlaying={isPlaying}
       duration={(keepingTime || 0) * 60}
       colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
       colorsTime={[60, 30, 20, 0]}

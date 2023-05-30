@@ -13,6 +13,7 @@
   touch-action: none;
   overflow: visible !important;
   user-select: none !important;
+  pointer-events: none;
   img {
     user-select: none !important;
   }

@@ -18,8 +18,8 @@ import Video from "~/components/Video";
 import { getImagePath } from "~/core/utils";
 import ReactAudioPlayer from "react-audio-player";
 import Painter from "~/components/Painter";
-import Pen from "~/components/Icons/Pen";
 import classNames from "classnames";
+import Paint from "~/components/Painter/Icons/Paint";
 
 SwiperCore.use([Autoplay, EffectFade, Lazy, Keyboard, Zoom]);
 
@@ -186,7 +186,7 @@ const View: React.FC<Props> = () => {
           </Icons>
 
           <Icons type="dark" className={s.icon} onClick={onShowPainter}>
-            <Pen />
+            <Paint />
           </Icons>
         </div>
         <Swiper
@@ -213,6 +213,7 @@ const View: React.FC<Props> = () => {
               <Timer
                 onComplete={handleComplete}
                 onUpdate={onUpdate}
+                isPlaying={!showPainter}
                 info={`${
                   ((swiperRef.current?.activeIndex || 0) %
                     pictureList?.length) +
