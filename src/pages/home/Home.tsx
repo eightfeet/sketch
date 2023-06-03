@@ -97,7 +97,6 @@ const Home: React.FC<Props> = () => {
       </WingBlank>
 
       <WingBlank className={s.space}>
-        {dayjs}
         <div className={s.info}>
           速写预计持续
           {dayjs

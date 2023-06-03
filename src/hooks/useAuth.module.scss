@@ -1,0 +1,39 @@
+#name,
+#sn {
+  border: 1px solid $darkcolor;
+  width: 100%;
+  font-size: $fontlarger;
+  padding: 10px;
+  display: block;
+  box-sizing: border-box;
+
+  :focus,
+  :focus-visible {
+    outline: none !important;
+  }
+}
+
+.title {
+  text-align: left;
+  width: 550px;
+
+  display: flex;
+  justify-content: space-between;
+  #getsn {
+    color: rgb(17, 141, 243);
+    font-size: 28px;
+  }
+}
+
+.wrap {
+  text-align: left;
+
+  > div {
+    label {
+      font-size: 30px;
+      display: block;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+  }
+}

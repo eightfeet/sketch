@@ -5,7 +5,6 @@ import Pen from "./Icons/Pen";
 import Fill from "./Icons/Fill";
 import s from "./Painter.module.scss";
 import Display from "./Icons/Display";
-import Close from "./Icons/Close";
 import Paint from "./Icons/Paint";
 import Clear from "./Icons/Clear";
 

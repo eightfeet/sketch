@@ -5,6 +5,7 @@ import useDocumentTitle from "~/hooks/useDocumentTitle";
 import { QueryClientProvider, QueryClient } from "react-query";
 import BlockLoading from "~/components/BlockLoading";
 import { trackPageView } from "~/core/tracking";
+import { useAuth } from "~/hooks/useAuth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +37,8 @@ const Pages: React.FC<PagesProps> = ({ component: Component, name }) => {
 };
 
 export default function App() {
+  const checkAuth = useAuth();
+
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>
@@ -44,21 +47,23 @@ export default function App() {
             <BlockLoading style={{ width: "100vw", height: "100vh" }} />
           }
         >
-          <Routes>
-            <Route path="/" element={<Outlet />}>
-              {pages.map(({ page, name, path, component }) => {
-                const props: Props = {
-                  key: page,
-                  element: <Pages name={name} component={component} />,
-                };
-                page === "home"
-                  ? (props.index = true)
-                  : (props.path = path || page);
-                return <Route {...props} />;
-              })}
-              <Route path="*" element={<div>页面不存在</div>} />
-            </Route>
-          </Routes>
+          <div onClick={checkAuth}>
+            <Routes>
+              <Route path="/" element={<Outlet />}>
+                {pages.map(({ page, name, path, component }) => {
+                  const props: Props = {
+                    key: page,
+                    element: <Pages name={name} component={component} />,
+                  };
+                  page === "home"
+                    ? (props.index = true)
+                    : (props.path = path || page);
+                  return <Route {...props} />;
+                })}
+                <Route path="*" element={<div>页面不存在</div>} />
+              </Route>
+            </Routes>
+          </div>
         </React.Suspense>
       </HashRouter>
     </QueryClientProvider>
