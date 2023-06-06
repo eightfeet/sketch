@@ -85,12 +85,6 @@ const Painter: React.FC<Props> = ({
           >
             <Clear />
           </div>
-          <div
-            className={`${s.icon} ${showBgConfig ? s.iconact : ""}`}
-            onClick={() => setShowBgConfig(!showBgConfig)}
-          >
-            <Display />
-          </div>
         </div>
         <div className={s.handlebar}>
           {showBgConfig ? (
@@ -155,6 +149,14 @@ const Painter: React.FC<Props> = ({
               </div>
             </>
           ) : null}
+        </div>
+        <div>
+          <div
+            className={`${s.icon} ${showBgConfig ? s.iconact : ""}`}
+            onClick={() => setShowBgConfig(!showBgConfig)}
+          >
+            <Display />
+          </div>
         </div>
       </div>
       <Canvas
