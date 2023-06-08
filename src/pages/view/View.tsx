@@ -35,9 +35,15 @@ function setPic(arr: ModelType[], random: boolean) {
 
 const View: React.FC<Props> = () => {
   const { pictureList } = useSelector((state: RootState) => state.dynamics);
-  const { lineColor, lineWidth, bgColor, bgAlph } = useSelector(
-    (state: RootState) => state.runtime
-  );
+  const {
+    lineColor,
+    lineWidth,
+    bgColor,
+    bgAlph,
+    lineAlph,
+    eraserAlph,
+    eraserWidth,
+  } = useSelector((state: RootState) => state.runtime);
 
   const [suiji, setSuiji] = useState(false);
   const [showPainter, setShowPainter] = useState(false);
@@ -170,7 +176,10 @@ const View: React.FC<Props> = () => {
         onClose={onHidePainter}
         onChange={onChangePainter}
         lineColor={lineColor}
+        lineAlph={lineAlph}
         lineWidth={lineWidth}
+        eraserAlph={eraserAlph}
+        eraserWidth={eraserWidth}
         bgColor={bgColor}
         bgAlph={bgAlph}
       />

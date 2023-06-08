@@ -4,9 +4,9 @@ import Eraser from "./Icons/Eraser";
 import Pen from "./Icons/Pen";
 import Fill from "./Icons/Fill";
 import s from "./Painter.module.scss";
-import Display from "./Icons/Display";
 import Paint from "./Icons/Paint";
 import Clear from "./Icons/Clear";
+import ColorAndAlph from "./ColorAndAlph";
 
 interface Props {
   visible?: boolean;
@@ -14,62 +14,69 @@ interface Props {
   onChange?: (data: {
     lineColor?: string;
     lineWidth?: number;
+    eraserWidth?: number;
     bgColor?: string;
     bgAlph?: number;
+    eraserAlph?: number;
+    lineAlph?: number;
   }) => void;
   lineColor?: string;
   lineWidth?: number;
+  eraserWidth?: number;
   bgAlph?: number;
   bgColor?: string;
+  eraserAlph?: number;
+  lineAlph?: number;
 }
 const Painter: React.FC<Props> = ({
   visible,
   onClose,
   lineColor = "#ff0000",
   lineWidth = 2,
+  eraserWidth = 2,
   bgColor = "#ffffff",
   bgAlph = 0,
   onChange,
+  eraserAlph = 50,
+  lineAlph = 50,
 }) => {
   const [clearStamp, setClearStamp] = useState(new Date().getTime());
-  const [showBgConfig, setShowBgConfig] = useState(false);
-  const [type, setType] = useState<"pen" | "eraser">("pen");
-  const [fillmode, setFillmode] = useState(false);
+  const [currentMode, setCurrentMode] = useState<"pen" | "eraser" | "fill">();
 
   const close = useCallback(() => {
     onClose?.();
   }, [onClose]);
 
-  const onLinsize = useCallback(
-    (e: any) => {
-      const val = Number(e.target.value);
-      onChange?.({ lineWidth: val });
+  const onChangeBg = useCallback(
+    ({ color, alph }) => {
+      onChange?.({ bgAlph: alph, bgColor: color });
     },
     [onChange]
   );
 
-  const onLinColor = useCallback(
-    (e: any) => {
-      const val = e.target.value;
-      onChange?.({ lineColor: val });
+  const onChangePen = useCallback(
+    ({ color, alph, size }) => {
+      onChange?.({ lineAlph: alph, lineColor: color, lineWidth: size });
     },
     [onChange]
   );
 
-  const onbgColor = useCallback(
-    (e: any) => {
-      const val = e.target.value;
-      onChange?.({ bgColor: val });
+  const onChangeEraser = useCallback(
+    ({ size, alph }) => {
+      onChange?.({ eraserAlph: alph, eraserWidth: size });
     },
     [onChange]
   );
 
-  const onbgAlph = useCallback(
-    (e: any) => {
-      const val = Number(e.target.value);
-      onChange?.({ bgAlph: val });
+  const onChangeMode = useCallback(
+    (mode: "pen" | "eraser" | "fill") => {
+      if (currentMode === mode) {
+        setCurrentMode(undefined);
+      } else {
+        setCurrentMode(mode);
+      }
     },
-    [onChange]
+    [currentMode]
   );
 
   return (
@@ -80,6 +87,24 @@ const Painter: React.FC<Props> = ({
             <Paint />
           </div>
           <div
+            className={`${s.icon} ${currentMode === "pen" ? s.iconact : ""}`}
+            onClick={() => onChangeMode("pen")}
+          >
+            <Pen />
+          </div>
+          <div
+            className={`${s.icon} ${currentMode === "eraser" ? s.iconact : ""}`}
+            onClick={() => onChangeMode("eraser")}
+          >
+            <Eraser />
+          </div>
+          <div
+            className={`${s.icon} ${currentMode === "fill" ? s.iconact : ""}`}
+            onClick={() => onChangeMode("fill")}
+          >
+            <Fill />
+          </div>
+          <div
             className={`${s.icon}`}
             onClick={() => setClearStamp(new Date().getTime())}
           >
@@ -87,85 +112,46 @@ const Painter: React.FC<Props> = ({
           </div>
         </div>
         <div className={s.handlebar}>
-          {showBgConfig ? (
-            <>
-              <div
-                className={`${s.icon} ${type === "pen" ? s.iconact : ""}`}
-                onClick={() => setType("pen")}
-              >
-                <Pen />
-              </div>
-              <div
-                className={`${s.icon} ${type === "eraser" ? s.iconact : ""}`}
-                onClick={() => setType("eraser")}
-              >
-                <Eraser />
-              </div>
-              &nbsp;&nbsp;
-              <input
-                className={s.slider}
-                type="range"
-                min="1"
-                max="60"
-                value={lineWidth}
-                onChange={onLinsize}
-              />{" "}
-              <span className={s.sliderblock} style={{ width: "1.5rem" }}>
-                ({lineWidth})
-              </span>
-              &nbsp;&nbsp;
-              <input
-                className={s.color}
-                type="color"
-                value={lineColor}
-                onChange={onLinColor}
-              />{" "}
-              <div className={`${s.icon} ${fillmode ? s.iconact : ""}`}>
-                <Fill onClick={() => setFillmode(!fillmode)} />
-                {fillmode && (
-                  <div className={s.fillmodebox}>
-                    <span className={s.block}> &nbsp;&nbsp;背景色 &nbsp;</span>
-                    <input
-                      className={s.color}
-                      type="color"
-                      value={bgColor}
-                      onChange={onbgColor}
-                    />
-                    &nbsp;&nbsp;透明度 &nbsp;
-                    <input
-                      className={s.slider}
-                      type="range"
-                      min="0"
-                      step={0.1}
-                      max="1"
-                      value={bgAlph}
-                      onChange={onbgAlph}
-                    />{" "}
-                    <span className={s.block} style={{ width: "1.5rem" }}>
-                      ({bgAlph})
-                    </span>
-                  </div>
-                )}
-              </div>
-            </>
+          {currentMode === "pen" ? (
+            <div className={s.setbar}>
+              <ColorAndAlph
+                color={lineColor}
+                size={lineWidth}
+                alph={lineAlph}
+                onChange={onChangePen}
+              />
+            </div>
           ) : null}
-        </div>
-        <div>
-          <div
-            className={`${s.icon} ${showBgConfig ? s.iconact : ""}`}
-            onClick={() => setShowBgConfig(!showBgConfig)}
-          >
-            <Display />
-          </div>
+          {currentMode === "eraser" ? (
+            <div className={s.setbar}>
+              <ColorAndAlph
+                size={eraserWidth}
+                alph={eraserAlph}
+                onChange={onChangeEraser}
+              />
+            </div>
+          ) : null}
+          {currentMode === "fill" ? (
+            <div className={s.setbar}>
+              <ColorAndAlph
+                color={bgColor}
+                alph={bgAlph}
+                onChange={onChangeBg}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       <Canvas
         key={clearStamp}
         lineColor={lineColor}
-        eraser={type === "eraser"}
+        eraser={currentMode === "eraser"}
         lineWidth={lineWidth}
+        lineAlph={lineAlph}
+        eraserWidth={eraserWidth}
         bgColor={bgColor}
         bgAlph={bgAlph}
+        eraserAlph={eraserAlph}
       />
     </div>
   );

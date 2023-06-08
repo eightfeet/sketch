@@ -5,8 +5,11 @@ interface CanvasProps {
   lineColor: string;
   eraser: boolean;
   lineWidth: number;
+  eraserWidth: number;
   bgColor?: string;
   bgAlph?: number;
+  lineAlph?: number;
+  eraserAlph?: number;
 }
 
 const isMobileDevice = typeof window.ontouchstart !== "undefined";
@@ -14,9 +17,12 @@ const isMobileDevice = typeof window.ontouchstart !== "undefined";
 const Canvas: React.FC<CanvasProps> = ({
   lineColor = "#f00",
   eraser = false,
+  eraserAlph = 100,
   lineWidth = 20,
+  eraserWidth = 20,
   bgColor = "#fff",
-  bgAlph = 0.2,
+  bgAlph = 100,
+  lineAlph = 100,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -62,13 +68,13 @@ const Canvas: React.FC<CanvasProps> = ({
 
       if (eraser) {
         ctx!.globalCompositeOperation = "destination-out";
-        ctx!.lineWidth = lineWidth;
-        ctx!.globalAlpha = 0.5;
+        ctx!.lineWidth = eraserWidth;
+        ctx!.globalAlpha = (eraserAlph / 500) * 0.5;
       } else {
         ctx!.globalCompositeOperation = "source-over";
         ctx!.lineWidth = lineWidth;
         ctx!.strokeStyle = lineColor;
-        ctx!.globalAlpha = 0.5;
+        ctx!.globalAlpha = (lineAlph / 500) * 0.5;
       }
 
       let x = 0;
@@ -109,14 +115,14 @@ const Canvas: React.FC<CanvasProps> = ({
         canvas.removeEventListener("mousemove", draw);
       }
     };
-  }, [lineColor, eraser, lineWidth]);
+  }, [lineColor, eraser, lineWidth, lineAlph, eraserWidth, eraserAlph]);
 
   return (
     <canvas
       ref={canvasRef}
       width={window.innerWidth}
       height={window.innerHeight}
-      style={{ backgroundColor: hex2rgba(bgColor, bgAlph) }}
+      style={{ backgroundColor: hex2rgba(bgColor, bgAlph / 100) }}
     />
   );
 };

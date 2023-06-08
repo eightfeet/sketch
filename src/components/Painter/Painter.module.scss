@@ -79,7 +79,7 @@
     }
 
     .slider {
-      width: 150px;
+      width: 140px;
     }
   }
   .bgbar {
@@ -154,4 +154,16 @@
     padding: 10px;
     border-radius: 10px;
   }
+}
+
+.setbar {
+  position: absolute;
+  width: 700px;
+  left: 0;
+  bottom: -100px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 10px;
 }
