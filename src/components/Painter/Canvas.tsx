@@ -69,12 +69,12 @@ const Canvas: React.FC<CanvasProps> = ({
       if (eraser) {
         ctx!.globalCompositeOperation = "destination-out";
         ctx!.lineWidth = eraserWidth;
-        ctx!.globalAlpha = (eraserAlph / 100) * 0.5;
+        ctx!.globalAlpha = (eraserAlph / 500) * 0.5;
       } else {
         ctx!.globalCompositeOperation = "source-over";
         ctx!.lineWidth = lineWidth;
         ctx!.strokeStyle = lineColor;
-        ctx!.globalAlpha = (lineAlph / 100) * 0.5;
+        ctx!.globalAlpha = (lineAlph / 500) * 0.5;
       }
 
       let x = 0;
