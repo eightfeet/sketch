@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { hex2rgba } from "./help";
 
 interface CanvasProps {
@@ -10,6 +10,8 @@ interface CanvasProps {
   bgAlph?: number;
   lineAlph?: number;
   eraserAlph?: number;
+  onStartDraw?: (canvas: HTMLCanvasElement) => void;
+  getCanvas?: (canvas: HTMLCanvasElement) => void;
 }
 
 const isMobileDevice = typeof window.ontouchstart !== "undefined";
@@ -23,17 +25,25 @@ const Canvas: React.FC<CanvasProps> = ({
   bgColor = "#fff",
   bgAlph = 100,
   lineAlph = 100,
+  onStartDraw,
+  getCanvas,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    if (canvasRef.current) {
+      getCanvas?.(canvasRef.current);
+    }
+  }, [getCanvas]);
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
     if (!canvas) {
       return;
     }
 
     const ctx = canvas.getContext("2d");
+
     let isDrawing = false;
 
     function startDraw(e: any) {
@@ -51,6 +61,7 @@ const Canvas: React.FC<CanvasProps> = ({
 
       // 开始绘制
       isDrawing = true;
+      onStartDraw?.(canvas!);
       ctx!.beginPath();
       ctx!.moveTo(x, y);
     }
@@ -61,11 +72,9 @@ const Canvas: React.FC<CanvasProps> = ({
 
     function draw(e: any) {
       e.preventDefault();
-
       if (!isDrawing) {
         return;
       }
-
       if (eraser) {
         ctx!.globalCompositeOperation = "destination-out";
         ctx!.lineWidth = eraserWidth;
@@ -115,7 +124,15 @@ const Canvas: React.FC<CanvasProps> = ({
         canvas.removeEventListener("mousemove", draw);
       }
     };
-  }, [lineColor, eraser, lineWidth, lineAlph, eraserWidth, eraserAlph]);
+  }, [
+    lineColor,
+    eraser,
+    lineWidth,
+    lineAlph,
+    eraserWidth,
+    eraserAlph,
+    onStartDraw,
+  ]);
 
   return (
     <canvas

@@ -167,3 +167,49 @@
   border-radius: 10px;
   padding: 10px;
 }
+
+.cleanbox {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > div {
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .clean {
+    display: flex;
+    height: 100px;
+    width: 260px;
+    align-items: center;
+    justify-content: center;
+  }
+  .btnbar {
+    display: flex;
+    width: 260px;
+    justify-content: space-around;
+  }
+  .btn {
+    cursor: pointer;
+    width: 120px;
+    height: 60px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+}
+
+.msg {
+  display: flex;
+  flex: 1;
+  height: 80px;
+  align-items: center;
+}
