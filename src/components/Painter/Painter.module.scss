@@ -213,3 +213,15 @@
   height: 80px;
   align-items: center;
 }
+
+.blocktest {
+  position: fixed;
+  bottom: 0px;
+  z-index: 100;
+  background-color: #fff;
+  width: 150px;
+  height: 200px;
+  img {
+    width: 100%;
+  }
+}

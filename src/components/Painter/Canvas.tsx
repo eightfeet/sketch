@@ -11,6 +11,7 @@ interface CanvasProps {
   lineAlph?: number;
   eraserAlph?: number;
   onStartDraw?: (canvas: HTMLCanvasElement) => void;
+  onEndDraw?: (canvas: HTMLCanvasElement) => void;
   getCanvas?: (canvas: HTMLCanvasElement) => void;
 }
 
@@ -26,6 +27,7 @@ const Canvas: React.FC<CanvasProps> = ({
   bgAlph = 100,
   lineAlph = 100,
   onStartDraw,
+  onEndDraw,
   getCanvas,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -68,6 +70,7 @@ const Canvas: React.FC<CanvasProps> = ({
 
     function stopDraw() {
       isDrawing = false;
+      onEndDraw?.(canvas!);
     }
 
     function draw(e: any) {
@@ -132,6 +135,7 @@ const Canvas: React.FC<CanvasProps> = ({
     eraserWidth,
     eraserAlph,
     onStartDraw,
+    onEndDraw,
   ]);
 
   return (

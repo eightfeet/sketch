@@ -37,6 +37,7 @@ interface Props {
   lineAlph?: number;
   historyRecords?: number;
 }
+
 const Painter: React.FC<Props> = ({
   visible,
   onClose,
@@ -48,13 +49,19 @@ const Painter: React.FC<Props> = ({
   onChange,
   eraserAlph = 50,
   lineAlph = 50,
-  historyRecords = 10,
+  historyRecords = 50,
 }) => {
   const [currentMode, setCurrentMode] = useState<"pen" | "eraser" | "fill">();
   const canvasRef = useRef<HTMLCanvasElement>();
   const [undoStack, setUndoStack] = useState<HTMLImageElement[]>([]);
   const [redoStack, setRedoStack] = useState<HTMLImageElement[]>([]);
   const [showClean, setShowClean] = useState(false);
+  const count = useRef(0);
+  const currentStatus = useRef<"draw" | "undo">("draw");
+
+  const getCanvas = useCallback((cvs: HTMLCanvasElement) => {
+    canvasRef.current = cvs;
+  }, []);
 
   const close = useCallback(() => {
     onClose?.();
@@ -92,12 +99,14 @@ const Painter: React.FC<Props> = ({
     [currentMode]
   );
 
-  const onStartDraw = useCallback(
-    (canvas: HTMLCanvasElement) => {
-      canvasRef.current = canvas;
-      const dataurl = canvas.toDataURL();
+  const handleRecord = useCallback(
+    (cvs?: HTMLCanvasElement) => {
+      const canvas = cvs || canvasRef.current;
+      if (!canvas) return;
+      const dataurl = canvas?.toDataURL();
       const img = new Image();
       img.src = dataurl;
+      img.alt = `${count.current}`;
       setUndoStack((undoStack) => [
         ...undoStack.slice(
           undoStack.length > historyRecords
@@ -110,6 +119,18 @@ const Painter: React.FC<Props> = ({
       setRedoStack([]);
     },
     [historyRecords]
+  );
+
+  const onEndDraw = useCallback((canvas: HTMLCanvasElement) => {
+    count.current = count.current + 1;
+    currentStatus.current = "draw";
+  }, []);
+
+  const onStartDraw = useCallback(
+    (canvas: HTMLCanvasElement) => {
+      handleRecord(canvas);
+    },
+    [handleRecord]
   );
 
   const clean = useCallback(() => {
@@ -141,13 +162,17 @@ const Painter: React.FC<Props> = ({
   const undo = useCallback(
     (e: any) => {
       e.stopPropagation();
+      if (currentStatus.current === "draw") {
+        handleRecord();
+      }
+      currentStatus.current = "undo";
       const { record, restRecords } = splitRecords(undoStack);
       if (!record) return;
       setUndoStack([...restRecords]);
       setRedoStack([...redoStack, record]);
       drawImg(record);
     },
-    [drawImg, redoStack, splitRecords, undoStack]
+    [drawImg, handleRecord, redoStack, splitRecords, undoStack]
   );
 
   const redo = useCallback(
@@ -170,6 +195,10 @@ const Painter: React.FC<Props> = ({
     clean();
     setShowClean(false);
   }, [clean]);
+
+  // useEffect(() => {
+  //     console.log(undoStack, redoStack);
+  // }, [undoStack, redoStack]);
 
   return (
     <div className={s.root} style={{ display: visible ? "block" : "none" }}>
@@ -271,6 +300,8 @@ const Painter: React.FC<Props> = ({
         bgAlph={bgAlph}
         eraserAlph={eraserAlph}
         onStartDraw={onStartDraw}
+        onEndDraw={onEndDraw}
+        getCanvas={getCanvas}
       />
     </div>
   );
