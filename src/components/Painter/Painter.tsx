@@ -38,6 +38,8 @@ interface Props {
   historyRecords?: number;
 }
 
+const isDev = process.env.NODE_ENV === "development";
+
 const Painter: React.FC<Props> = ({
   visible,
   onClose,
@@ -57,7 +59,24 @@ const Painter: React.FC<Props> = ({
   const [redoStack, setRedoStack] = useState<HTMLImageElement[]>([]);
   const [showClean, setShowClean] = useState(false);
   const count = useRef(0);
-  const currentStatus = useRef<"draw" | "undo">("draw");
+  const currentStatus = useRef<"draw" | "undo" | "redo">("draw");
+  const viewRef = useRef<HTMLDivElement>(null);
+
+  const handleView = useCallback((img: HTMLImageElement) => {
+    if (!isDev) return;
+    if (viewRef.current) {
+      viewRef.current.innerHTML = "";
+      viewRef.current.append(img);
+    }
+  }, []);
+
+  const handletestSel = useCallback(
+    (index: number, type: "undo" | "redo") => {
+      const img = type === "undo" ? undoStack[index] : redoStack[index];
+      handleView(img);
+    },
+    [handleView, redoStack, undoStack]
+  );
 
   const getCanvas = useCallback((cvs: HTMLCanvasElement) => {
     canvasRef.current = cvs;
@@ -99,14 +118,18 @@ const Painter: React.FC<Props> = ({
     [currentMode]
   );
 
+  const getDataUrlToImg = useCallback((canvas: HTMLCanvasElement) => {
+    const dataurl = canvas?.toDataURL();
+    const img = new Image();
+    img.src = dataurl;
+    img.alt = `${count.current}`;
+    return img;
+  }, []);
+
   const handleRecord = useCallback(
     (cvs?: HTMLCanvasElement) => {
-      const canvas = cvs || canvasRef.current;
-      if (!canvas) return;
-      const dataurl = canvas?.toDataURL();
-      const img = new Image();
-      img.src = dataurl;
-      img.alt = `${count.current}`;
+      if (!cvs) return;
+      const img = getDataUrlToImg(cvs);
       setUndoStack((undoStack) => [
         ...undoStack.slice(
           undoStack.length > historyRecords
@@ -117,20 +140,27 @@ const Painter: React.FC<Props> = ({
         img,
       ]);
       setRedoStack([]);
+      handleView(img);
     },
-    [historyRecords]
+    [getDataUrlToImg, handleView, historyRecords]
   );
-
-  const onEndDraw = useCallback((canvas: HTMLCanvasElement) => {
-    count.current = count.current + 1;
-    currentStatus.current = "draw";
-  }, []);
 
   const onStartDraw = useCallback(
     (canvas: HTMLCanvasElement) => {
       handleRecord(canvas);
     },
     [handleRecord]
+  );
+
+  const onEndDraw = useCallback(
+    (canvas: HTMLCanvasElement) => {
+      count.current = count.current + 1;
+      currentStatus.current = "draw";
+      if (!canvas) return;
+      const img = getDataUrlToImg(canvas);
+      setRedoStack([img]);
+    },
+    [getDataUrlToImg]
   );
 
   const clean = useCallback(() => {
@@ -146,6 +176,7 @@ const Painter: React.FC<Props> = ({
       clean();
       ctx.globalAlpha = 1;
       ctx.drawImage(img, 0, 0);
+      count.current = Number(img.alt);
     },
     [clean]
   );
@@ -160,31 +191,31 @@ const Painter: React.FC<Props> = ({
   }, []);
 
   const undo = useCallback(
-    (e: any) => {
+    async (e: any) => {
       e.stopPropagation();
-      if (currentStatus.current === "draw") {
-        handleRecord();
-      }
+      let undoStackCopy = [...undoStack];
       currentStatus.current = "undo";
-      const { record, restRecords } = splitRecords(undoStack);
+      const { record, restRecords } = splitRecords(undoStackCopy);
       if (!record) return;
       setUndoStack([...restRecords]);
-      setRedoStack([...redoStack, record]);
+      setRedoStack([record, ...redoStack]);
       drawImg(record);
     },
-    [drawImg, handleRecord, redoStack, splitRecords, undoStack]
+    [drawImg, redoStack, splitRecords, undoStack]
   );
 
   const redo = useCallback(
     (e: any) => {
       e.stopPropagation();
-      const { record, restRecords } = splitRecords(redoStack);
+      currentStatus.current = "redo";
+      const record = redoStack[0];
+      const restRecords = redoStack.slice(1, redoStack.length);
       if (!record) return;
       setRedoStack([...restRecords]);
       setUndoStack([...undoStack, record]);
       drawImg(record);
     },
-    [drawImg, redoStack, splitRecords, undoStack]
+    [drawImg, redoStack, undoStack]
   );
 
   const handleClean = useCallback(() => {
@@ -237,7 +268,7 @@ const Painter: React.FC<Props> = ({
             <Undo />
           </div>
           <div
-            style={{ opacity: redoStack.length ? 1 : 0.2 }}
+            style={{ opacity: redoStack.length >= 1 ? 1 : 0.2 }}
             className={`${s.icon}`}
             onClick={redo}
           >
@@ -303,6 +334,37 @@ const Painter: React.FC<Props> = ({
         onEndDraw={onEndDraw}
         getCanvas={getCanvas}
       />
+      {isDev && (
+        <div className={s.viewwrap}>
+          <div className={s.sel}>
+            <select
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handletestSel(Number(e.target.value), "undo")
+              }
+            >
+              <option>undo</option>
+              {undoStack.map((item, index) => (
+                <option value={index} key={index}>
+                  {index}
+                </option>
+              ))}
+            </select>
+            <select
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handletestSel(Number(e.target.value), "redo")
+              }
+            >
+              <option>redo</option>
+              {redoStack.map((item, index) => (
+                <option value={index} key={index}>
+                  {index}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div ref={viewRef} className={s.blocktest}></div>
+        </div>
+      )}
     </div>
   );
 };

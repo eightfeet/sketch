@@ -218,10 +218,21 @@
   position: fixed;
   bottom: 0px;
   z-index: 100;
-  background-color: #fff;
-  width: 150px;
-  height: 200px;
+  width: 100vw;
+  height: 100vh;
+  transform: scale(0.25);
+  transform-origin: right top;
+  opacity: 0.5;
+  border: 1px solid #000;
+  border-radius: 20px;
   img {
     width: 100%;
   }
+}
+
+.sel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 101;
 }
