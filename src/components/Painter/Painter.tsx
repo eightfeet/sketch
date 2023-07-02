@@ -4,11 +4,11 @@ import Eraser from "./Icons/Eraser";
 import Pen from "./Icons/Pen";
 import Fill from "./Icons/Fill";
 import s from "./Painter.module.scss";
-import Paint from "./Icons/Paint";
 import Clear from "./Icons/Clear";
 import ColorAndAlph from "./ColorAndAlph";
 import Undo from "./Icons/Undo";
 import Redo from "./Icons/Redo";
+import Close from "./Icons/Close";
 
 interface changeProps {
   color?: string;
@@ -235,8 +235,8 @@ const Painter: React.FC<Props> = ({
     <div className={s.root} style={{ display: visible ? "block" : "none" }}>
       <div className={s.toolbar}>
         <div className={s.switch}>
-          <div className={`${s.icon} ${s.iconact}`} onClick={close}>
-            <Paint />
+          <div className={`${s.icon}`} onClick={close}>
+            <Close />
           </div>
           <div
             className={`${s.icon} ${currentMode === "pen" ? s.iconact : ""}`}
